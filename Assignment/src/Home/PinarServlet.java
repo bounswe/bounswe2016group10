@@ -42,6 +42,7 @@ public class PinarServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//PinarQuery myQuery=new PinarQuery();
+		
 		response.setContentType("text/html");
 		PrintWriter out= response.getWriter();
 		
