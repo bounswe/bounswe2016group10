@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal">
-    <data-source name="MySQL - @localhost" uuid="cc9c4dca-4af4-4c30-86aa-6aba35e56d59">
+    <data-source name="Sqlite (Xerial) - db.sqlite3" uuid="816dbd33-aaff-45d4-b9b5-2f726d3d60cf">
       <secret-storage>master_key</secret-storage>
-      <first-sync>true</first-sync>
+      <auth-required>false</auth-required>
     </data-source>
   </component>
 </project>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TagLife</title>
+</head>
+
+<body>
+<h1>{% topic_name %}</h1>
+{% if topic %}
+    {% if entrys %}
+        <ul>
+            {% for entry in entrys %}
+                <li>{{ entry.content }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <strong>There is no entry for <i>{% topic_name %}</i>.</strong>
+    {% endif %}
+{% endif %}
+
+<a href="/about/">About</a>
+</body>
+</html>

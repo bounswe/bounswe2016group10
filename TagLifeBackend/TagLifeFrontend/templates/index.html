@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>TagLife</title>
+</head>
+
+<body>
+<h1>Topics</h1>
+{% if topics %}
+    <ul>
+        {% for topic in topics %}
+            <li><a href="/topic/{{ topic.url }}">{{ topic.title }}</a></li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <strong> There are no topics present</strong>
+{% endif %}
+
+<a href="/rango/about/">About</a><br/>
+</body>
+
+</html>
