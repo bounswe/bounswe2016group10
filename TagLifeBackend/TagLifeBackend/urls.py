@@ -15,7 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from TagLifeApp import views
 
 urlpatterns = [
+    url(r'^$', views.index, name='index'),
+    url(r'^beyler/',views.beyler, name='Nope'),
     url(r'^admin/', admin.site.urls),
+
 ]
+
+

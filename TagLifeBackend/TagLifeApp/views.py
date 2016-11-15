@@ -1,3 +1,10 @@
 from django.shortcuts import render
 
-# Create your views here.
+from django.http import HttpResponse
+
+def index(request):
+    return HttpResponse("Taglife Welcomes You")
+
+def beyler(request):
+    return HttpResponse("Hadi beyler hadi")
+
