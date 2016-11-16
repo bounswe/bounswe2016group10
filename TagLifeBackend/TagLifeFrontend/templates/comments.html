@@ -16,13 +16,10 @@
         <link href="styles/style.css" rel="stylesheet">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
-        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+
     </head>
-    <body>
+
+<body>
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -43,10 +40,16 @@
 
                         </li>
                         <li style="float: right;">
-
+                            {% if user.is_authenticated %}
+                                <span style="align-content: center;"> Hello {{user.username}}</span>
+                            {% endif %}
                         </li>
                     </ul>
-
+                    {% if user.is_authenticated %}
+                    <span class="pull-right" style="text-align: center; "><a href="/logout/"> Logout</a></span>
+                    {% else %}
+                    <span class="pull-right" style="text-align: center; "><a href="/login/"> Login</a></span>
+                    {% endif %}
                     <a href="#3">
                             <span  class="glyphicon glyphicon-user bg-success pull-right" style="font-size:2.5em; margin-top: 10px; margin-right: 1cm"></span></a>
 
@@ -54,6 +57,7 @@
                 <!--/.nav-collapse -->
             </div>
         </nav>
+</body>
         <div class="well">
             <h1 align="center">Bu sayfanın amacı yok </h1>
         </div>
