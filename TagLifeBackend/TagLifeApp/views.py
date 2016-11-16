@@ -5,8 +5,9 @@ from django.shortcuts import render_to_response
 from TagLifeApp.models import Entry, Topic
 from TagLifeApp.forms import EntryForm, TopicForm, UserProfileForm, UserForm
 from datetime import datetime
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
@@ -18,6 +19,10 @@ def index(request):
     for topic in topic_list:
         topic.url = topic.title.replace(' ','_')
 
+    if request.user.is_authenticated():
+        print("Olmamis")
+    else:
+        print("WHY")
     return render_to_response('index.html', context_dict, context)
 
 
@@ -39,6 +44,7 @@ def topic(request, topic_name_url):
 
     return render_to_response('topic.html', context_dict, context)
 
+@login_required
 def create_topic(request):
     context = RequestContext(request)
 
@@ -64,6 +70,7 @@ def create_topic(request):
     # Render the form with error messages (if any).
     return render_to_response('create_topic.html', {'form': form,}, context)
 
+@login_required
 def create_entry(request, topic_name_url):
     context = RequestContext(request)
 
@@ -195,3 +202,12 @@ def user_login(request):
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
         return render_to_response('login.html', {}, context)
+
+
+@login_required
+def user_logout(request):
+    # Since we know the user is logged in, we can now just log them out.
+    logout(request)
+
+    # Take the user back to the homepage.
+    return HttpResponseRedirect('/')

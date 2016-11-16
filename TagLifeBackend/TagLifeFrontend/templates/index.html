@@ -9,21 +9,22 @@
 <body>
 
 {% if user.is_authenticated %}
-<h1>TagLife says... hello {{ user.username }}!</h1>
+    <h1>TagLife says... hello {{ user.username }}!</h1>
     <h2>Topics</h2>
-{% if topics %}
-    <ul>
-        <!-- Print topics -->
-        {% for topic in topics %}
-            <li><a href="/topic/{{ topic.url }}">{{ topic.title }}</a></li>
-        {% endfor %}
-    </ul>
+    {% if topics %}
+        <ul>
+            <!-- Print topics -->
+            {% for topic in topics %}
+                <li><a href="/topic/{{ topic.url }}">{{ topic.title }}</a></li>
+            {% endfor %}
+        </ul>
     {% else %}
-    <strong> There are no topics present</strong>
-{% endif %}
+        <strong> There are no topics present</strong>
+    {% endif %}
 {% else %}
-<h1>TagLife says... hello someone</h1>
+    <h1>TagLife says... hello someone</h1>
 {% endif %}
+
 
 
 
@@ -31,7 +32,11 @@
 
 <a href="/about/">About TagLife</a><br/>
 
-<a href="/login/">Login</a>
+{% if user.is_authenticated %}
+    <a href="/logout/">Logout</a>
+{% else %}
+    <a href="/login/">Login</a>
+{% endif %}
 
 <a href="/register/">Register Here</a>
 </body>
