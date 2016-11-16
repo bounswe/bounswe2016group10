@@ -23,8 +23,8 @@ admin.autodiscover()
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^beyler/',views.beyler, name='sorry'),
     url(r'^admin/', admin.site.urls),
+    url(r'^create_topic/$', views.create_topic, name='add_topic'),
     url(r'^topic/(?P<topic_name_url>\w+)/$', views.topic, name='topic')
 ]
 

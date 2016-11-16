@@ -5,7 +5,7 @@
 </head>
 
 <body>
-<h1>{% topic_name %}</h1>
+<h1>{{ topic_name }}</h1>
 {% if topic %}
     {% if entrys %}
         <ul>
@@ -14,7 +14,7 @@
             {% endfor %}
         </ul>
     {% else %}
-        <strong>There is no entry for <i>{% topic_name %}</i>.</strong>
+        <strong>There is no entry for {{ topic_name }}.</strong>
     {% endif %}
 {% endif %}
 

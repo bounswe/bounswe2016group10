@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from TagLifeApp.models import Entry, Topic
+from TagLifeApp.forms import EntryForm, TopicForm
 
 
 def index(request):
@@ -16,10 +17,6 @@ def index(request):
         topic.url = topic.title.replace(' ','_')
 
     return render_to_response('index.html', context_dict, context)
-
-
-def beyler(request):
-    return HttpResponse("This Is How You Know You Fucked Up")
 
 
 def topic(request, topic_name_url):
@@ -38,3 +35,28 @@ def topic(request, topic_name_url):
         pass
 
     return render_to_response('topic.html', context_dict, context)
+
+def create_topic(request):
+    context = RequestContext(request)
+
+    if request.method == 'POST':
+        form = TopicForm(request.POST)
+
+        # Have we been provided with a valid form?
+        if form.is_valid():
+
+            # Save the new category to the database.
+            form.save(commit=True)
+
+            # Now call the index() view.
+            # The user will be shown the homepage.
+
+            return index(request)
+
+    else:
+        # If the request was not a POST, display the form to enter details.
+        form = TopicForm()
+
+    # Bad form (or form details), no form supplied...
+    # Render the form with error messages (if any).
+    return render_to_response('create_topic.html', {'form': form,}, context)

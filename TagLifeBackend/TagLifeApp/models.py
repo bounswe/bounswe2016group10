@@ -12,7 +12,7 @@ class Entry(models.Model):
 
     topic = models.ForeignKey(Topic)
     content = models.CharField(max_length=512)
-    date = models.DateTimeField('Date Published')
+    date = models.DateTimeField('Date Published',auto_now_add=True)
 
     def __str__(self):
         return self.content
