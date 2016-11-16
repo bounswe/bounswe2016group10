@@ -5,11 +5,15 @@
 <head>
     <title>TagLife</title>
 </head>
-<a href="/create_topic/">Create a New Topic</a>
+
 <body>
-<h1>Topics</h1>
+
+{% if user.is_authenticated %}
+<h1>TagLife says... hello {{ user.username }}!</h1>
+    <h2>Topics</h2>
 {% if topics %}
     <ul>
+        <!-- Print topics -->
         {% for topic in topics %}
             <li><a href="/topic/{{ topic.url }}">{{ topic.title }}</a></li>
         {% endfor %}
@@ -17,10 +21,19 @@
     {% else %}
     <strong> There are no topics present</strong>
 {% endif %}
+{% else %}
+<h1>TagLife says... hello someone</h1>
+{% endif %}
 
-<a href="/about/
 
-">About</a><br/>
+
+<a href="/create_topic/">Create a New Topic</a>
+
+<a href="/about/">About TagLife</a><br/>
+
+<a href="/login/">Login</a>
+
+<a href="/register/">Register Here</a>
 </body>
 
 </html>

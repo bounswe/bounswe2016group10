@@ -1,10 +1,12 @@
 from django.shortcuts import render
 
-from django.http import HttpResponse
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from TagLifeApp.models import Entry, Topic
-from TagLifeApp.forms import EntryForm, TopicForm
+from TagLifeApp.forms import EntryForm, TopicForm, UserProfileForm, UserForm
+from datetime import datetime
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponseRedirect, HttpResponse
 
 
 def index(request):
@@ -23,6 +25,7 @@ def topic(request, topic_name_url):
     context = RequestContext(request)
     topic_name = topic_name_url.replace('_', ' ')
     context_dict = {"topic_name": topic_name}
+    context_dict["topic_name_url"] = topic_name_url
 
     try:
         topic = Topic.objects.get(title=topic_name)
@@ -45,7 +48,7 @@ def create_topic(request):
         # Have we been provided with a valid form?
         if form.is_valid():
 
-            # Save the new category to the database.
+            # Save the new topic to the database.
             form.save(commit=True)
 
             # Now call the index() view.
@@ -72,28 +75,123 @@ def create_entry(request, topic_name_url):
         if form.is_valid():
             # This time we cannot commit straight away.
             # Not all fields are automatically populated!
-            page = form.save(commit=False)
+            entry = form.save(commit=False)
 
-            # Retrieve the associated Category object so we can add it.
-            # Wrap the code in a try block - check if the category actually exists!
+            # Retrieve the associated Topic object so we can add it.
+            # Wrap the code in a try block - check if the topic actually exists!
             try:
                 topic = Topic.objects.get(title=topic_name)
-                page.topic = topic
+                entry.topic = topic
+                entry.date = datetime.now()
             except topic.DoesNotExist:
-                # If we get here, the category does not exist.
-                # Go back and render the add category form as a way of saying the category does not exist.
+                # If we get here, the topic does not exist.
+                # Go back and render the add topic form as a way of saying the topic does not exist.
                 return render_to_response('/create_topic.html', {}, context)
 
-            topic.save()
+            entry.save()
 
-            # Now that the page is saved, display the category instead.
+            # Now that the entry is saved, display the topic instead.
             return topic(request, topic_name_url)
     else:
         form = EntryForm()
 
 
-    return render_to_response('add_entry.html',{
+    return render_to_response('create_entry.html',{
         'topic_name_url' : topic_name_url,
         'topic_name' : topic_name, 'form' : form,
         },context)
 
+
+def register(request):
+    # Like before, get the request's context.
+    context = RequestContext(request)
+
+    # A boolean value for telling the template whether the registration was successful.
+    # Set to False initially. Code changes value to True when registration succeeds.
+    registered = False
+
+    # If it's a HTTP POST, we're interested in processing form data.
+    if request.method == 'POST':
+        # Attempt to grab information from the raw form information.
+        # Note that we make use of both UserForm and UserProfileForm.
+        user_form = UserForm(data=request.POST)
+        profile_form = UserProfileForm(data=request.POST)
+
+        # If the two forms are valid...
+        if user_form.is_valid() and profile_form.is_valid():
+            # Save the user's form data to the database.
+            user = user_form.save()
+
+            # Now we hash the password with the set_password method.
+            # Once hashed, we can update the user object.
+            user.set_password(user.password)
+            user.save()
+
+            # Now sort out the UserProfile instance.
+            # Since we need to set the user attribute ourselves, we set commit=False.
+            # This delays saving the model until we're ready to avoid integrity problems.
+            profile = profile_form.save(commit=False)
+            profile.user = user
+
+            # Did the user provide a profile picture?
+            # If so, we need to get it from the input form and put it in the UserProfile model.
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']
+
+            # Now we save the UserProfile model instance.
+            profile.save()
+
+            # Update our variable to tell the template registration was successful.
+            registered = True
+
+    # Not a HTTP POST, so we render our form using two ModelForm instances.
+    # These forms will be blank, ready for user input.
+    else:
+        user_form = UserForm()
+        profile_form = UserProfileForm()
+
+    # Render the template depending on the context.
+    return render_to_response(
+            'register.html',
+            {'user_form': user_form, 'profile_form': profile_form, 'registered': registered},
+            context)
+
+def user_login(request):
+    # Like before, obtain the context for the user's request.
+    context = RequestContext(request)
+
+    # If the request is a HTTP POST, try to pull out the relevant information.
+    if request.method == 'POST':
+        # Gather the username and password provided by the user.
+        # This information is obtained from the login form.
+        username = request.POST['username']
+        password = request.POST['password']
+
+        # Use Django's machinery to attempt to see if the username/password
+        # combination is valid - a User object is returned if it is.
+        user = authenticate(username=username, password=password)
+
+        # If we have a User object, the details are correct.
+        # If None (Python's way of representing the absence of a value), no user
+        # with matching credentials was found.
+        if user:
+            # Is the account active? It could have been disabled.
+            if user.is_active:
+                # If the account is valid and active, we can log the user in.
+                # We'll send the user back to the homepage.
+                login(request, user)
+                return HttpResponseRedirect('/')
+            else:
+                # An inactive account was used - no logging in!
+                return HttpResponse("Your TagLife account is disabled.")
+        else:
+            # Bad login details were provided. So we can't log the user in.
+            print('Invalid login details: {0}, {1}'.format(username, password))
+            return HttpResponse("Invalid login details supplied.")
+
+    # The request is not a HTTP POST, so display the login form.
+    # This scenario would most likely be a HTTP GET.
+    else:
+        # No context variables to pass to the template system, hence the
+        # blank dictionary object...
+        return render_to_response('login.html', {}, context)

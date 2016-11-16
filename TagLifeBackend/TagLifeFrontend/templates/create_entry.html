@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ topic_name }}</title>
+    </head>
+
+    <body>
+        <h1>Add an Entry to {{ topic_name }}</h1>
+
+        <form id="category_form" method="post" action="/topic/{{ topic_name_url }}/create_entry/">
+
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+
+            {% for field in form.visible_fields %}
+                {{ field.errors }}
+                {{ field.help_text }}
+                {{ field }}
+            {% endfor %}
+
+            <input type="submit" name="submit" value="Create" />
+        </form>
+    </body>
+
+</html>
