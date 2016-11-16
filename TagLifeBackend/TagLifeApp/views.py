@@ -101,7 +101,7 @@ def create_entry(request, topic_name_url):
 
             # Now that the entry is saved, display the topic instead.
             #return topic(request, topic_name_url)
-            return topic(request, "Aziz_Yildirim")
+            return HttpResponseRedirect('/topic/'+topic_name_url)
     else:
         form = EntryForm()
 
