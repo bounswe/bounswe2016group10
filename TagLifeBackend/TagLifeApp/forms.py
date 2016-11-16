@@ -1,5 +1,6 @@
 from django import forms
-from TagLifeApp.models import Entry, Topic
+from TagLifeApp.models import Entry, Topic, UserProfile
+from django.contrib.auth.models import User
 
 class TopicForm(forms.ModelForm):
     title = forms.CharField(max_length=128, help_text='Please Enter The Title Name')
@@ -23,3 +24,14 @@ class EntryForm(forms.ModelForm):
         fields = ('content',)
 
 
+class UserForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password')
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ()

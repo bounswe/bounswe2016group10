@@ -26,7 +26,9 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^create_topic/$', views.create_topic, name='create_topic'),
     url(r'^topic/(?P<topic_name_url>\w+)/$', views.topic, name='topic'),
-    url(r'^topic/(?P<topic_name_url>\w+)/create_page/$', views.create_entry, name='create_entry'),
+    url(r'^topic/(?P<topic_name_url>\w+)/create_entry/$', views.create_entry, name='create_entry'),
+    url(r'^register/$', views.register, name='register'),
+    url(r'^login/$', views.user_login, name='login'),
 ]
 
 if settings.DEBUG:
