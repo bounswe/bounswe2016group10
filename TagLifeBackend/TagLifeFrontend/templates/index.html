@@ -111,9 +111,7 @@
         <div class="container">
           <div class="row" > 
                   <div class="well" >
-                  <form action="/create_topic/"">
-                    <button type="button" class="btn btn-primary"> ADD NEW TOPIC</button></form>
-                  </div>
+                  <a href="http://google.com" class="btn btn-primary">Add New Topic</a>
           </div>
         </div>
         <div class="container">
@@ -128,12 +126,12 @@
                           <div class="media-body">
                             <a href="./topic/{{topic.url}}"><h4 align="center" class="media-heading">{{topic.title}}</a> </h4> 
                               
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. </p>
+                            <p> </p>
                             <ul class="list-inline list-unstyled">
                               <li>Tags:
-                                  <a href="#"><span class="label label-info">Snipp</span></a> 
-                                  <a href="#"><span class="label label-info">Bootstrap</span></a> 
-                                  <a href="#"><span class="label label-info">UI</span></a> 
+                                  <a href="#"><span class="label label-info"></span></a> 
+                                  <a href="#"><span class="label label-info"></span></a> 
+                                  <a href="#"><span class="label label-info"></span></a> 
                               </li>
                               <li>|</li>
                               <li>
@@ -205,12 +203,14 @@
                 </div>
                 <div class="col-md-3 well pull-right" >
                     
-                        <h3>popular</h3>
+                        <h3>Popular Topics</h3>
+                         {% if topics %}
+                        	{% for topic in topics %}
                         <ul class="list-group"> 
-                            <li class="list-group-item">Cras justo odio</li>                         
-                            <li class="list-group-item">Dapibus ac facilisis in</li>                         
-                            <li class="list-group-item">Morbi leo risus</li>                         
-                        </ul>     
+                            <li class="list-group-item">{{topic.title}}</li>
+                            {% endfor %}                                               
+                        </ul> 
+                        {% endif %}    
    
                 </div>
             </div>
