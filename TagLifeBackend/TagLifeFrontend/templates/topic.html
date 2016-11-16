@@ -13,9 +13,11 @@
                 <li>{{ entry.content }}</li>
             {% endfor %}
         </ul>
+
     {% else %}
         <strong>There is no entry for {{ topic_name }}.</strong>
     {% endif %}
+    <a href="/topic/{{ topic_name_url }}/create_entry ">Add Entry</a>
 {% endif %}
 
 <a href="/about/">About</a>

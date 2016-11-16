@@ -60,3 +60,40 @@ def create_topic(request):
     # Bad form (or form details), no form supplied...
     # Render the form with error messages (if any).
     return render_to_response('create_topic.html', {'form': form,}, context)
+
+def create_entry(request, topic_name_url):
+    context = RequestContext(request)
+
+    topic_name = topic_name_url.replace('_',' ')
+
+    if request.method =='POST':
+        form = EntryForm(request.POST)
+
+        if form.is_valid():
+            # This time we cannot commit straight away.
+            # Not all fields are automatically populated!
+            page = form.save(commit=False)
+
+            # Retrieve the associated Category object so we can add it.
+            # Wrap the code in a try block - check if the category actually exists!
+            try:
+                topic = Topic.objects.get(title=topic_name)
+                page.topic = topic
+            except topic.DoesNotExist:
+                # If we get here, the category does not exist.
+                # Go back and render the add category form as a way of saying the category does not exist.
+                return render_to_response('/create_topic.html', {}, context)
+
+            topic.save()
+
+            # Now that the page is saved, display the category instead.
+            return topic(request, topic_name_url)
+    else:
+        form = EntryForm()
+
+
+    return render_to_response('add_entry.html',{
+        'topic_name_url' : topic_name_url,
+        'topic_name' : topic_name, 'form' : form,
+        },context)
+

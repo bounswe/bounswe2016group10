@@ -24,8 +24,9 @@ admin.autodiscover()
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^admin/', admin.site.urls),
-    url(r'^create_topic/$', views.create_topic, name='add_topic'),
-    url(r'^topic/(?P<topic_name_url>\w+)/$', views.topic, name='topic')
+    url(r'^create_topic/$', views.create_topic, name='create_topic'),
+    url(r'^topic/(?P<topic_name_url>\w+)/$', views.topic, name='topic'),
+    url(r'^topic/(?P<topic_name_url>\w+)/create_page/$', views.create_entry, name='create_entry'),
 ]
 
 if settings.DEBUG:
