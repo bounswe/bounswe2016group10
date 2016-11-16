@@ -1,48 +1,3 @@
-<!-- <!DOCTYPE html>
-
-<html>
-
-<head>
-    <title>TagLife</title>
-</head>
-
-<body>
-
-{% if user.is_authenticated %}
-    <h1>TagLife says... hello {{ user.username }}!</h1>
-    <h2>Topics</h2>
-    {% if topics %}
-        <ul>
-           
-            {% for topic in topics %}
-                <li><a href="/topic/{{ topic.url }}">{{ topic.title }}</a></li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <strong> There are no topics present</strong>
-    {% endif %}
-{% else %}
-    <h1>TagLife says... hello someone</h1>
-{% endif %}
-
-
-
-
-<a href="/create_topic/">Create a New Topic</a>
-
-<a href="/about/">About TagLife</a><br/>
-
-{% if user.is_authenticated %}
-    <a href="/logout/">Logout</a>
-{% else %}
-    <a href="/login/">Login</a>
-{% endif %}
-
-<a href="/register/">Register Here</a>
-</body>
-
-</html> -->
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -57,7 +12,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
         <!-- Custom styles for this template -->
-        <link href="./anasayfa.css" rel="stylesheet">
+        <link href="styles/style.css" rel="stylesheet">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -76,7 +31,7 @@
                     <ul class="nav navbar-nav">
                         <li class="active"></li>
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="#about">About</a>
                         </li>
                         <li>
                             <input style="margin-top: 1em" type="text" placeholder="Search">
@@ -99,7 +54,7 @@
             </div>
         </nav>
         <div class="jumbotron"> 
-            <h1 align="center">TagLife : Power of Tagging by {{user.username}} </h1> 
+            <h1 align="center">TagLife : Power of Tagging </h1> 
         </div>
         <!-- CONTENT MAP -->
         <div class="row">
@@ -111,16 +66,13 @@
         <div class="container">
           <div class="row" > 
                   <div class="well" >
-                  <form action="/create_topic/"">
-                    <button type="button" class="btn btn-primary"> ADD NEW TOPIC</button></form>
+                    <button type="button" class="btn btn-primary"> ADD NEW TOPIC</button>
                   </div>
           </div>
         </div>
         <div class="container">
             <div class="row">
                 <div class="col-md-9">
-              {% if topics %}
- 
                   <ul style="list-style-type:none; padding-left: 0 ">
                   {% for topic in topics %}
                     <li>
@@ -161,9 +113,6 @@
                       </div>
                     </li>
                     {% endfor %}
-                {% else %}
-                        <strong> There are no topics present</strong>
-                {% endif %}
                  <!--    <li>
                      <div class="well">
                          <div class="media-body">
