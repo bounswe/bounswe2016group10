@@ -2,16 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="66666f39-616e-48d5-b249-85298fa212fc" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TagLifeApp/forms.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TagLifeFrontend/templates/create_topic.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/TagLifeBackend.iml" afterPath="$PROJECT_DIR$/.idea/TagLifeBackend.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TagLifeApp/models.py" afterPath="$PROJECT_DIR$/TagLifeApp/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TagLifeApp/views.py" afterPath="$PROJECT_DIR$/TagLifeApp/views.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TagLifeBackend/settings.py" afterPath="$PROJECT_DIR$/TagLifeBackend/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TagLifeBackend/urls.py" afterPath="$PROJECT_DIR$/TagLifeBackend/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TagLifeFrontend/templates/index.html" afterPath="$PROJECT_DIR$/TagLifeFrontend/templates/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TagLifeFrontend/templates/topic.html" afterPath="$PROJECT_DIR$/TagLifeFrontend/templates/topic.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TagLifeFrontend/templates/create_topic.html" afterPath="$PROJECT_DIR$/TagLifeFrontend/templates/create_topic.html" />
     </list>
     <ignored path="TagLifeBackend.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -88,6 +86,8 @@
               <caret line="61" column="65" selection-start-line="61" selection-start-column="65" selection-end-line="61" selection-end-column="65" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
+                <marker date="1479311464000" expanded="true" signature="594:1038" placeholder="..." />
+                <marker date="1479311464000" expanded="true" signature="1066:1772" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -109,7 +109,11 @@
             <state vertical-scroll-proportion="0.0">
               <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
               <folding>
-                <element signature="e#0#24#0" expanded="true" />
+                <marker date="1479307344000" expanded="true" signature="0:67" placeholder="import ..." />
+                <marker date="1479307344000" expanded="true" signature="102:391" placeholder="..." />
+                <marker date="1479307344000" expanded="true" signature="273:391" placeholder="..." />
+                <marker date="1479307344000" expanded="true" signature="426:833" placeholder="..." />
+                <marker date="1479307344000" expanded="true" signature="525:833" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -118,8 +122,8 @@
       <file leaf-file-name="create_topic.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/TagLifeFrontend/templates/create_topic.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.27272728">
-              <caret line="11" column="12" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="28" />
+            <state vertical-scroll-proportion="0.24793388">
+              <caret line="10" column="8" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -161,7 +165,7 @@
         <entry file="file://$PROJECT_DIR$/TagLifeBackend/settings.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="26" column="12" selection-start-line="26" selection-start-column="12" selection-end-line="26" selection-end-column="12" />
+              <caret line="48" column="1" selection-start-line="48" selection-start-column="1" selection-end-line="48" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -188,7 +192,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/TagLifeApp/admin.py" />
-        <option value="$PROJECT_DIR$/TagLifeBackend/settings.py" />
         <option value="$PROJECT_DIR$/TagLifeFrontend/templates/topic.html" />
         <option value="dbtable:/ee38bd8c/816dbd33-aaff-45d4-b9b5-2f726d3d60cf/TagLifeApp_topic" />
         <option value="$PROJECT_DIR$/TagLifeFrontend/templates/add_category.html" />
@@ -196,8 +199,9 @@
         <option value="$PROJECT_DIR$/TagLifeApp/forms.py" />
         <option value="$PROJECT_DIR$/TagLifeBackend/urls.py" />
         <option value="$PROJECT_DIR$/TagLifeFrontend/templates/index.html" />
-        <option value="$PROJECT_DIR$/TagLifeFrontend/templates/create_topic.html" />
         <option value="$PROJECT_DIR$/TagLifeApp/views.py" />
+        <option value="$PROJECT_DIR$/TagLifeBackend/settings.py" />
+        <option value="$PROJECT_DIR$/TagLifeFrontend/templates/create_topic.html" />
       </list>
     </option>
   </component>
@@ -395,7 +399,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="IntelliLang.Configuration" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../TagLifeBackend" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -786,6 +790,8 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
+            <marker date="1479311464000" expanded="true" signature="594:1038" placeholder="..." />
+            <marker date="1479311464000" expanded="true" signature="1066:1772" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -822,14 +828,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/requirements.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1058,14 +1056,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/TagLifeFrontend/templates/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.1764706">
-          <caret line="4" column="5" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="dbDummy://dbtable:/ee38bd8c/816dbd33-aaff-45d4-b9b5-2f726d3d60cf/TagLifeApp_topic">
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.0">
@@ -1095,14 +1085,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/TagLifeBackend/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="26" column="12" selection-start-line="26" selection-start-column="12" selection-end-line="26" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/TagLifeApp/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1127,6 +1109,8 @@
           <caret line="61" column="65" selection-start-line="61" selection-start-column="65" selection-end-line="61" selection-end-column="65" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
+            <marker date="1479311464000" expanded="true" signature="594:1038" placeholder="..." />
+            <marker date="1479311464000" expanded="true" signature="1066:1772" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1136,15 +1120,43 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
           <folding>
-            <element signature="e#0#24#0" expanded="true" />
+            <marker date="1479307344000" expanded="true" signature="0:67" placeholder="import ..." />
+            <marker date="1479307344000" expanded="true" signature="102:391" placeholder="..." />
+            <marker date="1479307344000" expanded="true" signature="273:391" placeholder="..." />
+            <marker date="1479307344000" expanded="true" signature="426:833" placeholder="..." />
+            <marker date="1479307344000" expanded="true" signature="525:833" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/requirements.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TagLifeBackend/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="48" column="1" selection-start-line="48" selection-start-column="1" selection-end-line="48" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TagLifeFrontend/templates/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.1764706">
+          <caret line="4" column="5" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/TagLifeFrontend/templates/create_topic.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.27272728">
-          <caret line="11" column="12" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="28" />
+        <state vertical-scroll-proportion="0.24793388">
+          <caret line="10" column="8" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
           <folding />
         </state>
       </provider>
