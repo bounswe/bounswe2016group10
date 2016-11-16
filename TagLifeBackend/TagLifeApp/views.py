@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 from django.template import RequestContext
 from django.shortcuts import render_to_response
-from TagLifeApp.models import Entry, Topic
+from TagLifeApp.models import Entry, Topic, User, UserProfile
 from TagLifeApp.forms import EntryForm, TopicForm, UserProfileForm, UserForm
 from datetime import datetime
 from django.contrib.auth import authenticate, login, logout
@@ -15,12 +15,14 @@ def index(request):
 
     topic_list = Topic.objects.order_by('title')
     context_dict = {'topics': topic_list}
+    context_dict['user'] = request.user
+
 
     for topic in topic_list:
         topic.url = topic.title.replace(' ','_')
 
     if request.user.is_authenticated():
-        print("Olmamis")
+        print(request.user)
     else:
         print("WHY")
     return render_to_response('index.html', context_dict, context)
@@ -98,7 +100,8 @@ def create_entry(request, topic_name_url):
             entry.save()
 
             # Now that the entry is saved, display the topic instead.
-            return topic(request, topic_name_url)
+            #return topic(request, topic_name_url)
+            return topic(request, "Aziz_Yildirim")
     else:
         form = EntryForm()
 
@@ -187,6 +190,7 @@ def user_login(request):
                 # If the account is valid and active, we can log the user in.
                 # We'll send the user back to the homepage.
                 login(request, user)
+                #return HttpResponseRedirect('/')
                 return HttpResponseRedirect('/')
             else:
                 # An inactive account was used - no logging in!
