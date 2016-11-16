@@ -1,0 +1,7 @@
+;;extensions to ignore
+*.log
+*.pot
+*.pyc
+
+;;directories to ignore
+TagLifeBackend/.idea/
