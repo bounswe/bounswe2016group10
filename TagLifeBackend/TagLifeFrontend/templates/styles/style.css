@@ -100,3 +100,8 @@ a {
 	line-height: 30px;
 	font-weight: 800;
 }
+
+#tagImage img{
+	max-width: 100%;
+    height: auto;
+}

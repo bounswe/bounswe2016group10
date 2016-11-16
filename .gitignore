@@ -1,0 +1,11 @@
+;;extensions to ignore
+*.log
+*.pot
+*.pyc
+
+;;directories to ignore
+TagLifeBackend/.idea/
+
+TagLifeBackend/TagLifeBackend/__pycache__/
+TagLifeBackend/TagLifeApp/__pycache__/
+TagLifeBackend/TagLifeApp/migrations/__pycache__/
