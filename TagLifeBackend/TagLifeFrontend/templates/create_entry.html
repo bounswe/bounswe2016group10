@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>{{ topic_name }}</title>
-    </head>
+ {% extends "base.html" %}
 
+{% block body %}
     <body>
         <h1>Add an Entry to {{ topic_name }}</h1>
 
@@ -23,4 +20,4 @@
         </form>
     </body>
 
-</html>
+ {% endblock %}
