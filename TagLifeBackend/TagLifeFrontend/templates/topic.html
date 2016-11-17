@@ -83,12 +83,14 @@
                 {% endif %}
                 <div class="col-md-3 text-right well pull-right" >
                     
-                        <h3>popular</h3>
-                        <ul class="list-group"> 
-                            <li class="list-group-item">Cras justo odio</li>                         
-                            <li class="list-group-item">Dapibus ac facilisis in</li>                         
-                            <li class="list-group-item">Morbi leo risus</li>                         
-                        </ul>     
+                     <h3>Popular Topics</h3>
+                      {% if topics %}
+                      {% for topic in topics %}
+                     <ul class="list-group"> 
+                         <li class="list-group-item">{{topic.title}}</li>
+                         {% endfor %}                                               
+                     </ul> 
+                     {% endif %}       
    
                 </div>
             </div>
