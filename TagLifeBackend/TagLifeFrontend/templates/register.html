@@ -1,62 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <title>TagLife</title>
-        <!-- Bootstrap core CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+{% extends "base.html" %}
 
-        <!-- Custom styles for this template -->
-        <link href="styles/style.css" rel="stylesheet">
-        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
-
-    </head>
-    <body>
-            <nav class="navbar navbar-inverse navbar-fixed-top">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <a class="navbar-brand" href="#"><b>TagLife</b></a>
-                    </div>
-                    <div id="navbar" class="collapse navbar-collapse ">
-                        <ul class="nav navbar-nav">
-                            <li class="active"></li>
-                            <li>
-                                <a href="#about">About</a>
-                            </li>
-                            <li>
-                                <input style="margin-top: 1em" type="text" placeholder="Search">
-                            </li>
-                            <li>
-                                <a href="#4" class="icon">
-                                <span class="glyphicon glyphicon-search" style="font-size:1.7em"></span> </a>
-
-                            </li>
-                            <li style="float: right;">
-                                {% if user.is_authenticated %}
-                                    <span style="align-content: center;"> Hello {{user.username}}</span>
-                                {% endif %}
-                            </li>
-                        </ul>
-                        {% if user.is_authenticated %}
-                        <span class="pull-right" style="text-align: center; "><a href="/logout/"> Logout</a></span>
-                        {% else %}
-                        <span class="pull-right" style="text-align: center; "><a href="/login/"> Login</a></span>
-                        {% endif %}
-                        <a href="#3">
-                                <span  class="glyphicon glyphicon-user bg-success pull-right" style="font-size:2.5em; margin-top: 10px; margin-right: 1cm"></span></a>
-
-                    </div>
-                    <!--/.nav-collapse -->
-                </div>
-            </nav>
-
-    </body>
+{% block body %}
     <body>
         <h1>Register with Rango</h1>
 
@@ -80,4 +24,33 @@
         </form>
         {% endif %}
     </body>
-</html>
+    <br>
+        <div class="container">
+
+            <div class="row" id="pwd-container">
+            <div class="col-md-4"></div>
+
+            <div class="col-md-4">
+              <section class="login-form">
+                <form id="login_form" method="post" action="/register/" enctype="multipart/form-data">
+                  <img src="../media/TagLifePic.png" class="img-responsive" alt="" />
+                  <input type="text" name="Username" value="" size="50" placeholder="User name" required class="form-control input-lg"  />
+                    <input type="text" name="Email adresses" value="" size="50" placeholder="Email adresses" required class="form-control input-lg"  />
+                  <input type="password" name="password" value="" size="50" class="form-control input-lg" id="password" placeholder="Password" required="" />
+
+                  <div class="pwstrength_viewport_progress"></div>
+
+                  <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Sign in</button>
+                  <div>
+                    <a href="/register/">Create account</a> </a>
+                  </div>
+
+                </form>
+              </section>
+              </div>
+              <div class="col-md-4"></div>
+            </div>
+
+            <br>
+            <br>
+{% endblock %}
