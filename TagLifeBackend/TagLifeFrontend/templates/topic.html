@@ -1,12 +1,18 @@
 {% extends "base.html" %}
 {% block body %}
         <div class="well">
-            <h1 align="center">Bu sayfanın amacı yok </h1>
+            {% if topic %}
+                <h1 align="center">{{ topic_name }}</h1>
+            {% else %}
+                <strong>There is no entry for {{ topic_name }}.</strong>
+            {% endif %}
+
         </div>
-        <!-- CONTENT MAP -->
+        <!-- CONTENT MAP
         <div class="row">
             <div class="container" align="center">
-                <img  src="../media/TagLifePic.png" width="700"  id="tagImage"  />
+                <img  src="../media/TagLifePic.png" alt="" style="width:700px;height:700px;" />
+
             </div>
         </div>
         <!-- CONTENT MAP -->
@@ -17,7 +23,7 @@
                 <div class="col-md-9">
                     <div class="blog-comment">
                     {% if topic %}
-                        <h3 class="text-success">{{ topic_name }}</h3>
+                        <h3 class="text-success">Entries</h3>
                         <hr/>
                         {% if entrys %}
                         <ul class="comments">
