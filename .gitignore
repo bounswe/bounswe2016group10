@@ -1,8 +1,5 @@
-TagLifeBackend/.idea/TagLifeBackend.iml
-TagLifeBackend/.idea/dataSources.local.xml
-TagLifeBackend/.idea/dataSources.xml
-TagLifeBackend/.idea/workspace.xml
-TagLifeBackend/TagLifeApp/__pycache__/
-TagLifeBackend/TagLifeApp/migrations/__pycache__/
-TagLifeBackend/TagLifeBackend/__pycache__/
+TaglifeRest/.idea/
+TaglifeRest/TagLifeApp/__pycache__/
+TaglifeRest/TagLifeApp/migrations/__pycache__/
+TaglifeRest/TaglifeRest/__pycache__/
 .idea/
