@@ -26,6 +26,7 @@ class TopicList(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
+        print(request.data)
         serializer = TopicSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -51,6 +52,7 @@ class TopicDetail(APIView):
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
+
         topic = self.get_object(pk)
         serializer = TopicSerializer(topic, data=request.data)
         if serializer.is_valid():

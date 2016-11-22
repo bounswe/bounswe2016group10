@@ -4,7 +4,7 @@ from TagLifeApp.models import Topic
 from datetime import datetime
 
 
-class TopicSerializer(serializers.Serializer):
+class TopicSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField(required=True, max_length=128)
     created = serializers.DateTimeField(required=False)

@@ -5,7 +5,7 @@ from django.db import models
 class Topic(models.Model):
     title = models.CharField(max_length=128)
     created = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey('auth.User', related_name='topics', on_delete=models.CASCADE)
+    author = models.ForeignKey('auth.User', related_name='topics', on_delete=models.CASCADE,null=True)
 
     def __unicode__(self):
         return self.title
