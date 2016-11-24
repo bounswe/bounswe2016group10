@@ -8,7 +8,7 @@ class TopicSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField(required=True, max_length=128)
     created = serializers.DateTimeField(required=False)
-    author = serializers.ReadOnlyField(source='author.id')
+    author = serializers.PrimaryKeyRelatedField(read_only=True)
 
     def create(self, validated_data):
         """
@@ -16,6 +16,7 @@ class TopicSerializer(serializers.ModelSerializer):
         :param validated_data:
         :return:
         """
+
         return Topic.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
@@ -33,6 +34,7 @@ class TopicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Topic
         fields = ('id', 'title','created', 'author')
+
 
 
 class UserSerializer(serializers.ModelSerializer):

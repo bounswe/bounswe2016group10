@@ -26,15 +26,17 @@ class TopicList(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        print(request.data)
+        # author = User.objects.get(pk=request.data["author"])
+        # userSerializer = UserSerializer(data=author)
+        # request.data['author'] = userSerializer
         serializer = TopicSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def perform_create(self,serializer):
-        serializer.save(author=self.request.user)
+    # def perform_create(self,serializer):
+    #     serializer.save(author=self.request.user)
 
 class TopicDetail(APIView):
     """
