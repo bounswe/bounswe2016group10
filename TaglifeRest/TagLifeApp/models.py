@@ -1,25 +1,39 @@
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import User
 
-# Create your models here.
+# class TagLifeUser(models.Model):
+#     REQUIRED_FIELDS = ('user',)
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#
+#
+#     def save(self, *args, **kwargs):
+#         return super(TagLifeUser, self).save(*args, **kwargs)
+#
+#     def __str__(self):
+#         return str(self.id) + ' ' + self.username
 
 class Topic(models.Model):
     title = models.CharField(max_length=128)
-    created = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(User, related_name='topics', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='topics', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True) #Add time when added
+    updated_at = models.DateTimeField(auto_now=True) #Add time when changed
+
+    def save(self, *args, **kwargs):
+        return super(Topic, self).save(*args, **kwargs)
 
     def __unicode__(self):
-        return self.title
+        return str(self.id) + ' ' +self.title
 
 class Entry(models.Model):
     content = models.CharField(max_length=512)
     topic = models.ForeignKey(Topic, related_name='entries')
-    author = models.ForeignKey(User, related_name='entries')
+    user = models.ForeignKey(User, related_name='entries')
     vote = models.IntegerField()
     created = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
-        return self.content
+        return str(self.id) + ' ' +self.content
 
 class Comment(models.Model):
     content = models.CharField(max_length=512)

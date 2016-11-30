@@ -1,6 +1,6 @@
 from django.contrib import admin
-from django.contrib.auth.models import User
-from TagLifeApp.models import Topic, Comment,Entry,EntryTagRelation,FollowTopicRelation,Predicate,Tag,TopicTagRelation
+from TagLifeApp.models import User,Topic, Comment,Entry,EntryTagRelation,FollowTopicRelation,Predicate,Tag,TopicTagRelation
+
 
 admin.site.register(Topic)
 admin.site.register(Entry)

@@ -5,91 +5,70 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import generics
 
 from django.http import Http404
 from rest_framework import viewsets
-from django.contrib.auth.models import User, Group
 from rest_framework.renderers import JSONRenderer
 from TagLifeApp.models import Topic
-from TagLifeApp.serializers import TopicSerializer,UserSerializer
+from django.contrib.auth.models import User
+from TagLifeApp.serializers import TopicSerializer,TopicGetSerializer,UserGetSerializer, UserSerializer
 from rest_framework.parsers import JSONParser
 
 
 
-class TopicList(APIView):
+class TopicList(generics.ListAPIView):
     """
-    List all snippets or create one
+    List all topics
     """
-    def get(self, request, format=None):
-        topics = Topic.objects.all()
-        serializer = TopicSerializer(topics, many=True)
-        return Response(serializer.data)
 
-    def post(self, request, format=None):
-        # author = User.objects.get(pk=request.data["author"])
-        # userSerializer = UserSerializer(data=author)
-        # request.data['author'] = userSerializer
-        serializer = TopicSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    #Used generics from rest framework to make it easy
+
+    queryset = Topic.objects.all()
+    serializer_class = TopicGetSerializer
 
     # def perform_create(self,serializer):
     #     serializer.save(author=self.request.user)
 
-class TopicDetail(APIView):
+
+class TopicCreate(generics.CreateAPIView):
     """
-    Retrieve, update and delete a topic instance
-    """
-    def get_object(self,pk):
-        try:
-            return Topic.objects.get(pk=pk)
-        except:
-            raise Http404
-
-    def get(self, request, pk,format=None):
-        topic = self.get_object(pk)
-        serializer = TopicSerializer(topic)
-        return Response(serializer.data)
-
-    def put(self, request, pk, format=None):
-
-        topic = self.get_object(pk)
-        serializer = TopicSerializer(topic, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk, format=None):
-        topic = self.get_object(pk)
-        topic.delete();
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-class UserList(APIView):
-    """
-    List Users
+    Used generics from rest framework to make it easy
     """
 
-    def get(self,request, format=None):
-        users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
-        return Response(serializer.data)
+    serializer_class = TopicSerializer
 
-
-class UserDetail(APIView):
+class UserList(generics.ListAPIView):
     """
-    Retrive specific user
+    List TagLifeUsers
     """
 
-    def get(self, pk):
-        try:
-            user = User.objects.get(pk=pk)
-        except:
-            raise Http404
-        serializer = UserSerializer(user)
-        return Response(serializer.data)
+    queryset = User.objects.all()
+    serializer_class = UserGetSerializer
+
+
+class UserCreate(generics.CreateAPIView):
+    """
+    Create TagLifeUser
+    """
+
+    serializer_class = UserSerializer
+
+# class TagLifeUserDetail(APIView):
+#     """
+#     Retrive specific TagLifeUser
+#     """
+#
+#     def get(self, pk):
+#         try:
+#             TagLifeUser = TagLifeUser.objects.get(pk=pk)
+#         except:
+#             raise Http404
+#         serializer = TagLifeUserSerializer(TagLifeUser)
+#         return Response(serializer.data)
+
+
 
 # @csrf_exempt
 # @api_view(['GET', 'POST'])
