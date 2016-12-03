@@ -35,6 +35,7 @@ urlpatterns = [
     url(r'^tags/$', views.TagList.as_view()),
     url(r'^tags/(?P<pk>[0-9]+)/$', views.TagDetail.as_view()),
     url(r'^tags/create/$',views.TagCreate.as_view()),
+
     #predicates
     url(r'^predicates/$', views.PredicateList.as_view()),
     url(r'^predicates/(?P<pk>[0-9]+)/$', views.PredicateDetail.as_view()),
@@ -44,12 +45,16 @@ urlpatterns = [
     url(r'^topictagrelations/$', views.TopicTagRelationList.as_view()),
     url(r'^topictagrelations/(?P<pk>[0-9]+)/$', views.TopicTagRelationDetail.as_view()),
     url(r'^topictagrelations/create/$',views.TopicTagRelationCreate.as_view()),
+
     #entrytagrelation
     url(r'^entrytagrelations/$', views.EntryTagRelationList.as_view()),
     url(r'^entrytagrelations/(?P<pk>[0-9]+)/$', views.EntryTagRelationDetail.as_view()),
     url(r'^entrytagrelations/create/$',views.EntryTagRelationCreate.as_view()),
-    #followtopicrelation
 
+    #followtopicrelation
+    url(r'^followtopicrelations/$', views.FollowTopicRelationList.as_view()),
+    url(r'^followtopicrelations/(?P<pk>[0-9]+)/$', views.FollowTopicRelationDetail.as_view()),
+    url(r'^followtopicrelations/create/$',views.FollowTopicRelationCreate.as_view()),
 
 ]
 

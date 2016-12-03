@@ -96,3 +96,13 @@ class EntryTagRelationGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = EntryTagRelation
         fields = ('id','entry','tag','created_at', 'updated_at',)
+
+class FollowTopicRelationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FollowTopicRelation
+        fields = ('id', 'topic', 'user')
+
+class FollowTopicRelationGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FollowTopicRelation
+        fields = ('id', 'topic', 'user', 'created_at', 'updated_at')

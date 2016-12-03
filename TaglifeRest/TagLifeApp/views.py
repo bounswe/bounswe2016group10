@@ -12,7 +12,7 @@ from rest_framework import viewsets
 from rest_framework.renderers import JSONRenderer
 from TagLifeApp.models import Topic, Entry, Comment, Tag, Predicate,EntryTagRelation,FollowTopicRelation,TopicTagRelation
 from django.contrib.auth.models import User
-from TagLifeApp.serializers import TopicSerializer,TopicGetSerializer,UserGetSerializer, UserSerializer, EntrySerializer,EntryGetSerializer, CommentSerializer,CommentGetSerializer, TagSerializer, TagGetSerializer, PredicateSerializer,PredicateGetSerializer, TopicTagRelationSerializer,TopicTagRelationGetSerializer, EntryTagRelationSerializer,EntryTagRelationGetSerializer
+from TagLifeApp.serializers import TopicSerializer,TopicGetSerializer,UserGetSerializer, UserSerializer, EntrySerializer,EntryGetSerializer, CommentSerializer,CommentGetSerializer, TagSerializer, TagGetSerializer, PredicateSerializer,PredicateGetSerializer, TopicTagRelationSerializer,TopicTagRelationGetSerializer, EntryTagRelationSerializer,EntryTagRelationGetSerializer, FollowTopicRelationSerializer, FollowTopicRelationGetSerializer
 from rest_framework.parsers import JSONParser
 
 
@@ -212,3 +212,23 @@ class EntryTagRelationCreate(generics.CreateAPIView):
     Create entry tag relation
     """
     serializer_class = EntryTagRelationSerializer
+
+class FollowTopicRelationList(generics.ListAPIView):
+    """
+    List all followings
+    """
+    serializer_class = FollowTopicRelationGetSerializer
+    queryset = FollowTopicRelation.objects.all()
+
+class FollowTopicRelationDetail(generics.RetrieveAPIView):
+    """
+    Get single instance of a Follow topic relation
+    """
+    serializer_class = FollowTopicRelationGetSerializer
+    queryset = FollowTopicRelation.objects.all()
+
+class FollowTopicRelationCreate(generics.CreateAPIView):
+    """
+    Create follow topic relation
+    """
+    serializer_class = FollowTopicRelationSerializer
