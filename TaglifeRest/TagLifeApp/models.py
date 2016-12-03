@@ -29,8 +29,9 @@ class Entry(models.Model):
     content = models.CharField(max_length=512)
     topic = models.ForeignKey(Topic, related_name='entries')
     user = models.ForeignKey(User, related_name='entries')
-    vote = models.IntegerField()
-    created = models.DateTimeField(auto_now_add=True)
+    vote = models.IntegerField(default=0 , blank=True)
+    created_at = models.DateTimeField(auto_now_add=True) #Add time when added
+    updated_at = models.DateTimeField(auto_now=True) #Add time when changed
 
     def __unicode__(self):
         return str(self.id) + ' ' +self.content
@@ -38,44 +39,74 @@ class Entry(models.Model):
 class Comment(models.Model):
     content = models.CharField(max_length=512)
     entry = models.ForeignKey(Entry, related_name='comments')
-    author = models.ForeignKey(User, related_name='comments')
-    vote = models.IntegerField()
-    created = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, related_name='comments')
+    vote = models.IntegerField(default=0 , blank=True)
+    created_at = models.DateTimeField(auto_now_add=True) #Add time when added
+    updated_at = models.DateTimeField(auto_now=True) #Add time when changed
+
+    def save(self, *args, **kwargs):
+        return super(Comment, self).save(*args, **kwargs)
 
     def __unicode__(self):
-        return self.content
+        return str(self.id) + ' ' + self.content
 
 class Tag(models.Model):
     tagString = models.CharField(max_length=128)
+
+    created_at = models.DateTimeField(auto_now_add=True) #Add time when added
+    updated_at = models.DateTimeField(auto_now=True) #Add time when changed
+
+    def save(self, *args, **kwargs):
+        return super(Tag, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.tagString
 
 class Predicate(models.Model):
     predicateString = models.CharField(max_length=64)
+    created_at = models.DateTimeField(auto_now_add=True) #Add time when added
+    updated_at = models.DateTimeField(auto_now=True) #Add time when changed
 
+
+    def save(self, *args, **kwargs):
+        return super(Predicate, self).save(*args, **kwargs)
     def __unicode__(self):
         return self.predicateString
 
 
 class TopicTagRelation(models.Model):
-    topic = models.ForeignKey(Topic, related_name='tags')
-    predicate = models.ForeignKey(Predicate, related_name='types')
-    tag = models.ForeignKey(Tag, related_name='relatedTopic')
+    topic = models.ForeignKey(Topic, related_name='relations')
+    predicate = models.ForeignKey(Predicate, related_name='relations')
+    tag = models.ForeignKey(Tag, related_name='relations')
+    created_at = models.DateTimeField(auto_now_add=True) #Add time when added
+    updated_at = models.DateTimeField(auto_now=True) #Add time when changed
+
+    def save(self, *args, **kwargs):
+        return super(TopicTagRelation, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.pk
 
 class EntryTagRelation(models.Model):
-    entry = models.ForeignKey(Entry, related_name='tags')
-    tag = models.ForeignKey(Tag, related_name='relatedEntry')
+    entry = models.ForeignKey(Entry, related_name='relations')
+    tag = models.ForeignKey(Tag, related_name='relatedEntries')
+    created_at = models.DateTimeField(auto_now_add=True) #Add time when added
+    updated_at = models.DateTimeField(auto_now=True) #Add time when changed
+
+    def save(self, *args, **kwargs):
+        return super(EntryTagRelation, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.pk
 
 class FollowTopicRelation(models.Model):
-    topic = models.ForeignKey(Topic, related_name= 'follower')
-    user = models.ForeignKey(User, related_name='following')
+    topic = models.ForeignKey(Topic, related_name= 'followers')
+    user = models.ForeignKey(User, related_name='followings')
+    created_at = models.DateTimeField(auto_now_add=True) #Add time when added
+    updated_at = models.DateTimeField(auto_now=True) #Add time when changed
+
+    def save(self, *args, **kwargs):
+        return super(FollowTopicRelation, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.pk
