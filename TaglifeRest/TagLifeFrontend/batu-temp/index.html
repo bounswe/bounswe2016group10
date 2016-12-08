@@ -1,0 +1,103 @@
+{% extends "base.html" %}	
+
+{% block body %}
+<div class="container">
+  <div class="row"><h1 align="center">MAP</h1>
+    <div class="col-md-12 well">
+      <div id="vismap">
+      
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+ <div class="row">
+  <div class="col-md-9 ">
+    {% if topics %}
+    <ul style="list-style-type:none; padding-left: 0 ">
+      {% for topic in topics %}
+      <li>
+        <div class="well">
+            <div class="media-body">
+              <a href="./topic/{{topic.url}}"><h4 align="center" class="media-heading">{{topic.title}}</a> </h4> 
+                
+              <p> 
+              <script type="text/javascript">
+                $.ajax({
+                  type: 'GET',
+                  url: 'http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/topics/?format=json',
+                  dataType: 'json',
+                  success: function (data) {
+                    // JSON.parse(data)
+                   console.log(data['results']); 
+                  }
+                });
+
+              </script>
+
+              </p>
+              <ul class="list-inline list-unstyled">
+                <li>Tags:
+                    <a href="#"><span class="label label-info"></span></a> 
+                    <a href="#"><span class="label label-info"></span></a> 
+                    <a href="#"><span class="label label-info"></span></a> 
+                </li>
+                <li>|</li>
+                <li>
+                  <i class="glyphicon glyphicon-user"></i> <a href="#">Ali</a> 
+                </li>
+                <li>|</li>
+                <li><span><i class="glyphicon glyphicon-calendar"></i> 8 hours </span></li>
+                <li>|</li>
+                <a href="#"><i class="glyphicon glyphicon-comment"></i> 2 comments</a>
+                <li>|</li>
+                <li>
+                   <span class="glyphicon glyphicon-thumbs-up">25</span>
+                </li>
+                <li>
+                   <span class="glyphicon glyphicon-thumbs-down">5</span>
+                </li>
+                <li>|</li>
+                <li>
+                  <span><i class="fa fa-facebook-square"></i></span>
+                  <span><i class="fa fa-twitter-square"></i></span>
+                  <span><i class="fa fa-google-plus-square"></i></span>
+                </li>
+              </ul>
+            </div>
+        </div>
+      </li>
+      {% endfor %}
+      {% else %}
+              <strong> There are no topics present</strong>
+      {% endif %}
+    </ul> 
+  </div>
+   <div class="col-md-3 hidden-sm well pull-right" >
+     <div class="row" align="center"> <a href="/create_topic/" class="btn btn-primary btn-block">Add New Topic</a></div>
+    
+     <div class="row" align="center"> 
+       <h3>Popular Topics</h3>
+        {% if topics %}
+         {% for topic in topics %}
+       <ul class="list-group"> 
+          <li class="list-group-item">{{topic.title}}</li>
+           {% endfor %}                                               
+       </ul> 
+       {% endif %}
+     </div>
+     <div class="row" align="center"> 
+     <h3 align="center">Followed Topics</h3>
+      {% if topics %}
+       {% for topic in topics %}
+     <ul class="list-group"> 
+        <li class="list-group-item">{{topic.title}}</li>
+         {% endfor %}                                               
+     </ul> </div>
+     {% endif %}   
+   </div>
+ </div>
+</div>
+{% load static %}
+<script type="text/javascript" src="{% static 'js/vis_map.js' %}"></script>
+{% endblock %}
