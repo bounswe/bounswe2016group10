@@ -7,6 +7,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import generics
 
+from django.db.models import Count
+
 from django.http import Http404
 from rest_framework import viewsets
 from rest_framework.renderers import JSONRenderer
@@ -47,6 +49,14 @@ class TopicDetail(generics.RetrieveAPIView):
     queryset = Topic.objects.all()
     serializer_class = TopicGetSerializer
 
+
+class TopicPopular(generics.ListAPIView):
+
+    """
+    Ten topics that has the most followers
+    """
+    queryset = Topic.objects.all().annotate(follower_count=Count('followers')).order_by('-follower_count')[:10]
+    serializer_class = TopicGetSerializer
 
 class UserList(generics.ListAPIView):
     """

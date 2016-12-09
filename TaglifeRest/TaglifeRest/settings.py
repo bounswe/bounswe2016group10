@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     "custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com",
+    "localhost"
 ]
 
 
