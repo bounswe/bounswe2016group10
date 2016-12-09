@@ -45,7 +45,7 @@ class TopicDetail(generics.RetrieveAPIView):
     retrieve single topic instance
     """
     queryset = Topic.objects.all()
-    serializer_class = TopicSerializer
+    serializer_class = TopicGetSerializer
 
 
 class UserList(generics.ListAPIView):
