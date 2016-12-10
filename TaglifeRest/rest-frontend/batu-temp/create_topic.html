@@ -19,8 +19,6 @@
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
         <link rel="stylesheet" type="text/css" href="../static/css/style.css">
-          
-        
     </head>
     <body>
         <div class="container">
@@ -65,40 +63,35 @@
            </div>
          </div>
       
-
-
-
           <div class="container">
             <div class="row">
               <div class="col-md-8 well" style="margin:1cm">
                 <h1>Create Topic</h1>
-                <form action="" method="POST">
+                <form action="#" method="POST">
                     <div class="form-group ">
-                        <label for="topicname">Topic name <span class="require">*</span> <small></small></label>
-                        <input type="text" class="form-control" name="topicname" />
+                        <label for="title">Topic name <span class="require">*</span> <small></small></label>
+                        <input type="text" class="form-control" name="title" />
+                        <label for="user"> User ID </label>
+                        <input type="number" class="form-control" name="user" />
                     </div>
-                    <div class="form-group">
-                        <label for="description">Content</label>
+                  <!--   <div class="form-group">
+                        <label for="content">Content</label>
                         <textarea rows="5" class="form-control" name="description" ></textarea>
                     </div>
                     <div class="form-group">
                         <label for="uploadMedia">Upload media</label>
-                        <!-- <div class="col-sm-9">                     -->
                             <div class="input-group">
                               <div class="input-group-addon">http://</div>
                               <input type="text" class="form-control" name="uploadMedia" id="uploadMedia">
-                            <!-- </div> -->
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="addTag">Add Tag</label>
-                        <!-- <div class="col-sm-11">                     -->
                             <div class="input-group">
                               <div class="input-group-addon">put # before every tag</div>
                               <input type="text" class="form-control" name="addTag" id="addTag">
-                            <!-- </div> -->
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">
@@ -112,22 +105,23 @@
               </div>
               <div class="col-md-3 hidden-sm well pull-right" style="margin-top: 1cm">
              
-              <div class="row" align="center"> 
-                <h3>Popular Topics</h3>
-                <ul class="list-group"> 
-                   <li class="list-group-item">{{topic.title}}</li>
-                </ul> 
-              </div>
-              <div class="row" align="center"> 
-              <h3 align="center">Followed Topics  </h3>
-              <ul class="list-group"> 
-                 <li class="list-group-item">{{topic.title}}</li>
-              </ul> </div>
+                <div class="row" align="center"> 
+                  <h3>Popular Topics</h3>
+                  <ul class="list-group"> 
+                     <li class="list-group-item">{{topic.title}}</li>
+                  </ul> 
+                </div>
+                <div class="row" align="center"> 
+                  <h3 align="center">Followed Topics  </h3>
+                  <ul class="list-group"> 
+                     <li class="list-group-item">{{topic.title}}</li>
+                  </ul> 
+                </div>
               </div>
             </div>
           </div>
 
-         
+         <script type="text/javascript" src="../static/js/create_topic.js"></script>
          <!-- {% endblock %} -->
     </body>
 </html>

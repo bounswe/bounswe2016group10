@@ -1,28 +1,39 @@
-var nodes = new vis.DataSet([
-        {id: 1, label: 'Node 1'},
-        {id: 2, label: 'Node 2'},
-        {id: 3, label: 'Node 3'},
-        {id: 4, label: 'Node 4'},
-        {id: 5, label: 'Node 5'}
-]);
+var nodes_set = [];
 
-// create an array with edges
-var edges = new vis.DataSet([
-    {from: 1, to: 3},
-    {from: 1, to: 2},
-    {from: 2, to: 4},
-    {from: 2, to: 5}
-]);
+function Node(id, label) {
+    this.id = id;
+    this.label = label;
+}
 
-// create a network
-var container = document.getElementById('vismap');
+$.when(topicPromise).then(function (topic) {
+    createMap(topic);
+});
 
-// provide the data in the vis format
-var data = {
-    nodes: nodes,
-    edges: edges
-};
-var options = {};
+function createMap(topics) {
+    $.each(topics['results'], function (i, topic) {
+        var node_obj = new Node(i, topic.title);
+        nodes_set.push(node_obj) ; 
+    });
 
-// initialize your network!
-var network = new vis.Network(container, data, options);
+    var nodes = new vis.DataSet(
+        nodes_set
+    );
+
+    // create an array with edges
+    var edges = new vis.DataSet([
+        {from: 0, to: 2}
+    ]);
+
+    // create a network
+    var container = document.getElementById('vismap');
+
+    // provide the data in the vis format
+    var data = {
+        nodes: nodes,
+        edges: edges
+    };
+    var options = {};
+
+    // initialize your network!
+    var network = new vis.Network(container, data, options);
+}
