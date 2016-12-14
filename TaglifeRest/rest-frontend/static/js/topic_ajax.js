@@ -1,5 +1,7 @@
 var topicID = getParameterByName('id');
 var topictitle = getParameterByName('title');
+$('#addTagButton').text('Add Relation to ' + topictitle);
+$('#tagTopicModalLabel').html(`Create Tag - Topic Relation to <strong> ${topictitle} </strong>`);
 $('#topic_header').text(topictitle);
 
 var userPromise = $.getJSON('http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/users/?format=json');
@@ -52,7 +54,8 @@ $.when(userPromise, entryPromise).then(function(users, entries) {
             <div class="col-sm-offset-2 col-sm-10">             
                 <button class="btn btn-success btn-circle text-uppercase" type="submit" ><span class="glyphicon glyphicon-send"></span> Submit Comment</button>
             </div>
-          </div>            
+          </div>
+          <div class='col-offset-2' id="alert-add-comment"></div>            
       </form>
       </div>
       `);
@@ -110,13 +113,19 @@ $.when(userPromise, entryPromise).then(function(users, entries) {
         dataType: "json",
         contentType: "application/json",
         error: function(xhr, textStatus, error) {
+            $('#commentForm-entry'+entry.id).find('#alert-add-comment').append(`<div class="alert alert-danger" role="alert">
+                       <strong>Oopss..</strong> Entry could not added due to ${error}.
+                   </div>`);
             console.log(xhr.statusText);
               console.log(textStatus);
               console.log(error);
         },
         success: function(data) {
-          // $('#entryForm-result').append('<p> Entry successfully added </p>');
+            $('#commentForm-entry'+entry.id).find('#alert-add-comment').append(`<div class="alert alert-success" role="alert">
+                       <strong>Comment successfully added..</strong> 
+                   </div>`);
           console.log(data);
+          setTimeout(function() { location.reload(true)}, 1500);
         }
       });
 
@@ -147,13 +156,19 @@ $('#entryForm').submit(function(event) {
     dataType: "json",
     contentType: "application/json",
     error: function(xhr, textStatus, error) {
+       $('#alert-add-entry').append(`<div class="alert alert-danger" role="alert">
+                    <strong>Oopss..</strong> Entry could not added due to ${error}.
+                </div>`);
         console.log(xhr.statusText);
           console.log(textStatus);
           console.log(error);
     },
     success: function(data) {
-      $('#entryForm-result').append('<p> Entry successfully added </p>');
+      $('#alert-add-entry').append(`<div class="alert alert-success" role="alert">
+                    <strong>Entry successfully added..</strong>
+                </div>`);
       console.log(data);
+      setTimeout(function() { location.reload(true)}, 1500);
     }
   });
 
@@ -178,19 +193,79 @@ $('#modal-addTopic-form').submit(function(event) {
     dataType: "json",
     contentType: "application/json",
     error: function(xhr, textStatus, error) {
+      $('#alert-add-topic').append(`<div class="alert alert-danger" role="alert">
+                    <strong>Oopss..</strong> Topic could not added due to ${error}.
+                </div>`);
         console.log(xhr.statusText);
           console.log(textStatus);
           console.log(error);
     },
     success: function(data) {
-      alert("TOPIC SUCCESFULLY ADDED");
+      $('#alert-add-topic').append(`<div class="alert alert-success" role="alert">
+                    <strong>Topic successfully added..</strong>
+                </div>`);
       console.log(data);
+      setTimeout(function() { location.reload(true)}, 1500);
     }
   });
 
   return false;
 });
 
+var predicatePromise = $.getJSON('http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/predicates');
+var tagPromise = $.getJSON('http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/tags');
+
+$.when(predicatePromise, tagPromise).then(function(predicates, tags) {
+  predicate = predicates[0]['results'];
+  tag = tags[0]['results'];
+
+ $.each(predicate, function(i, pre) {
+   $('#modal-addTag-form').find('select[name="predicateSelect"]').append(`<option value='${pre.id}'> ${pre.predicateString} </option>`);
+ });
+ 
+ $.each(tag, function(i, tag) {
+   $('#modal-addTag-form').find('select[name="tagSelect"]').append(`<option value='${tag.id}'> ${tag.tagString} </option>`);
+ });
+
+});
+$('#modal-addTag-form').submit(function(event) {
+
+  var relObj = {};
+  var topic = parseInt(topicID);
+  var predicate = $(this).find('select[name="predicateSelect"]').val() ;
+  var tag = $(this).find('select[name="tagSelect"]').val() ;
+ 
+  relObj['topic'] = topic ;
+  relObj['predicate'] = predicate ;
+  relObj['tag'] = tag ;
+
+  var relJSON = JSON.stringify(relObj);
+
+  $.ajax({
+    type: "POST",
+    url: "http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/topictagrelations/create/",
+    data: relJSON,
+    dataType: "json",
+    contentType: "application/json",
+    error: function(xhr, textStatus, error) {
+      $('#alert-add-tag').append(`<div class="alert alert-danger" role="alert">
+                    <strong>Oopss..</strong> Relation could not added due to ${error}.
+                </div>`);
+        console.log(xhr.statusText);
+          console.log(textStatus);
+          console.log(error);
+    },
+    success: function(data) {
+      $('#alert-add-tag').append(`<div class="alert alert-success" role="alert">
+                    <strong>Relation successfully added..</strong>
+                </div>`);
+      console.log(data);
+      setTimeout(function() { location.reload(true)}, 1500);
+    }
+  });
+
+  return false;
+});
 function getParameterByName(name, url) {
     if (!url) {
       url = window.location.href;

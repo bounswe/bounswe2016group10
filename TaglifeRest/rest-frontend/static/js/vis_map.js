@@ -1,19 +1,19 @@
 var nodes_set = [];
 
+setTimeout(function() { createMap();}, 1000)
+
 function Node(id, label) {
     this.id = id;
     this.label = label;
 }
 
-$.when(topicPromise).then(function (topic) {
-    createMap(topic);
-});
-
-function createMap(topics) {
-    $.each(topics['results'], function (i, topic) {
-        var node_obj = new Node(i, topic.title);
+function addTopicNodeset(topiclist) {
+    $.each(topiclist, function (i, topic) {
+        var node_obj = new Node(topic.id , topic.title);
         nodes_set.push(node_obj) ; 
     });
+}
+function createMap() {
 
     var nodes = new vis.DataSet(
         nodes_set
@@ -36,4 +36,13 @@ function createMap(topics) {
 
     // initialize your network!
     var network = new vis.Network(container, data, options);
+
+    network.on('doubleClick', function(params) {
+    var topicID = params.nodes[0];
+    var topicTitle = nodes_set.find(function(node) {
+        return node.id === topicID;
+    }).label;
+    location.href = './topic.html?id='+ topicID + '&title='+ topicTitle ;
+    });
 }
+

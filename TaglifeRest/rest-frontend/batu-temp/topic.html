@@ -104,7 +104,7 @@
                                   </div>
                               </div>
                           </div>
-                          <div class="form-group">
+<!--                           <div class="form-group">
                               <label for="addTag" class="col-sm-2 control-label">Add Tag</label>
                               <div class="col-sm-10">                    
                                   <div class="input-group">
@@ -112,22 +112,21 @@
                                     <input type="text" class="form-control" name="addTag" id="addTag">
                                   </div>
                               </div>
-                          </div>
+                          </div> -->
                           <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">             
                                 <button class="btn btn-success btn-circle text-uppercase" type="submit"><span class="glyphicon glyphicon-send"></span> Submit Entry</button>
                             </div>
-                            <div class="col-sm-offset-2 col-sm-10" id="entryForm-result">
-                              
-                            </div>
                           </div>            
                       </form>
+                      <span id="alert-add-entry"></span>
                   </div>
                 </div>
               </div>
             </div>
             <div class="col-md-3 hidden-sm well pull-right" style="margin-top:1cm;" >
-              <div class="row" align="center"> <a href="#" class="btn btn-primary btn-block" data-toggle="modal" data-target="#add-topic-modal">Add New Topic</a></div>
+              <div class="row" align="center" style="margin: 10px"> <a href="#add-tag-modal" class="btn btn-primary btn-block" data-toggle="modal"  id="addTagButton">Add Tag </a></div>
+              <div class="row" align="center" style="margin: 10px"> <a href="#add-topic-modal" class="btn btn-primary btn-block" data-toggle="modal" >Add New Topic</a></div>
               <div class="row" align="center"> 
                 <h3>Related Topics</h3>
                 <ul class="list-group"> 
@@ -149,17 +148,17 @@
           </div>
          </div> 
 
-         <div class="modal fade" id="add-topic-modal"  aria-labelledby="myModalLabel" aria-hidden="true"> <!-- tabindex="-1" role="dialog" -->
+         <div class="modal fade" id="add-topic-modal" aria-hidden="true"> <!-- tabindex="-1" role="dialog" -->
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> ADD A NEW TOPIC </button>
-                <h4 class="modal-title" id="myModalLabel">Create Topic</h4>
+                <h4 class="modal-title" >Create Topic</h4>
               </div>
               <div class="modal-body">
                 <form action="#" method="POST" id="modal-addTopic-form">
                     <div class="form-group ">
-                        <label for="title">Topic name <span class="require">*</span> <small></small></label>
+                        <label for="title">Topic name </label>
                         <input type="text" class="form-control" name="title" />
                         <label for="user"> User ID </label>
                         <input type="number" class="form-control" name="user" />
@@ -170,6 +169,38 @@
                         </button>
                     </div> 
                 </form>
+                <span id="alert-add-topic"></span>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+         </div><!-- /.modal -->
+
+         <div class="modal fade" id="add-tag-modal"  aria-labelledby="tagTopicModalLabel" aria-hidden="true"> <!-- tabindex="-1" role="dialog" -->
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> Add A Relation </button>
+                <h4 class="modal-title" id="tagTopicModalLabel">Create Tag - Topic Relation to  </h4>
+              </div>
+              <div class="modal-body">
+                <form class="form-inline" action="#" method="POST" id="modal-addTag-form">
+                    <div class="form-group " >
+                        <label for="predicateSelect">Predicate </label>
+                        <select class="form-control" style="width:auto;" name="predicateSelect"></select>
+
+                        <label for="tagSelect"> Tag </label>
+                        <select class="form-control" style="width:auto;" name="tagSelect"></select>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">
+                            Create
+                        </button>
+                    </div> 
+                </form>
+                <span id="alert-add-tag"></span>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
