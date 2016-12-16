@@ -18,6 +18,11 @@ from TagLifeApp.serializers import TopicSerializer,TopicGetSerializer,UserGetSer
 from rest_framework.parsers import JSONParser
 
 
+# /index/
+def index(request):
+    return render(request, "restfrontend/batu-temp/index.html", {})
+
+
 class TopicList(generics.ListAPIView):
     """
     List all topics
