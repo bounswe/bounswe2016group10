@@ -56,12 +56,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
 ROOT_URLCONF = 'TaglifeRest.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
+        'DIRS': [os.path.join(BASE_DIR, 'rest-frontend/batu-temp') ]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -74,6 +75,15 @@ TEMPLATES = [
         },
     },
 ]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'rest-frontend/static')
+
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    ("js", os.path.join(STATIC_ROOT,'js')),
+    ("css", os.path.join(STATIC_ROOT,'css')),
+)
 
 WSGI_APPLICATION = 'TaglifeRest.wsgi.application'
 

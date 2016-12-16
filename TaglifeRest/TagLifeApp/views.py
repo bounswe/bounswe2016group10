@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
@@ -20,7 +21,9 @@ from rest_framework.parsers import JSONParser
 
 # /index/
 def index(request):
-    return render(request, "restfrontend/batu-temp/index.html", {})
+    return render(request, "index.html", {})
+
+
 
 
 class TopicList(generics.ListAPIView):

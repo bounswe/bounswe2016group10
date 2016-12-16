@@ -62,7 +62,7 @@ class TagGetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tag
-        fields = ('id', 'tagString', 'created_at', 'updated_at')
+        fields = ('id', 'tagString', 'relations','created_at', 'updated_at')
 
 class PredicateSerializer(serializers.ModelSerializer):
 
