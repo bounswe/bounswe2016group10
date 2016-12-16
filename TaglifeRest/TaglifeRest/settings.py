@@ -62,7 +62,7 @@ ROOT_URLCONF = 'TaglifeRest.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'rest-frontend/batu-temp') ]
+        'DIRS': [os.path.join(BASE_DIR, 'rest-frontend/html')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
