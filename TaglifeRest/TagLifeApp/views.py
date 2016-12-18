@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
@@ -7,6 +8,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import generics
 
+from django.db.models import Count
+
 from django.http import Http404
 from rest_framework import viewsets
 from rest_framework.renderers import JSONRenderer
@@ -14,6 +17,13 @@ from TagLifeApp.models import Topic, Entry, Comment, Tag, Predicate,EntryTagRela
 from django.contrib.auth.models import User
 from TagLifeApp.serializers import TopicSerializer,TopicGetSerializer,UserGetSerializer, UserSerializer, EntrySerializer,EntryGetSerializer, CommentSerializer,CommentGetSerializer, TagSerializer, TagGetSerializer, PredicateSerializer,PredicateGetSerializer, TopicTagRelationSerializer,TopicTagRelationGetSerializer, EntryTagRelationSerializer,EntryTagRelationGetSerializer, FollowTopicRelationSerializer, FollowTopicRelationGetSerializer
 from rest_framework.parsers import JSONParser
+
+
+# /index/
+def index(request):
+    return render(request, "index.html", {})
+
+
 
 
 class TopicList(generics.ListAPIView):
@@ -40,13 +50,23 @@ class TopicCreate(generics.CreateAPIView):
     serializer_class = TopicSerializer
 
 
-class TopicDetail(generics.RetrieveAPIView):
+class TopicDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     retrieve single topic instance
     """
     queryset = Topic.objects.all()
-    serializer_class = TopicSerializer
+    serializer_class = TopicGetSerializer
 
+
+
+
+class TopicPopular(generics.ListAPIView):
+
+    """
+    Ten topics that has the most followers
+    """
+    queryset = Topic.objects.all().annotate(follower_count=Count('followers')).order_by('-follower_count')[:10]
+    serializer_class = TopicGetSerializer
 
 class UserList(generics.ListAPIView):
     """
@@ -64,7 +84,7 @@ class UserCreate(generics.CreateAPIView):
     serializer_class = UserSerializer
 
 
-class UserDetail(generics.RetrieveAPIView):
+class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     Retrieve single user instance
     """
@@ -85,7 +105,7 @@ class EntryCreate(generics.CreateAPIView):
     """
     serializer_class = EntrySerializer
 
-class EntryDetail(generics.RetrieveAPIView):
+class EntryDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     Retrieve single entry instance by id
     """
@@ -109,7 +129,7 @@ class CommentList(generics.ListAPIView):
     serializer_class = CommentGetSerializer
 
 
-class CommentDetail(generics.RetrieveAPIView):
+class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     Retrieve single comment instance
     """
@@ -140,7 +160,7 @@ class TagList(generics.ListAPIView):
     serializer_class = TagGetSerializer
     queryset = Tag.objects.all()
 
-class TagDetail(generics.RetrieveAPIView):
+class TagDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     Retrieve single tag instance
     """
@@ -160,7 +180,7 @@ class PredicateList(generics.ListAPIView):
     serializer_class = PredicateGetSerializer
     queryset = Predicate.objects.all()
 
-class PredicateDetail(generics.RetrieveAPIView):
+class PredicateDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     Get single predicate instance
     """
@@ -180,7 +200,7 @@ class TopicTagRelationList(generics.ListAPIView):
     queryset = TopicTagRelation.objects.all()
     serializer_class = TopicTagRelationGetSerializer
 
-class TopicTagRelationDetail(generics.RetrieveAPIView):
+class TopicTagRelationDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     Retrieve single topic tag relation instance
     """
@@ -200,7 +220,7 @@ class EntryTagRelationList(generics.ListAPIView):
     queryset = EntryTagRelation.objects.all()
     serializer_class = EntryTagRelationGetSerializer
 
-class EntryTagRelationDetail(generics.RetrieveAPIView):
+class EntryTagRelationDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     Retrieve one instance of
     """
@@ -220,7 +240,7 @@ class FollowTopicRelationList(generics.ListAPIView):
     serializer_class = FollowTopicRelationGetSerializer
     queryset = FollowTopicRelation.objects.all()
 
-class FollowTopicRelationDetail(generics.RetrieveAPIView):
+class FollowTopicRelationDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     Get single instance of a Follow topic relation
     """

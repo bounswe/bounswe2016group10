@@ -25,7 +25,10 @@ SECRET_KEY = '$vjkurw11l&==t0z4b57uapb*kjht#&mxknkd&sv02#3^e2wrv'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com",
+    "localhost"
+]
 
 
 # Application definition
@@ -53,12 +56,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
 ROOT_URLCONF = 'TaglifeRest.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
+        'DIRS': [os.path.join(BASE_DIR, 'rest-frontend/html')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -71,6 +75,15 @@ TEMPLATES = [
         },
     },
 ]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'rest-frontend/static')
+
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    ("js", os.path.join(STATIC_ROOT,'js')),
+    ("css", os.path.join(STATIC_ROOT,'css')),
+)
 
 WSGI_APPLICATION = 'TaglifeRest.wsgi.application'
 
@@ -133,7 +146,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework.authentication.TokenAuthentication',),
+    'DEFAULT_AUTHENTICATION_CLASSES':
+        ('rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',),
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
     'PAGE_SIZE': 10
 }

@@ -1,9 +1,18 @@
 from django.conf.urls import url
 from TagLifeApp import views
 from rest_framework.urlpatterns import format_suffix_patterns
-
+from django.views.generic import TemplateView
 
 urlpatterns = [
+    #Frontend
+    url(r'^$', TemplateView.as_view(template_name="index.html"), name='index'),
+    url(r'^index\.html$', TemplateView.as_view(template_name="index.html"), name='index'),
+    url(r'^topic\.html$', TemplateView.as_view(template_name="topic.html"), name='topics'),
+    url(r'^login\.html$', TemplateView.as_view(template_name="login.html"), name='login'),
+    url(r'^register\.html$', TemplateView.as_view(template_name="register.html"), name='register'),
+    url(r'^create_topic\.html$', TemplateView.as_view(template_name="create_topic.html"), name='create_topic'),
+
+
     #users
     url(r'^users/$', views.UserList.as_view()),
     url(r'^users/(?P<pk>[0-9]+)/$', views.UserDetail.as_view()),
@@ -13,11 +22,7 @@ urlpatterns = [
     url(r'^topics/$', views.TopicList.as_view()),
     url(r'^topics/(?P<pk>[0-9]+)/$', views.TopicDetail.as_view()),
     url(r'^topics/create/$', views.TopicCreate.as_view()),
-
-#   url(r'^topics/(?P<pk>[0-9]+)/$', views.TopicDetail.as_view()),
-
-
-#    url(r'^users/(?P<pk>[0-9]+)/$', views.UserDetail.as_view()),
+    url(r'^topics/popular$', views.TopicPopular.as_view()),
 
     #entries
     url(r'^entries/$', views.EntryList.as_view()),
