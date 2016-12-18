@@ -12,7 +12,14 @@ $.when(userPromise,topicPromise).then(function (users, topics) {
 	addTopicNodeset(topiclist1);
 
 	checkNext(topics[0]);
-
+	
+	function checkNext(e) {
+		// console.log(e.next);
+		if (e.next) {
+			getNext(e.next);
+		}
+	}
+	
 	function getNext(promiseUrl) {
 		var nextTopic = $.getJSON(promiseUrl);
 		nextTopic.done( function(data) {
@@ -21,15 +28,7 @@ $.when(userPromise,topicPromise).then(function (users, topics) {
 			});
 
 	}
-
-	function checkNext(e) {
-		// console.log(e.next);
-		if (e.next) {
-			getNext(e.next);
-		}
-	}
-
-
+	
 	function showTopics(topics) {
 		$.each(topics, function(i,topic){
 			var username = "";

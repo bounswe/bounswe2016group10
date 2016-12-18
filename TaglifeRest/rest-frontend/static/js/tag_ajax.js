@@ -2,15 +2,13 @@ var tagID = getParameterByName('id');
 var tagtitle = getParameterByName('title');
 $('#addTagButton').text('Add Relation to ' + tagtitle);
 $('#tagTopicModalLabel').html(`Create Tag - Topic Relation to <strong> ${topictitle} </strong>`);
-$('#tag_header').text(topictitle);
+$('#tag_header').text(tagtitle);
 
 var userPromise = $.getJSON('http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/users/?format=json');
-var entryPromise = $.getJSON('http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/topictagrelations/'+tagID+'/entries?format=json');
+var tagPromise = $.getJSON('http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/tags/'+tagID+'/?format=json');
 
-$.when(userPromise, entryPromise).then(function(users, entries) {
-  var userList = users[0]['results'];
-
-  var topicList = topics[0]['results'];
+$.when( tagPromise).then(function(tags) {
+  var topicList = tags[0]['results'];
   $.each(entryList, function(i,entry){
     var username = "";
 
