@@ -15,7 +15,7 @@ $('#login_form').submit(function(event) {
 
   $.ajax({
     type: "POST",
-    url: "http://localhost:8000/users//",
+    url: "http://localhost:8000/api-auth/login/",
     data: userJSON,
     dataType: "json",
     contentType: "application/json",
@@ -25,7 +25,8 @@ $('#login_form').submit(function(event) {
           console.log(error);
     },
     success: function(data) {
-      alert("USER SUCCESFULLY ADDED");
+      alert("USER SUCCESFULLY LOGGED IN");
+      location.href = './index.html'
       console.log(data);
     }
   });
