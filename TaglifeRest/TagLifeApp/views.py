@@ -7,6 +7,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import generics
+from django.contrib.auth import get_user_model
+from rest_framework import permissions
 
 from django.db.models import Count
 
@@ -24,14 +26,10 @@ def index(request):
     return render(request, "index.html", {})
 
 
-
-
 class TopicList(generics.ListAPIView):
     """
     List all topics
     """
-
-
     #Used generics from rest framework to make it easy
 
     queryset = Topic.objects.all()
@@ -45,9 +43,8 @@ class TopicCreate(generics.CreateAPIView):
     """
     Used generics from rest framework to make it easy
     """
-
-
     serializer_class = TopicSerializer
+    permission_classes = (permissions.IsAuthenticated)
 
 
 class TopicDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -58,8 +55,6 @@ class TopicDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TopicGetSerializer
 
 
-
-
 class TopicPopular(generics.ListAPIView):
 
     """
@@ -68,11 +63,11 @@ class TopicPopular(generics.ListAPIView):
     queryset = Topic.objects.all().annotate(follower_count=Count('followers')).order_by('-follower_count')[:10]
     serializer_class = TopicGetSerializer
 
+
 class UserList(generics.ListAPIView):
     """
     List TagLifeUsers
     """
-
     queryset = User.objects.all()
     serializer_class = UserGetSerializer
 
@@ -81,7 +76,11 @@ class UserCreate(generics.CreateAPIView):
     """
     Create TagLifeUser
     """
+    model = get_user_model()
     serializer_class = UserSerializer
+    permission_classes = [
+        permissions.AllowAny  # Or anon users can't register
+    ]
 
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -104,6 +103,8 @@ class EntryCreate(generics.CreateAPIView):
     Create entry
     """
     serializer_class = EntrySerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
 
 class EntryDetail(generics.RetrieveUpdateDestroyAPIView):
     """
@@ -142,6 +143,8 @@ class CommentCreate(generics.CreateAPIView):
     Create Comment
     """
     serializer_class = CommentSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
 
 class CommentByEntryList(generics.ListAPIView):
     """
@@ -172,6 +175,8 @@ class TagCreate(generics.CreateAPIView):
     Create Tag instance
     """
     serializer_class = TagSerializer
+    permission_classes = (permissions.IsAuthenticated)
+
 
 class PredicateList(generics.ListAPIView):
     """
@@ -192,6 +197,8 @@ class PredicateCreate(generics.CreateAPIView):
     Create Predicate instance
     """
     serializer_class = PredicateSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
 
 class TopicTagRelationList(generics.ListAPIView):
     """
@@ -212,6 +219,8 @@ class TopicTagRelationCreate(generics.CreateAPIView):
     Create topic tag relation
     """
     serializer_class = TopicTagRelationSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
 
 class EntryTagRelationList(generics.ListAPIView):
     """
@@ -232,6 +241,8 @@ class EntryTagRelationCreate(generics.CreateAPIView):
     Create entry tag relation
     """
     serializer_class = EntryTagRelationSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
 
 class FollowTopicRelationList(generics.ListAPIView):
     """
@@ -252,3 +263,4 @@ class FollowTopicRelationCreate(generics.CreateAPIView):
     Create follow topic relation
     """
     serializer_class = FollowTopicRelationSerializer
+    permission_classes = (permissions.IsAuthenticated,)
