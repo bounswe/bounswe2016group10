@@ -11,7 +11,7 @@ $('form').submit(function(event) {
 
 	$.ajax({
 	  type: "POST",
-	  url: "http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/topics/create/",
+	  url: "http://localhost:8000/topics/create/",
 	  data: topicJSON,
 	  dataType: "json",
 	  contentType: "application/json",

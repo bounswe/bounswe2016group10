@@ -91,7 +91,7 @@ $('#register_form').submit(function(event) {
 
   $.ajax({
     type: "POST",
-    url: "http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/users/create/",
+    url: "http://localhost:8000/users/create/",
     data: userJSON,
     dataType: "json",
     contentType: "application/json",
@@ -127,7 +127,7 @@ $('#login_form').submit(function(event) {
 
   $.ajax({
     type: "POST",
-    url: "http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/users/create/",
+    url: "http://localhost:8000/users/create/",
     data: userJSON,
     dataType: "json",
     contentType: "application/json",

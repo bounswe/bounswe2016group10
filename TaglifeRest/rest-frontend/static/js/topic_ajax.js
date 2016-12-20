@@ -4,8 +4,8 @@ $('#addTagButton').text('Add Relation to ' + topictitle);
 $('#tagTopicModalLabel').html(`Create Tag - Topic Relation to <strong> ${topictitle} </strong>`);
 $('#topic_header').text(topictitle);
 
-var userPromise = $.getJSON('http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/users/?format=json');
-var entryPromise = $.getJSON('http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/topics/'+topicID+'/entries?format=json');
+var userPromise = $.getJSON('http://localhost:8000/users/?format=json');
+var entryPromise = $.getJSON('http://localhost:8000/topics/'+topicID+'/entries?format=json');
 
 $.when(userPromise, entryPromise).then(function(users, entries) {
   var userList = users[0]['results'];
@@ -61,7 +61,7 @@ $.when(userPromise, entryPromise).then(function(users, entries) {
       `);
     
     if (entry.comments.length != 0 ) {
-      var commentsPromise = $.getJSON('http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/entries/'+ entry.id +'/comments/?format=json');
+      var commentsPromise = $.getJSON('http://localhost:8000/entries/'+ entry.id +'/comments/?format=json');
 
       $.when(commentsPromise).then(function(comments) {
         
@@ -108,7 +108,7 @@ $.when(userPromise, entryPromise).then(function(users, entries) {
 
       $.ajax({
         type: "POST",
-        url: "http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/comments/create/",
+        url: "http://localhost:8000/comments/create/",
         data: commentJSON,
         dataType: "json",
         contentType: "application/json",
@@ -151,7 +151,7 @@ $('#entryForm').submit(function(event) {
   console.log(entryJSON);
   $.ajax({
     type: "POST",
-    url: "http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/entries/create/",
+    url: "http://localhost:8000/entries/create/",
     data: entryJSON,
     dataType: "json",
     contentType: "application/json",
@@ -188,7 +188,7 @@ $('#modal-addTopic-form').submit(function(event) {
 
   $.ajax({
     type: "POST",
-    url: "http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/topics/create/",
+    url: "http://localhost:8000/topics/create/",
     data: topicJSON,
     dataType: "json",
     contentType: "application/json",
@@ -212,8 +212,8 @@ $('#modal-addTopic-form').submit(function(event) {
   return false;
 });
 
-var predicatePromise = $.getJSON('http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/predicates');
-var tagPromise = $.getJSON('http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/tags');
+var predicatePromise = $.getJSON('http://localhost:8000/predicates');
+var tagPromise = $.getJSON('http://localhost:8000/tags');
 
 $.when(predicatePromise, tagPromise).then(function(predicates, tags) {
   predicate = predicates[0]['results'];
@@ -243,7 +243,7 @@ $('#modal-addTag-form').submit(function(event) {
 
   $.ajax({
     type: "POST",
-    url: "http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/topictagrelations/create/",
+    url: "http://localhost:8000/topictagrelations/create/",
     data: relJSON,
     dataType: "json",
     contentType: "application/json",

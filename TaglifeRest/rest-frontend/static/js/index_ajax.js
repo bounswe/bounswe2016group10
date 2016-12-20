@@ -2,8 +2,8 @@
 //     async: false
 // });
 
-var topicPromise = $.getJSON('http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/topics/');
-var userPromise = $.getJSON('http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/users/');
+var topicPromise = $.getJSON('http://localhost:8000/topics/');
+var userPromise = $.getJSON('http://localhost:8000/users/');
 
 $.when(userPromise,topicPromise).then(function (users, topics) {
 	var userlist = users[0]['results'];
@@ -86,7 +86,7 @@ $('form').submit(function(event) {
 
 	$.ajax({
 	  type: "POST",
-	  url: "http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/topics/create/",
+	  url: "http://localhost:8000/topics/create/",
 	  data: topicJSON,
 	  dataType: "json",
 	  contentType: "application/json",
