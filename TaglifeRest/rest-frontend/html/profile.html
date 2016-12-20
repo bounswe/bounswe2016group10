@@ -69,7 +69,7 @@
          <div class="container">
           <div class="row">
             <div class="col-md-9 ">
-              <div class="row" style="margin:0.5cm"><h2 align="center"> Aslsls</h2>
+              <div class="row" style="margin:0.5cm"><h2 align="center "> User Information</h2>
               </div>
               <div class="row" style="margin:0.5cm">
                 <div class="comment-tabs">
@@ -83,6 +83,36 @@
                   <!-- user info shower-->
                   <div class="tab-pane active" id="user-info">
                      <label for="user"> User ID </label>
+                      <table class="table table-user-information">
+                             <tbody>
+                              <tr>
+                                <tr>
+                                    <td>Username</td>
+                                    <td id="usernamefield" for="username">{{user.username}}</td>
+                                </tr>
+                                <tr>
+                                    <td>First Name</td>
+                                    <td id="userFirstName" for="firstname">{{user.firstname}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Last Name</td>
+                                    <td id="userLastName" for="lastname">{{user.lastname}}</td>
+                                </tr>
+                              </tr>
+                              <tr>
+                               <tr>
+                                 <td>Email</td>
+                                 <td><a href="mailto:{{user.email}}">{{user.email}}</a></td>
+                               </tr>
+                              </tr>
+                              <tr>
+                               <tr>
+                                 <td>Date Joined</td>
+                                 <td>{{user.date_joined}}</td>
+                               </tr>
+                              </tr>
+                             </tbody>
+                      </table>
                   </div>
                   <!-- user info shower finished-->
                   <div class="tab-pane" id="show-entries">
@@ -256,5 +286,8 @@
                </div>
              </div>
          <script type="text/javascript" src="../static/js/tag_ajax.js"></script>-->
+    <script type="text/javascript" src="../static/js/index_ajax.js"></script>
+    <script type="text/javascript" src="../static/js/login.js"></script>
+    <script type="text/javascript" src="../static/js/profile.js"></script>
     </body>
 </html>
