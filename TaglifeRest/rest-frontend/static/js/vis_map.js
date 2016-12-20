@@ -1,28 +1,46 @@
+var predicateList = [];
 var nodes_set = [];
+var edge_set = [];
 
-setTimeout(function() { createMap();}, 1000)
+$.when(predPromise).then(function(predicates) {
+    predicateList = predicates['results'];
 
-function Node(id, label) {
+});
+
+setTimeout(function() { createMap();}, 1500)
+
+function Node(id, label, color = null) {
     this.id = id;
     this.label = label;
+    this.color = color;
 }
 
-function addTopicNodeset(topiclist) {
-    $.each(topiclist, function (i, topic) {
-        var node_obj = new Node(topic.id , topic.title);
+function addTagNodeset(list) {
+    $.each(list, function (i, node) {
+        var node_obj = new Node("tag" + node.id , node.tagString, 'lime');
         nodes_set.push(node_obj) ; 
     });
 }
+function addTopicNodeset(list) {
+    $.each(list, function (i, node) {
+        var node_obj = new Node("topic" + node.id , node.title);
+        nodes_set.push(node_obj) ; 
+    });
+}
+function addRelationEdge(relations,predicateList) {
+    $.each(relations, function(i, relation) {
+       var predicate_label = predicateList.find(function(predicate) {
+                            return predicate.id === relation.predicate;
+                        }).predicateString;
+       var edge_obj = {from: "tag" + relation.tag , to: "topic" + relation.topic , label: predicate_label , font: {background: 'yellow'}};
+       edge_set.push(edge_obj); 
+    });
+}
 function createMap() {
-
-    var nodes = new vis.DataSet(
-        nodes_set
-    );
+    var nodes = new vis.DataSet(nodes_set);
 
     // create an array with edges
-    var edges = new vis.DataSet([
-        {from: 0, to: 2}
-    ]);
+    var edges = new vis.DataSet(edge_set);
 
     // create a network
     var container = document.getElementById('vismap');
@@ -38,11 +56,28 @@ function createMap() {
     var network = new vis.Network(container, data, options);
 
     network.on('doubleClick', function(params) {
-    var topicID = params.nodes[0];
-    var topicTitle = nodes_set.find(function(node) {
-        return node.id === topicID;
-    }).label;
-    location.href = './topic.html?id='+ topicID + '&title='+ topicTitle ;
+        var paramID = params.nodes[0];
+
+        if (paramID[1] == 'o') {
+            var topicID = paramID.substring(5);
+            topicID = parseInt(topicID);
+            // console.log(topicID);
+            var topicTitle = nodes_set.find(function(node) {
+                return parseInt(node.id.substring(5)) === topicID;
+            }).label;
+            location.href = './topic.html?id='+ topicID + '&title='+ topicTitle ;
+        }
+        else {
+            var tagID = paramID.substring(3);
+            tagID = parseInt(tagID);
+            // console.log(topicID);
+            var tagTitle = nodes_set.find(function(node) {
+                return parseInt(node.id.substring(3)) === tagID;
+            }).label;
+            location.href = './topic.html?id='+ topicID + '&title='+ topicTitle ;
+        }
+    
     });
+
 }
 

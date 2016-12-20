@@ -4,12 +4,23 @@
 
 var topicPromise = $.getJSON('http://localhost:8000/topics/');
 var userPromise = $.getJSON('http://localhost:8000/users/');
+var relationPromise = $.getJSON('http://localhost:8000/topictagrelations/');
+var tagPromise = $.getJSON('http://localhost:8000/tags/');
+var predPromise = $.getJSON('http://localhost:8000/predicates/');
 
-$.when(userPromise,topicPromise).then(function (users, topics) {
+
+$.when(userPromise,topicPromise,relationPromise,tagPromise,predPromise).then(function (users, topics, rels, tags, preds) {
 	var userlist = users[0]['results'];
 	var topiclist1 = topics[0]['results'];
+	var relList = rels[0]['results'];
+	var tagList = tags[0]['results'];
+	var predList = preds[0]['results'];
+	
 	showTopics(topiclist1);
+
+	addTagNodeset(tagList);
 	addTopicNodeset(topiclist1);
+	addRelationEdge(relList,predList);
 
 	checkNext(topics[0]);
 	
@@ -37,38 +48,50 @@ $.when(userPromise,topicPromise).then(function (users, topics) {
 				if (topic.user == user.id) 
 					username = user.username;
 			});
+
+			var topicrels =[];
+			$.each(topic.relations, function(i,topicRelID) {
+				$.each(relList,function(i,rel) {
+					if (rel.id == topicRelID) {
+						var topicTagTitle = tagList.find(function(tag) {
+						    return tag.id === rel.tag;
+						}).tagString;
+						var tuple = { id : rel.tag, title : topicTagTitle};
+						topicrels.push(tuple); //tuple tagid
+					}
+				});
+			});
 			
 			$('#topics_list').append(`<div class="well">
-	       <div class="media-body">
-	         <a href="./topic.html?id=${topic.id}&title=${topic.title}"><h4 align="center" class="media-heading">${topic.title}</a> </h4> 
-	 
-	         <ul class="list-inline list-unstyled">
-	           <li>Tags:
-	               <a href="#"><span class="label label-info"></span></a> 
-	               <a href="#"><span class="label label-info"></span></a> 
-	               <a href="#"><span class="label label-info"></span></a> 
-	           </li>
-	           <li>|</li>
-	           <li>
-	             <a href="#"><i class="glyphicon glyphicon-user" ></i> ${username}</a> 
-	           </li>
-	           <li>|</li>
-	           <li><span><i class="glyphicon glyphicon-calendar"></i> ${jQuery.timeago(topic.updated_at)} </span></li>
-	           <li>|</li>
-	           <i class="glyphicon glyphicon-comment"></i> ${topic.entries.length} entries
-	           <li>|</li>
-	           <li>
-	              ${topic.followers.length} follower
-	           </li>
-	           <li>|</li>
-	           <li>
-	             <span><i class="fa fa-facebook-square"></i></span>
-	             <span><i class="fa fa-twitter-square"></i></span>
-	             <span><i class="fa fa-google-plus-square"></i></span>
-	           </li>
-	         </ul>
-	       </div>
-	   </div>`);
+		       <div class="media-body">
+		         <a href="./topic.html?id=${topic.id}&title=${topic.title}"><h4 align="center" class="media-heading">${topic.title}</a> </h4> 
+		 
+		         <ul class="list-inline list-unstyled" >
+		           <li id="tags_list${topic.id}">Tags:</li>
+		           <li>|</li>
+		           <li>
+		             <a href="#"><i class="glyphicon glyphicon-user" ></i> ${username}</a> 
+		           </li>
+		           <li>|</li>
+		           <li><span><i class="glyphicon glyphicon-calendar"></i> ${jQuery.timeago(topic.updated_at)} </span></li>
+		           <li>|</li>
+		           <i class="glyphicon glyphicon-comment"></i> ${topic.entries.length} entries
+		           <li>|</li>
+		           <li>
+		              ${topic.followers.length} follower
+		           </li>
+		           <li>|</li>
+		           <li>
+		             <span><i class="fa fa-facebook-square"></i></span>
+		             <span><i class="fa fa-twitter-square"></i></span>
+		             <span><i class="fa fa-google-plus-square"></i></span>
+		           </li>
+		         </ul>
+		       </div>
+	   		</div>`);
+			topicrels.forEach(function(tag) {
+				$('#tags_list'+topic.id).append("<a href='./tag?id="+ tag.id +"'><span class='tag tag-info'>" + tag.title  + " </span></a>");
+			});
 		});
 	}
 });
