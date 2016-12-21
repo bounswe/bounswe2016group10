@@ -29,9 +29,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import API.Items.Result;
 import API.Items.User;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -202,7 +207,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() > 2;
     }
 
     /**
@@ -312,6 +317,38 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
+            Call<Result> callGetUsers = MainActivity.apiService.getAllUsers();
+            callGetUsers.enqueue(new Callback<Result>() {
+                @Override
+                public void onResponse(Call<Result> call, Response<Result> response) {
+                    if(response.isSuccessful()){
+                        JSONArray array = new JSONArray(response.body().getResults());
+                        for(int i=0; i<array.length(); i++){
+                            try {
+                                JSONObject obj = array.getJSONObject(i);
+                                if(obj.getString("username").equals(mEmail)){
+                                    Log.d("USERNAME MATHC","Found:"+mEmail);
+                                    if(obj.getString("password").equals(mPassword)){
+                                        Log.d("PASSWORD MATCH","Found:"+mPassword);
+                                        MainActivity.testUser = new User(mEmail,mPassword);
+                                        MainActivity.testUser.setId(obj.getInt("id"));
+
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Result> call, Throwable t) {
+
+                }
+            });
             // Get the user related with the username from the server
 
 
@@ -322,13 +359,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
+            /*for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
                 if (pieces[0].equals(mEmail)) {
                     // Account exists, return true if the password matches.
                     return pieces[1].equals(mPassword);
                 }
-            }
+            }*/
 
             // TODO: register the new account here.
             Call<User> call = MainActivity.apiService.createUser(new User(mEmail,mPassword));
@@ -337,6 +374,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 public void onResponse(Call<User> call, Response<User> response) {
                     if(response.isSuccessful()){
                         Toast.makeText(LoginActivity.this, "Successfully signed up", Toast.LENGTH_SHORT).show();
+                        MainActivity.testUser = new User(mEmail,mPassword);
+                        //@TODO Get the user id of the new user and set it...
                     }
                 }
 

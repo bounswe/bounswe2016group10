@@ -20,7 +20,7 @@ public interface MyAPIEndPointInterface {
 
     //Get all users
     @GET("/users/")
-    Call<User> getAllUsers();
+    Call<Result> getAllUsers();
     //Get user by id
     @GET("/users/{id}/")
     Call<User> getUserById(@Path("id") int id);
