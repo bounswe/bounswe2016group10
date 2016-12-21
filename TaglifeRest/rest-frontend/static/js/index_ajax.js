@@ -1,6 +1,6 @@
 var userAuth = false;
-var userID = getParameterByName('user');
-console.log(userID);
+var userID = $.session.get('userID');
+
 if (userID) {
 	userAuth = true;
 }
@@ -79,13 +79,13 @@ $.when(userPromise,topicPromise,relationPromise,tagPromise,predPromise).then(fun
 			
 			$('#topics_list').append(`<div class="well">
 		       <div class="media-body">
-		         <a href="./topic.html?id=${topic.id}&title=${topic.title}&user=${userID}"><h4 align="center" class="media-heading">${topic.title}</a> </h4> 
+		         <a href="./topic.html?id=${topic.id}&title=${topic.title}"><h4 align="center" class="media-heading">${topic.title}</a> </h4> 
 		 
 		         <ul class="list-inline list-unstyled" >
 		           <li id="tags_list${topic.id}">Tags:</li>
 		           <li>|</li>
 		           <li>
-		             <a href="#"><i class="glyphicon glyphicon-user" ></i> ${username}</a> 
+		             <a href="./profile.html?user=${topic.user}"><i class="glyphicon glyphicon-user" ></i> ${username}</a> 
 		           </li>
 		           <li>|</li>
 		           <li><span><i class="glyphicon glyphicon-calendar"></i> ${jQuery.timeago(topic.updated_at)} </span></li>
@@ -105,7 +105,7 @@ $.when(userPromise,topicPromise,relationPromise,tagPromise,predPromise).then(fun
 		       </div>
 	   		</div>`);
 			topicrels.forEach(function(tag) {
-				$('#tags_list'+topic.id).append("<a href='./tag?id="+ tag.id +"'><span class='tag tag-info'>" + tag.title  + " </span></a>");
+				$('#tags_list'+topic.id).append("<a href='./tag?id="+ tag.id +"'><span class='label label-info'>" + tag.title  + " </span></a>");
 			});
 		});
 	}
@@ -116,7 +116,6 @@ $('form').submit(function(event) {
 	if(userAuth){
 		var topicObj = {};
 		var title = $(this).find("input[name='title']").val() ;
-		var userID = $(this).find("input[name='user']").val() ;
 		userID = parseInt(userID);
 		topicObj['title'] = title ;
 		topicObj['user'] = userID;
@@ -146,14 +145,16 @@ $('form').submit(function(event) {
 		  }
 		});
 
-		return false;	
+		
 	}else{
 		$('#alert').append(`<div class="alert alert-danger" role="alert">
 	  									<strong>Login to create a topic...</strong>
 									</div>`);
 	}
+	return false;	
 });
 function logout() {
+	$.session.clear();
 	location.href = './index.html';
 }
 function getParameterByName(name, url) {

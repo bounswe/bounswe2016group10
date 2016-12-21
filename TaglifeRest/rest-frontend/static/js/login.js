@@ -27,7 +27,8 @@ $('#login_form').submit(function(event) {
     success: function(data) {
       if (data.length > 0) {
         alert("USER SUCCESFULLY LOGGED IN");
-        setTimeout(function() { location.href = './index.html?user='+data[0].id ;}, 1500);
+        $.session.set('userID', data[0].id);
+        setTimeout(function() { location.href = './index.html';}, 500);
       }
       else{
         alert("USER NOT FOUND - PLEASE REGISTER");

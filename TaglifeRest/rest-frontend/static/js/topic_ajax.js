@@ -1,10 +1,22 @@
 var userAuth = false;
-var userID = getParameterByName('user');
-console.log(userID);
+var userID = $.session.get('userID');
+
 if (userID) {
   userAuth = true;
 }
 
+if (userAuth) {
+  $('#navUserAuth').append(`<li><a href="/profile">
+            <span  class="glyphicon glyphicon-user bg-success pull-right" style="font-size:2.5em; margin-top: -5px"></span></a>
+         </li> 
+         <li>
+             <a id="logout" onclick="logout();return false;" href="#"> Logout</a>
+         </li> `);
+}
+else{
+  $('#navUserAuth').append(`<li><a href="./register.html">Register</a></li>
+         <li><a href="./login.html">Login </a></li>`);
+}
 var topicID = getParameterByName('id');
 var topictitle = getParameterByName('title');
 $('#addTagButton').text('Add Relation to ' + topictitle);
@@ -13,10 +25,35 @@ $('#topic_header').text(topictitle);
 
 var userPromise = $.getJSON('http://localhost:8000/users/?format=json');
 var entryPromise = $.getJSON('http://localhost:8000/topics/'+topicID+'/entries?format=json');
+var topicPromise = $.getJSON('http://localhost:8000/topics/'+topicID+'?format=json');
+var relationPromise = $.getJSON('http://localhost:8000/topictagrelations/');
+var tagPromise = $.getJSON('http://localhost:8000/tags/');
+var predPromise = $.getJSON('http://localhost:8000/predicates/');
 
-$.when(userPromise, entryPromise).then(function(users, entries) {
+$.when(userPromise, entryPromise, topicPromise, relationPromise, tagPromise, predPromise).then(function(users, entries, topic, relations, tags, preds) {
   var userList = users[0]['results'];
   var entryList = entries[0]['results'];
+  var rels = topic[0]['relations'];
+  var relList = relations[0]['results'];
+  var tagList = tags[0]['results'];
+  var predList = preds[0]['results'];
+
+  $.each(rels, function(i,topicRelID) {
+    $.each(relList,function(i,rel) {
+      if (rel.id == topicRelID) {
+         
+        var topicTagTitle = tagList.find(function(tag) {
+            return tag.id === rel.tag;
+        }).tagString;
+        var topicPredTitle = predList.find(function(pred) {
+            return pred.id === rel.predicate;
+        }).predicateString;
+        $('#topicRels').append(`<li> <span class="label label-default">${topicPredTitle}</span> <span class="label label-primary">${topicTagTitle}</span> </li> `);
+      }
+    });
+  });
+
+
   $.each(entryList, function(i,entry){
     var username = "";
 
@@ -24,20 +61,23 @@ $.when(userPromise, entryPromise).then(function(users, entries) {
       if (entry.user == user.id) 
         username = user.username;
     });
+
+
     
     $('#entry_list').append(`
       <li class="media">
         <div class="media-body">
           <div class="well well-lg">
-              <em> <h4 class="media-heading text-capitalize reviews">${username}</h4> </em>
-              <ul class="media-date text-capitalize reviews list-inline">
-                <em> <li class="dd">${jQuery.timeago(entry.updated_at)} </li> </em>
-              </ul>
+              
               <p class="media-comment">
                 ${entry.content}
               </p>
               <a class="btn btn-info btn-circle text-uppercase" data-toggle="collapse" href="#div-reply-form-entry${entry.id}"><span class="glyphicon glyphicon-share-alt"></span> Reply</a>
               <a class="btn btn-warning btn-circle text-uppercase" data-toggle="collapse" href="#div-reply-entry${entry.id}"><span class="glyphicon glyphicon-comment"></span> ${entry.comments.length} comments</a>
+              <ul class="media-date reviews list-inline" display="block">
+                 <li class="media-heading text-capitalize reviews">${username}  | </li> 
+                 <li><em> ${jQuery.timeago(entry.updated_at)}</em></li> 
+              </ul>
           </div>
         </div>
       </li>
@@ -53,8 +93,7 @@ $.when(userPromise, entryPromise).then(function(users, entries) {
               <div class="col-sm-10">
                 <textarea class="form-control" name="content" rows="3"></textarea>
               </div>
-              <label for="user"> User ID </label>
-              <input type="number" class="form-control" name="user" />
+
           </div>
           
           <div class="form-group">
@@ -103,7 +142,6 @@ $.when(userPromise, entryPromise).then(function(users, entries) {
         if (userAuth) {
           var commentObj = {};
           var content = $(this).find("textarea[name='content']").val();
-          var userID = $(this).find("input[name='user']").val() ;
           userID = parseInt(userID);
           var entryID = parseInt(entry.id);
           
@@ -154,7 +192,6 @@ $('#entryForm').submit(function(event) {
   if (userAuth) {
     var entryObj = {};
     var content = $(this).find("textarea[name='content']").val() ;
-    var userID = $(this).find("input[name='user']").val() ;
     userID = parseInt(userID);
     topicID = parseInt(topicID);
     entryObj['topic'] = topicID;
@@ -201,7 +238,6 @@ $('#modal-addTopic-form').submit(function(event) {
   if (userAuth) {
     var topicObj = {};
     var title = $(this).find("input[name='title']").val() ;
-    var userID = $(this).find("input[name='user']").val() ;
     userID = parseInt(userID);
     topicObj['title'] = title ;
     topicObj['user'] = userID;
@@ -301,6 +337,10 @@ $('#modal-addTag-form').submit(function(event) {
               </div>`);
   }
 });
+function logout() {
+  $.session.clear();
+  location.href = './index.html';
+}
 function getParameterByName(name, url) {
     if (!url) {
       url = window.location.href;
