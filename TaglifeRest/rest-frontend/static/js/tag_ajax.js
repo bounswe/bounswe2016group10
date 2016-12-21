@@ -4,8 +4,8 @@ $('#addTagButton').text('Add Relation to ' + tagtitle);
 $('#tagTopicModalLabel').html(`Create Tag - Topic Relation to <strong> ${topictitle} </strong>`);
 $('#tag_header').text(tagtitle);
 
-var userPromise = $.getJSON('http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/users/?format=json');
-var tagPromise = $.getJSON('http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/tags/'+tagID+'/?format=json');
+var userPromise = $.getJSON('http://localhost:8000/users/?format=json');
+var tagPromise = $.getJSON('http://localhost:8000/tags/'+tagID+'/?format=json');
 
 $.when( tagPromise).then(function(tags) {
   var topicList = tags[0]['results'];
@@ -107,7 +107,7 @@ $.when( tagPromise).then(function(tags) {
 
       $.ajax({
         type: "POST",
-        url: "http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/comments/create/",
+        url: "http://localhost:8000/comments/create/",
         data: commentJSON,
         dataType: "json",
         contentType: "application/json",
@@ -150,7 +150,7 @@ $('#entryForm').submit(function(event) {
   console.log(entryJSON);
   $.ajax({
     type: "POST",
-    url: "http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/entries/create/",
+    url: "http://localhost:8000/entries/create/",
     data: entryJSON,
     dataType: "json",
     contentType: "application/json",
@@ -187,7 +187,7 @@ $('#modal-addTopic-form').submit(function(event) {
 
   $.ajax({
     type: "POST",
-    url: "http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/topics/create/",
+    url: "http://localhost:8000/topics/create/",
     data: topicJSON,
     dataType: "json",
     contentType: "application/json",
@@ -211,8 +211,8 @@ $('#modal-addTopic-form').submit(function(event) {
   return false;
 });
 
-var predicatePromise = $.getJSON('http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/predicates');
-var tagPromise = $.getJSON('http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/tags');
+var predicatePromise = $.getJSON('http://localhost:8000/predicates');
+var tagPromise = $.getJSON('http://localhost:8000/tags');
 
 $.when(predicatePromise, tagPromise).then(function(predicates, tags) {
   predicate = predicates[0]['results'];
@@ -242,7 +242,7 @@ $('#modal-addTag-form').submit(function(event) {
 
   $.ajax({
     type: "POST",
-    url: "http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/topictagrelations/create/",
+    url: "http://localhost:8000/topictagrelations/create/",
     data: relJSON,
     dataType: "json",
     contentType: "application/json",

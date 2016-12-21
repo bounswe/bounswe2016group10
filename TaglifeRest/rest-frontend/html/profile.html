@@ -20,9 +20,9 @@
 
         <link rel="stylesheet" type="text/css" href="../static/css/style.css">
         <script src="../static/js/jquery.timeago.js" type="text/javascript"></script>
-
     </head>
     <body>
+        <!--navigation bar container-->
         <div class="container">
            <div class="row">
              <div class="col-md-12">
@@ -42,19 +42,20 @@
                    <ul class="nav navbar-nav">
                      <li><a href="#">About Us</a></li>
                    </ul>
+                     <!-- Search bar starts here -->
                    <form class="navbar-form navbar-left" role="search">
                      <div class="form-group">
                        <input type="text" class="form-control" placeholder="Search">
                      </div>
                      <button type="submit" class="btn btn-default">Search</button>
                    </form>
-                   <ul class="nav navbar-nav navbar-right" id="navUserAuth">
+                   <ul class="nav navbar-nav navbar-right">
                      <li><a href="/profile">
                         <span  class="glyphicon glyphicon-user bg-success pull-right" style="font-size:2.5em; margin-top: -5px"></span></a>
-                     </li> 
+                     </li>
                      <li>
                          <a href="/logout"> Logout</a>
-                     </li>  
+                     </li>
                      <li><a href="./register.html">Register</a></li>
                      <li><a href="./login.html">Login </a></li>
                    </ul>
@@ -64,90 +65,104 @@
              </div>
            </div>
          </div>
-       
+        <!-- start from here show the user -->
          <div class="container">
           <div class="row">
             <div class="col-md-9 ">
-              <div class="row" style="margin:0.5cm"><h2 align="center" id="topic_header"> </h2>
+              <div class="row" style="margin:0.5cm"><h2 align="center "> User Information</h2>
               </div>
               <div class="row" style="margin:0.5cm">
                 <div class="comment-tabs">
                   <ul class="nav nav-tabs" role="tablist">
-                      <li class="active"><a href="#comments-logout" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Entries</h4></a></li>
-                      <li><a href="#add-comment" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Add Entry</h4></a></li>
+                      <li class="active"><a href="#user-info" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">User Info</h4></a></li>
+                      <li><a href="#show-entries" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Entries</h4></a></li>
+                      <li><a href="#followed-topics" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Followed Topics</h4></a></li>
                   </ul>
-                </div>            
+                </div>
                 <div class="tab-content">
-                  <div class="tab-pane active" id="comments-logout">
-                      <ul class="media-list" id="entry_list">
-                      
-                      </ul> 
+                  <!-- user info shower-->
+                  <div class="tab-pane active" id="user-info">
+                     <label for="user"> User ID </label>
+                      <table class="table table-user-information">
+                             <tbody>
+                              <tr>
+                                <tr>
+                                    <td>Username</td>
+                                    <td id="usernamefield" for="username">{{user.username}}</td>
+                                </tr>
+                                <tr>
+                                    <td>First Name</td>
+                                    <td id="userFirstName" for="firstname">{{user.firstname}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Last Name</td>
+                                    <td id="userLastName" for="lastname">{{user.lastname}}</td>
+                                </tr>
+                              </tr>
+                              <tr>
+                               <tr>
+                                 <td>Email</td>
+                                 <td><a href="mailto:{{user.email}}">{{user.email}}</a></td>
+                               </tr>
+                              </tr>
+                              <tr>
+                               <tr>
+                                 <td>Date Joined</td>
+                                 <td>{{user.date_joined}}</td>
+                               </tr>
+                              </tr>
+                             </tbody>
+                      </table>
                   </div>
-                  <div class="tab-pane" id="add-comment">
-                      <form action="#" method="post" class="form-horizontal" id="entryForm" role="form"> 
-                          <div class="form-group">
-                              <label for="email" class="col-sm-2 control-label">Entry</label>
-                              <div class="col-sm-10">
-                                <textarea class="form-control" name="content" rows="5"></textarea>
-                              </div>
-                              <!--  -->
-                              <label for="user"> User ID </label>
-                              <input type="number" class="form-control" name="user" />
-                              <!--  -->
-                          </div>
-                          <div class="form-group">
-                              <label for="uploadMedia" class="col-sm-2 control-label">Upload media</label>
-                              <div class="col-sm-10">                    
-                                  <div class="input-group">
-                                    <div class="input-group-addon">http://</div>
-                                    <input type="text" class="form-control" name="uploadMedia" id="uploadMedia">
-                                  </div>
-                              </div>
-                          </div>
-                            <!--         <div class="form-group">
-                              <label for="addTag" class="col-sm-2 control-label">Add Tag</label>
-                              <div class="col-sm-10">                    
-                                  <div class="input-group">
-                                    <div class="input-group-addon">put # before every tag</div>
-                                    <input type="text" class="form-control" name="addTag" id="addTag">
-                                  </div>
-                              </div>
-                          </div> -->
-                          <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">             
-                                <button class="btn btn-success btn-circle text-uppercase" type="submit"><span class="glyphicon glyphicon-send"></span> Submit Entry</button>
-                            </div>
-                          </div>            
-                      </form>
-                      <span id="alert-add-entry"></span>
+                  <!-- user info shower finished-->
+                  <div class="tab-pane" id="show-entries">
+                    <!--  show entries by user id-->
+                    <label for="user"> Entries </label>
+                  </div>
+                  <div class="tab-pane" id="followed-topics">
+                    <!--  followed topic list-->
+                    <label for="user"> followed topics </label>
+                    <div class="row" align="center">
+                      <ul class="list-group">
+                        <li class="list-group-item">{{topic.title}}</li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="col-md-3 hidden-sm well pull-right" style="margin-top:1cm;" >
-              <div class="row" align="center" style="margin: 10px"> <a href="#add-tag-modal" class="btn btn-primary btn-block" data-toggle="modal"  id="addTagButton">Add Tag </a></div>
+              <!--<div class="row" align="center" style="margin: 10px"> <a href="#add-tag-modal" class="btn btn-primary btn-block" data-toggle="modal"  id="addTagButton">Add Tag </a></div>
+              -->
               <div class="row" align="center" style="margin: 10px"> <a href="#add-topic-modal" class="btn btn-primary btn-block" data-toggle="modal" >Add New Topic</a></div>
-              <div class="row" align="center"> 
+              <!--
+              <div class="row" align="center">
                 <h3>Related Topics</h3>
-                <ul class="list-group"> 
+                <ul class="list-group">
                    <li class="list-group-item">{{topic.title}}</li>
-                </ul> 
+                </ul>
               </div>
-              <div class="row" align="center"> 
+              -->
+              <div class="row" align="center">
                 <h3>Popular Topics</h3>
-                <ul class="list-group"> 
+                <ul class="list-group">
                    <li class="list-group-item">{{topic.title}}</li>
-                </ul> 
+                </ul>
               </div>
-              <div class="row" align="center"> 
+              <!--
+              <div class="row" align="center">
               <h3 align="center">Followed Topics</h3>
-              <ul class="list-group"> 
+              <ul class="list-group">
                  <li class="list-group-item">{{topic.title}}</li>
-              </ul> </div>
+              </ul>
+              </div>
+              -->
             </div>
-          </div>
-         </div> 
 
+          </div>
+
+         </div>
+            <!-- add New topic shower-->
          <div class="modal fade" id="add-topic-modal" aria-hidden="true"> <!-- tabindex="-1" role="dialog" -->
           <div class="modal-dialog">
             <div class="modal-content">
@@ -167,7 +182,7 @@
                         <button type="submit" class="btn btn-primary">
                             Create
                         </button>
-                    </div> 
+                    </div>
                 </form>
                 <span id="alert-add-topic"></span>
               </div>
@@ -177,9 +192,10 @@
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
          </div><!-- /.modal -->
-
+          <!--
          <div class="modal fade" id="add-tag-modal"  aria-labelledby="tagTopicModalLabel" aria-hidden="true"> <!-- tabindex="-1" role="dialog" -->
-          <div class="modal-dialog">
+          <!--
+            <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> Add A Relation </button>
@@ -198,7 +214,7 @@
                         <button type="submit" class="btn btn-primary">
                             Create
                         </button>
-                    </div> 
+                    </div>
                 </form>
                 <span id="alert-add-tag"></span>
               </div>
@@ -206,9 +222,72 @@
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
               </div>
             </div><!-- /.modal-content -->
-          </div><!-- /.modal-dialog -->
+            <!--
+          </div>
+            -->
+            <!-- /.modal-dialog -->
          </div><!-- /.modal -->
-         
          <script type="text/javascript" src="../static/js/topic_ajax.js"></script>
+       <!-- Profile -->
+         <!--
+         <div class="container">
+               <div class="row">
+               <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
+                    <A href="/edit_profile" >Edit Profile</A>
+                <br>
+         <p class=" text-info">Last Login: <span> {{user.last_login}}</span> </p>
+               </div>
+                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+            
+            
+                   <div class="panel panel-info">
+                     <div class="panel-heading">
+                       <h3 class="panel-title">{{user.name}}</h3>
+                     </div>
+                     <div class="panel-body">
+                       <div class="row">
+                         <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="" class="img-circle img-responsive"> </div>
+                         <div class=" col-md-9 col-lg-9 "> 
+                           <table class="table table-user-information">
+                             <tbody>
+                              <tr>
+                                <tr>
+                                    <td>Username</td>
+                                    <td id="usernamefield" for="username">{{user.username}}</td>
+                                </tr>
+                                <tr>
+                                    <td>First Name</td>
+                                    <td id="userFirstName" for="firstname">{{user.firstname}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Last Name</td>
+                                    <td id="userLastName" for="lastname">{{user.lastname}}</td>
+                                </tr>
+                              </tr>
+                              <tr>  
+                               <tr>
+                                 <td>Email</td>
+                                 <td><a href="mailto:{{user.email}}">{{user.email}}</a></td>
+                               </tr>
+                              </tr>
+                              <tr>  
+                               <tr>
+                                 <td>Date Joined</td>
+                                 <td>{{user.date_joined}}</td>
+                               </tr>
+                              </tr>
+                             </tbody>
+                           </table>
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+         <script type="text/javascript" src="../static/js/tag_ajax.js"></script>-->
+    <script type="text/javascript" src="../static/js/index_ajax.js"></script>
+    <script type="text/javascript" src="../static/js/login.js"></script>
+    <script type="text/javascript" src="../static/js/profile.js"></script>
     </body>
 </html>

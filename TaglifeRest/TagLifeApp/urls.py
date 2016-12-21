@@ -4,6 +4,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from django.views.generic import TemplateView
 
 urlpatterns = [
+
     #Frontend
     url(r'^$', TemplateView.as_view(template_name="index.html"), name='index'),
     url(r'^index\.html$', TemplateView.as_view(template_name="index.html"), name='index'),
