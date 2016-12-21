@@ -1,3 +1,10 @@
+var userAuth = false;
+var userID = getParameterByName('user');
+console.log(userID);
+if (userID) {
+  userAuth = true;
+}
+
 var topicID = getParameterByName('id');
 var topictitle = getParameterByName('title');
 $('#addTagButton').text('Add Relation to ' + topictitle);
@@ -93,43 +100,50 @@ $.when(userPromise, entryPromise).then(function(users, entries) {
 
     $('#commentForm-entry'+entry.id).submit(function(event) {
 
-      var commentObj = {};
-      var content = $(this).find("textarea[name='content']").val();
-      var userID = $(this).find("input[name='user']").val() ;
-      userID = parseInt(userID);
-      var entryID = parseInt(entry.id);
-      
-      commentObj['content'] = content ;
-      commentObj['entry'] = entryID;
-      commentObj['user'] = userID;
+        if (userAuth) {
+          var commentObj = {};
+          var content = $(this).find("textarea[name='content']").val();
+          var userID = $(this).find("input[name='user']").val() ;
+          userID = parseInt(userID);
+          var entryID = parseInt(entry.id);
+          
+          commentObj['content'] = content ;
+          commentObj['entry'] = entryID;
+          commentObj['user'] = userID;
 
-      var commentJSON = JSON.stringify(commentObj);
-      console.log(commentJSON);
+          var commentJSON = JSON.stringify(commentObj);
+          console.log(commentJSON);
 
-      $.ajax({
-        type: "POST",
-        url: "http://localhost:8000/comments/create/",
-        data: commentJSON,
-        dataType: "json",
-        contentType: "application/json",
-        error: function(xhr, textStatus, error) {
-            $('#commentForm-entry'+entry.id).find('#alert-add-comment').append(`<div class="alert alert-danger" role="alert">
-                       <strong>Oopss..</strong> Entry could not added due to ${error}.
-                   </div>`);
-            console.log(xhr.statusText);
-              console.log(textStatus);
-              console.log(error);
-        },
-        success: function(data) {
-            $('#commentForm-entry'+entry.id).find('#alert-add-comment').append(`<div class="alert alert-success" role="alert">
-                       <strong>Comment successfully added..</strong> 
-                   </div>`);
-          console.log(data);
-          setTimeout(function() { location.reload(true)}, 1500);
+          $.ajax({
+            type: "POST",
+            url: "http://localhost:8000/comments/create/",
+            data: commentJSON,
+            dataType: "json",
+            contentType: "application/json",
+            error: function(xhr, textStatus, error) {
+                $('#commentForm-entry'+entry.id).find('#alert-add-comment').append(`<div class="alert alert-danger" role="alert">
+                           <strong>Oopss..</strong> Entry could not added due to ${error}.
+                       </div>`);
+                console.log(xhr.statusText);
+                  console.log(textStatus);
+                  console.log(error);
+            },
+            success: function(data) {
+                $('#commentForm-entry'+entry.id).find('#alert-add-comment').append(`<div class="alert alert-success" role="alert">
+                           <strong>Comment successfully added..</strong> 
+                       </div>`);
+              console.log(data);
+              setTimeout(function() { location.reload(true)}, 1500);
+            }
+          });
+
+          return false;
         }
-      });
-
-      return false;
+        else{
+          $('#commentForm-entry'+entry.id).find('#alert-add-comment').append(`<div class="alert alert-danger" role="alert">
+                     <strong>Login to add comment!</strong>.
+                 </div>`);
+        }
     });
   });
 });
@@ -137,79 +151,93 @@ $.when(userPromise, entryPromise).then(function(users, entries) {
 
 $('#entryForm').submit(function(event) {
 
-  var entryObj = {};
-  var content = $(this).find("textarea[name='content']").val() ;
-  var userID = $(this).find("input[name='user']").val() ;
-  userID = parseInt(userID);
-  topicID = parseInt(topicID);
-  entryObj['topic'] = topicID;
-  entryObj['content'] = content ;
-  entryObj['user'] = userID;
+  if (userAuth) {
+    var entryObj = {};
+    var content = $(this).find("textarea[name='content']").val() ;
+    var userID = $(this).find("input[name='user']").val() ;
+    userID = parseInt(userID);
+    topicID = parseInt(topicID);
+    entryObj['topic'] = topicID;
+    entryObj['content'] = content ;
+    entryObj['user'] = userID;
 
 
-  var entryJSON = JSON.stringify(entryObj);
-  console.log(entryJSON);
-  $.ajax({
-    type: "POST",
-    url: "http://localhost:8000/entries/create/",
-    data: entryJSON,
-    dataType: "json",
-    contentType: "application/json",
-    error: function(xhr, textStatus, error) {
-       $('#alert-add-entry').append(`<div class="alert alert-danger" role="alert">
-                    <strong>Oopss..</strong> Entry could not added due to ${error}.
-                </div>`);
-        console.log(xhr.statusText);
-          console.log(textStatus);
-          console.log(error);
-    },
-    success: function(data) {
-      $('#alert-add-entry').append(`<div class="alert alert-success" role="alert">
-                    <strong>Entry successfully added..</strong>
-                </div>`);
-      console.log(data);
-      setTimeout(function() { location.reload(true)}, 1500);
-    }
-  });
+    var entryJSON = JSON.stringify(entryObj);
+    console.log(entryJSON);
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:8000/entries/create/",
+      data: entryJSON,
+      dataType: "json",
+      contentType: "application/json",
+      error: function(xhr, textStatus, error) {
+         $('#alert-add-entry').append(`<div class="alert alert-danger" role="alert">
+                      <strong>Oopss..</strong> Entry could not added due to ${error}.
+                  </div>`);
+          console.log(xhr.statusText);
+            console.log(textStatus);
+            console.log(error);
+      },
+      success: function(data) {
+        $('#alert-add-entry').append(`<div class="alert alert-success" role="alert">
+                      <strong>Entry successfully added..</strong>
+                  </div>`);
+        console.log(data);
+        setTimeout(function() { location.reload(true)}, 1500);
+      }
+    });
 
-  return false;
+    return false;
+  }
+  else{
+    $('#alert-add-entry').append(`<div class="alert alert-danger" role="alert">
+                      <strong>Login to add entry!</strong> 
+                  </div>`);
+  }
 });
 
 $('#modal-addTopic-form').submit(function(event) {
 
-  var topicObj = {};
-  var title = $(this).find("input[name='title']").val() ;
-  var userID = $(this).find("input[name='user']").val() ;
-  userID = parseInt(userID);
-  topicObj['title'] = title ;
-  topicObj['user'] = userID;
+  if (userAuth) {
+    var topicObj = {};
+    var title = $(this).find("input[name='title']").val() ;
+    var userID = $(this).find("input[name='user']").val() ;
+    userID = parseInt(userID);
+    topicObj['title'] = title ;
+    topicObj['user'] = userID;
 
-  var topicJSON = JSON.stringify(topicObj);
+    var topicJSON = JSON.stringify(topicObj);
 
-  $.ajax({
-    type: "POST",
-    url: "http://localhost:8000/topics/create/",
-    data: topicJSON,
-    dataType: "json",
-    contentType: "application/json",
-    error: function(xhr, textStatus, error) {
-      $('#alert-add-topic').append(`<div class="alert alert-danger" role="alert">
-                    <strong>Oopss..</strong> Topic could not added due to ${error}.
-                </div>`);
-        console.log(xhr.statusText);
-          console.log(textStatus);
-          console.log(error);
-    },
-    success: function(data) {
-      $('#alert-add-topic').append(`<div class="alert alert-success" role="alert">
-                    <strong>Topic successfully added..</strong>
-                </div>`);
-      console.log(data);
-      setTimeout(function() { location.reload(true)}, 1500);
-    }
-  });
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:8000/topics/create/",
+      data: topicJSON,
+      dataType: "json",
+      contentType: "application/json",
+      error: function(xhr, textStatus, error) {
+        $('#alert-add-topic').append(`<div class="alert alert-danger" role="alert">
+                      <strong>Oopss..</strong> Topic could not added due to ${error}.
+                  </div>`);
+          console.log(xhr.statusText);
+            console.log(textStatus);
+            console.log(error);
+      },
+      success: function(data) {
+        $('#alert-add-topic').append(`<div class="alert alert-success" role="alert">
+                      <strong>Topic successfully added..</strong>
+                  </div>`);
+        console.log(data);
+        setTimeout(function() { location.reload(true)}, 1500);
+      }
+    });
 
-  return false;
+    return false;
+  }
+  else{
+    $('#alert-add-topic').append(`<div class="alert alert-danger" role="alert">
+                      <strong>Login to create a topic...</strong> 
+                  </div>`);
+  }
 });
 
 var predicatePromise = $.getJSON('http://localhost:8000/predicates');
@@ -230,41 +258,48 @@ $.when(predicatePromise, tagPromise).then(function(predicates, tags) {
 });
 $('#modal-addTag-form').submit(function(event) {
 
-  var relObj = {};
-  var topic = parseInt(topicID);
-  var predicate = $(this).find('select[name="predicateSelect"]').val() ;
-  var tag = $(this).find('select[name="tagSelect"]').val() ;
- 
-  relObj['topic'] = topic ;
-  relObj['predicate'] = predicate ;
-  relObj['tag'] = tag ;
+  if (userAuth) {
+    var relObj = {};
+    var topic = parseInt(topicID);
+    var predicate = $(this).find('select[name="predicateSelect"]').val() ;
+    var tag = $(this).find('select[name="tagSelect"]').val() ;
+    
+    relObj['topic'] = topic ;
+    relObj['predicate'] = predicate ;
+    relObj['tag'] = tag ;
 
-  var relJSON = JSON.stringify(relObj);
+    var relJSON = JSON.stringify(relObj);
 
-  $.ajax({
-    type: "POST",
-    url: "http://localhost:8000/topictagrelations/create/",
-    data: relJSON,
-    dataType: "json",
-    contentType: "application/json",
-    error: function(xhr, textStatus, error) {
-      $('#alert-add-tag').append(`<div class="alert alert-danger" role="alert">
-                    <strong>Oopss..</strong> Relation could not added due to ${error}.
-                </div>`);
-        console.log(xhr.statusText);
-          console.log(textStatus);
-          console.log(error);
-    },
-    success: function(data) {
-      $('#alert-add-tag').append(`<div class="alert alert-success" role="alert">
-                    <strong>Relation successfully added..</strong>
-                </div>`);
-      console.log(data);
-      setTimeout(function() { location.reload(true)}, 1500);
-    }
-  });
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:8000/topictagrelations/create/",
+      data: relJSON,
+      dataType: "json",
+      contentType: "application/json",
+      error: function(xhr, textStatus, error) {
+        $('#alert-add-tag').append(`<div class="alert alert-danger" role="alert">
+                      <strong>Oopss..</strong> Relation could not added due to ${error}.
+                  </div>`);
+          console.log(xhr.statusText);
+            console.log(textStatus);
+            console.log(error);
+      },
+      success: function(data) {
+        $('#alert-add-tag').append(`<div class="alert alert-success" role="alert">
+                      <strong>Relation successfully added..</strong>
+                  </div>`);
+        console.log(data);
+        setTimeout(function() { location.reload(true)}, 1500);
+      }
+    });
 
-  return false;
+    return false;
+  }
+  else{
+    $('#alert-add-tag').append(`<div class="alert alert-danger" role="alert">
+                  <strong>Login to add relation!</strong>
+              </div>`);
+  }
 });
 function getParameterByName(name, url) {
     if (!url) {

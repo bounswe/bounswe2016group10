@@ -1,7 +1,22 @@
-// $.ajaxSetup({
-//     async: false
-// });
+var userAuth = false;
+var userID = getParameterByName('user');
+console.log(userID);
+if (userID) {
+	userAuth = true;
+}
 
+if (userAuth) {
+	$('#navUserAuth').append(`<li><a href="/profile">
+            <span  class="glyphicon glyphicon-user bg-success pull-right" style="font-size:2.5em; margin-top: -5px"></span></a>
+         </li> 
+         <li>
+             <a id="logout" onclick="logout();return false;" href="#"> Logout</a>
+         </li> `);
+}
+else{
+	$('#navUserAuth').append(`<li><a href="./register.html">Register</a></li>
+         <li><a href="./login.html">Login </a></li>`);
+}
 var topicPromise = $.getJSON('http://localhost:8000/topics/');
 var userPromise = $.getJSON('http://localhost:8000/users/');
 var relationPromise = $.getJSON('http://localhost:8000/topictagrelations/');
@@ -64,7 +79,7 @@ $.when(userPromise,topicPromise,relationPromise,tagPromise,predPromise).then(fun
 			
 			$('#topics_list').append(`<div class="well">
 		       <div class="media-body">
-		         <a href="./topic.html?id=${topic.id}&title=${topic.title}"><h4 align="center" class="media-heading">${topic.title}</a> </h4> 
+		         <a href="./topic.html?id=${topic.id}&title=${topic.title}&user=${userID}"><h4 align="center" class="media-heading">${topic.title}</a> </h4> 
 		 
 		         <ul class="list-inline list-unstyled" >
 		           <li id="tags_list${topic.id}">Tags:</li>
@@ -98,37 +113,57 @@ $.when(userPromise,topicPromise,relationPromise,tagPromise,predPromise).then(fun
 
 $('form').submit(function(event) {
 
-	var topicObj = {};
-	var title = $(this).find("input[name='title']").val() ;
-	var userID = $(this).find("input[name='user']").val() ;
-	userID = parseInt(userID);
-	topicObj['title'] = title ;
-	topicObj['user'] = userID;
+	if(userAuth){
+		var topicObj = {};
+		var title = $(this).find("input[name='title']").val() ;
+		var userID = $(this).find("input[name='user']").val() ;
+		userID = parseInt(userID);
+		topicObj['title'] = title ;
+		topicObj['user'] = userID;
 
-	var topicJSON = JSON.stringify(topicObj);
+		var topicJSON = JSON.stringify(topicObj);
 
-	$.ajax({
-	  type: "POST",
-	  url: "http://localhost:8000/topics/create/",
-	  data: topicJSON,
-	  dataType: "json",
-	  contentType: "application/json",
-	  error: function(xhr, textStatus, error) {
-	  		$('#alert').append(`<div class="alert alert-danger" role="alert">
-  									<strong>Oopss..</strong> Topic could not added due to ${error}.
-								</div>`);
-	    	console.log(xhr.statusText);
-    	    console.log(textStatus);
-    	    console.log(error);
-	  },
-	  success: function(data) {
-	  	$('#alert').append(`<div class="alert alert-success" role="alert">
-  									<strong>Topic successfully added..</strong>
-								</div>`);
-	  	console.log(data);
-	  	setTimeout(function() { location.reload(true)}, 1500);
-	  }
-	});
+		$.ajax({
+		  type: "POST",
+		  url: "http://localhost:8000/topics/create/",
+		  data: topicJSON,
+		  dataType: "json",
+		  contentType: "application/json",
+		  error: function(xhr, textStatus, error) {
+		  		$('#alert').append(`<div class="alert alert-danger" role="alert">
+	  									<strong>Oopss..</strong> Topic could not added due to ${error}.
+									</div>`);
+		    	console.log(xhr.statusText);
+	    	    console.log(textStatus);
+	    	    console.log(error);
+		  },
+		  success: function(data) {
+		  	$('#alert').append(`<div class="alert alert-success" role="alert">
+	  									<strong>Topic successfully added..</strong>
+									</div>`);
+		  	console.log(data);
+		  	setTimeout(function() { location.reload(true)}, 1500);
+		  }
+		});
 
-	return false;	
+		return false;	
+	}else{
+		$('#alert').append(`<div class="alert alert-danger" role="alert">
+	  									<strong>Login to create a topic...</strong>
+									</div>`);
+	}
 });
+function logout() {
+	location.href = './index.html';
+}
+function getParameterByName(name, url) {
+    if (!url) {
+      url = window.location.href;
+    }
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}

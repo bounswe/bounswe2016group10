@@ -15,7 +15,7 @@ $('#login_form').submit(function(event) {
   console.log(userJSON);
   $.ajax({
     type: "POST",
-    url: "http://localhost:8000/api-auth/login/?next=/users/",
+    url: "http://localhost:8000/login/",
     data: userJSON,
     // dataType: "json",
     contentType: "application/json",
@@ -25,10 +25,13 @@ $('#login_form').submit(function(event) {
           console.log(error);
     },
     success: function(data) {
-      console.log(data);
-      alert("USER SUCCESFULLY LOGGED IN");
-      setTimeout(function() { location.href = './index.html'}, 1500);
-      
+      if (data.length > 0) {
+        alert("USER SUCCESFULLY LOGGED IN");
+        setTimeout(function() { location.href = './index.html?user='+data[0].id ;}, 1500);
+      }
+      else{
+        alert("USER NOT FOUND - PLEASE REGISTER");
+      }
     }
   });
 
