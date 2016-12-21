@@ -6,18 +6,18 @@
 $('#login_form').submit(function(event) {
 
   var userObj = {};
-  var username = $(this).find("input[name='user_name']").val() ;
+  var username = $(this).find("input[name='username']").val() ;
   var password = $(this).find("input[name='password']").val() ;
   userObj['username'] = username ;
   userObj['password'] = password ;
 
   var userJSON = JSON.stringify(userObj);
-
+  console.log(userJSON);
   $.ajax({
     type: "POST",
-    url: "http://localhost:8000/api-auth/login/",
+    url: "http://localhost:8000/api-auth/login/?next=/users/",
     data: userJSON,
-    dataType: "json",
+    // dataType: "json",
     contentType: "application/json",
     error: function(xhr, textStatus, error) {
         console.log(xhr.statusText);
@@ -25,9 +25,10 @@ $('#login_form').submit(function(event) {
           console.log(error);
     },
     success: function(data) {
-      alert("USER SUCCESFULLY LOGGED IN");
-      location.href = './index.html'
       console.log(data);
+      alert("USER SUCCESFULLY LOGGED IN");
+      setTimeout(function() { location.href = './index.html'}, 1500);
+      
     }
   });
 
