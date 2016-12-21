@@ -17,7 +17,7 @@ from TagLifeApp.models import Topic, Entry, Comment, Tag, Predicate,EntryTagRela
 from django.contrib.auth.models import User
 from TagLifeApp.serializers import TopicSerializer,TopicGetSerializer,UserGetSerializer, UserSerializer, EntrySerializer,EntryGetSerializer, CommentSerializer,CommentGetSerializer, TagSerializer, TagGetSerializer, PredicateSerializer,PredicateGetSerializer, TopicTagRelationSerializer,TopicTagRelationGetSerializer, EntryTagRelationSerializer,EntryTagRelationGetSerializer, FollowTopicRelationSerializer, FollowTopicRelationGetSerializer
 from rest_framework.parsers import JSONParser
-
+import json
 
 # /index/
 def index(request):
@@ -252,3 +252,8 @@ class FollowTopicRelationCreate(generics.CreateAPIView):
     Create follow topic relation
     """
     serializer_class = FollowTopicRelationSerializer
+
+def Login(request):
+    if request.method=='POST':
+        data = json.loads(request.body)
+        print(data)
