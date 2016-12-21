@@ -1,23 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    >
+
+    <TextView
+        android:id="@+id/entryrowlayout_entrytext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        tools:background="@android:color/background_light"
+        android:text=""
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="45dp"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/comment_content"
+        <Button
+            android:id="@+id/entryrowlayout_likebutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableRight="@mipmap/likebutton"
+            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+            />
+
+        <Button
+            android:id="@+id/entryrowlayout_dislikebutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableRight="@mipmap/dislikebutton"
+            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+            />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"/>
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/entryrowlayout_usernametext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="right"
+                android:text="User Name"
+                android:clickable="true"
+
+                />
+            <TextView
+                android:id="@+id/entryrowlayout_creationdatetext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="CreationDate"
+                />
+        </LinearLayout>
 
     </LinearLayout>
-
-
-
 
 </LinearLayout>

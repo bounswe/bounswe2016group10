@@ -1,23 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <Button
+        android:id="@+id/topicrowlayout_topicname"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="5dp"
+        android:text="Topic Name"
+        android:background="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/topicrowlayout_entrytext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text=""
+        tools:background="@android:color/background_light" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/topic_title"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/topicrowlayout_usernametext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User Name"
+                android:clickable="true"
+                android:textColor="@android:color/background_dark"
+                />
+            <TextView
+                android:id="@+id/topicrowlayout_creationdatetext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Creation Date"
+                android:clickable="true"
+                android:textColor="@android:color/background_dark"
+                />
+
+        </LinearLayout>
+        <Button
+            android:id="@+id/topicrowlayout_entrybutton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAlignment="center"/>
+            android:layout_marginLeft="25dp"
+            android:drawableRight="@mipmap/entry"
+            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog" />
+        <Button
+            android:id="@+id/topicrowlayout_relationbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableRight="@mipmap/relationbutton"
+            android:textAlignment="center"
+            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+            tools:textAlignment="center" />
+        <Button
+            android:id="@+id/topicrowlayout_followerbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableRight="@mipmap/follower"
+            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog" />
 
     </LinearLayout>
-
-
-
 
 </LinearLayout>
