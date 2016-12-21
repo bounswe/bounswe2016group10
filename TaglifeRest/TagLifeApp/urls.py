@@ -14,7 +14,7 @@ urlpatterns = [
     url(r'^create_topic\.html$', TemplateView.as_view(template_name="create_topic.html"), name='create_topic'),
 
     #login
-    url(r'^login/$', views.Login),
+    url(r'^login/$', views.Login.as_view()),
 
     #users
     url(r'^users/$', views.UserList.as_view()),
