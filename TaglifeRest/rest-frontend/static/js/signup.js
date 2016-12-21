@@ -102,7 +102,7 @@ $('#register_form').submit(function(event) {
     },
     success: function(data) {
       alert("USER SUCCESFULLY ADDED");
-        location.href="./login.html";
+      location.href="./login.html";
       console.log(data);
     }
   });
