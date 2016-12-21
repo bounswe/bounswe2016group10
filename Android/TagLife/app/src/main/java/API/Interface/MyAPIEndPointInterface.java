@@ -81,7 +81,7 @@ public interface MyAPIEndPointInterface {
     Call<Predicate> createPredicate(@Body Predicate predicate);
     //Get all topic tag relations
     @GET("/topictagrelations/")
-    Call<TopicTagRelation> getAllTopicTagRelations();
+    Call<Result> getAllTopicTagRelations();
     //Get topic tag relation by id
     @GET("/topictagrelations/{id}/")
     Call<TopicTagRelation> getTopicTagRelationById(@Path("id") int id);
