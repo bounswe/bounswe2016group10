@@ -149,6 +149,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+
         listViewTopics = (ListView) findViewById(R.id.listview_topics);
         listViewTopics.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
