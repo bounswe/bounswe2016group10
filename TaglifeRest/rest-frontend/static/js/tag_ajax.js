@@ -1,270 +1,167 @@
-var tagID = getParameterByName('id');
-var tagtitle = getParameterByName('title');
-$('#addTagButton').text('Add Relation to ' + tagtitle);
-$('#tagTopicModalLabel').html(`Create Tag - Topic Relation to <strong> ${topictitle} </strong>`);
-$('#tag_header').text(tagtitle);
+var userAuth = false;
+var userID = $.session.get('userID');
+
+if (userID) {
+  userAuth = true;
+}
+
+if (userAuth) {
+  $('#navUserAuth').append(`<li><a href="./profile.html?user=${userID}">
+            <span  class="glyphicon glyphicon-user bg-success pull-right" style="font-size:2.5em; margin-top: -5px"></span></a>
+         </li> 
+         <li>
+             <a id="logout" onclick="logout();return false;" href="#"> Logout</a>
+         </li> `);
+}
+else{
+  $('#navUserAuth').append(`<li><a href="./register.html">Register</a></li>
+         <li><a href="./login.html">Login </a></li>`);
+}
+
+var tagID = getParameterByName('tag');
+var tagTitle = getParameterByName('title');
+$('#tag_header').text('Topics includes ' + tagTitle);
 
 var userPromise = $.getJSON('http://localhost:8000/users/?format=json');
-var tagPromise = $.getJSON('http://localhost:8000/tags/'+tagID+'/?format=json');
+// var entryPromise = $.getJSON('http://localhost:8000/topics/'+topicID+'/entries?format=json');
+// var topicPromise = $.getJSON('http://localhost:8000/topics/'+topicID+'?format=json');
+var relationPromise = $.getJSON('http://localhost:8000/topictagrelations/');
+// var tagPromise = $.getJSON('http://localhost:8000/tags/');
+// var predPromise = $.getJSON('http://localhost:8000/predicates/');
 
-$.when( tagPromise).then(function(tags) {
-  var topicList = tags[0]['results'];
-  $.each(entryList, function(i,entry){
-    var username = "";
+$.when(userPromise,relationPromise).then(function (users, rels) {
+  var userlist = users[0]['results'];
+  // var topiclist1 = topics[0]['results'];
+  var relList = rels[0]['results'];
+  // var tagList = tags[0]['results'];
+  // var predList = preds[0]['results'];
+  
+  showTopics(topiclist1);
 
-    $.each(userList, function(i,user) {
-      if (entry.user == user.id) 
-        username = user.username;
-    });
-    
-    $('#entry_list').append(`
-      <li class="media">
-        <div class="media-body">
-          <div class="well well-lg">
-              <em> <h4 class="media-heading text-capitalize reviews">${username}</h4> </em>
-              <ul class="media-date text-capitalize reviews list-inline">
-                <em> <li class="dd">${jQuery.timeago(entry.updated_at)} </li> </em>
-              </ul>
-              <p class="media-comment">
-                ${entry.content}
-              </p>
-              <a class="btn btn-info btn-circle text-uppercase" data-toggle="collapse" href="#div-reply-form-entry${entry.id}"><span class="glyphicon glyphicon-share-alt"></span> Reply</a>
-              <a class="btn btn-warning btn-circle text-uppercase" data-toggle="collapse" href="#div-reply-entry${entry.id}"><span class="glyphicon glyphicon-comment"></span> ${entry.comments.length} comments</a>
-          </div>
-        </div>
-      </li>
-      <div class="collapse" id="div-reply-entry${entry.id}">
-        <ul class="media-list" id="list-reply-entry${entry.id}">
+  checkNext(topics[0]);
+  
+  function checkNext(e) {
+    // console.log(e.next);
+    if (e.next) {
+      getNext(e.next);
+    }
+  }
+  
+  function getNext(promiseUrl) {
+    var nextTopic = $.getJSON(promiseUrl);
+    nextTopic.done( function(data) {
+        showTopics(data['results']);
+        addTopicNodeset(data['results']);
+      });
 
-        </ul>
-      </div>
-      <div class="collapse" id="div-reply-form-entry${entry.id}">
-      <form action="#" method="post" class="form-horizontal" id="commentForm-entry${entry.id}" role="form" style="margin-left: 25px"> 
-          <div class="form-group">
-              <label for="content" class="col-sm-2 control-label">Comment</label>
-              <div class="col-sm-10">
-                <textarea class="form-control" name="content" rows="3"></textarea>
-              </div>
-              <label for="user"> User ID </label>
-              <input type="number" class="form-control" name="user" />
-          </div>
-          
-          <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">             
-                <button class="btn btn-success btn-circle text-uppercase" type="submit" ><span class="glyphicon glyphicon-send"></span> Submit Comment</button>
-            </div>
-          </div>
-          <div class='col-offset-2' id="alert-add-comment"></div>            
-      </form>
-      </div>
-      `);
-    
-    if (entry.comments.length != 0 ) {
-      var commentsPromise = $.getJSON('http://custom-env.dpwai7zqmg.us-west-2.elasticbeanstalk.com/entries/'+ entry.id +'/comments/?format=json');
+  }
+  
+  function showTopics(topics) {
+    $.each(topics, function(i,topic){
+      var username = "";
+      
+      $.each(userlist, function(i,user) {
+        if (topic.user == user.id) 
+          username = user.username;
+      });
 
-      $.when(commentsPromise).then(function(comments) {
-        
-        $.each(comments['results'],function(i, comment) {
-          var comment_username ="";
-          $.each(userList, function(i,user) {
-            if (comment.user == user.id) 
-              comment_username = user.username;
-          });
-          
-          $('#list-reply-entry'+entry.id).append(`
-            <li class="media media-replied">
-            <div class="media-body">
-              <div class="well">
-                  <em> <h5 class="media-heading text-capitalize reviews">${comment_username} </h5> </em>
-                  <ul class="media-date text-capitalize reviews list-inline">
-                    <em> <li>${jQuery.timeago(comment.updated_at)} </li> </em>
-                  </ul>
-                  <p class="media-comment">
-                    ${comment.content}
-                  </p>
-              </div>              
-            </div>
-            </li>
-            `);
+      var topicrels =[];
+      $.each(topic.relations, function(i,topicRelID) {
+        $.each(relList,function(i,rel) {
+          if (rel.id == topicRelID) {
+            var topicTagTitle = tagList.find(function(tag) {
+                return tag.id === rel.tag;
+            }).tagString;
+            var tuple = { id : rel.tag, title : topicTagTitle};
+            topicrels.push(tuple); //tuple tagid
+          }
         });
       });
-    }
-
-    $('#commentForm-entry'+entry.id).submit(function(event) {
-
-      var commentObj = {};
-      var content = $(this).find("textarea[name='content']").val();
-      var userID = $(this).find("input[name='user']").val() ;
-      userID = parseInt(userID);
-      var entryID = parseInt(entry.id);
       
-      commentObj['content'] = content ;
-      commentObj['entry'] = entryID;
-      commentObj['user'] = userID;
-
-      var commentJSON = JSON.stringify(commentObj);
-      console.log(commentJSON);
-
-      $.ajax({
-        type: "POST",
-        url: "http://localhost:8000/comments/create/",
-        data: commentJSON,
-        dataType: "json",
-        contentType: "application/json",
-        error: function(xhr, textStatus, error) {
-            $('#commentForm-entry'+entry.id).find('#alert-add-comment').append(`<div class="alert alert-danger" role="alert">
-                       <strong>Oopss..</strong> Entry could not added due to ${error}.
-                   </div>`);
-            console.log(xhr.statusText);
-              console.log(textStatus);
-              console.log(error);
-        },
-        success: function(data) {
-            $('#commentForm-entry'+entry.id).find('#alert-add-comment').append(`<div class="alert alert-success" role="alert">
-                       <strong>Comment successfully added..</strong> 
-                   </div>`);
-          console.log(data);
-          setTimeout(function() { location.reload(true)}, 1500);
-        }
+      $('#topics_list').append(`<div class="well">
+           <div class="media-body">
+             <a href="./topic.html?id=${topic.id}&title=${topic.title}"><h4 align="center" class="media-heading">${topic.title}</a> </h4> 
+     
+             <ul class="list-inline list-unstyled" >
+               <li id="tags_list${topic.id}">Tags:</li>
+               <li>|</li>
+               <li>
+                 <a href="./profile.html?user=${topic.user}"><i class="glyphicon glyphicon-user" ></i> ${username}</a> 
+               </li>
+               <li>|</li>
+               <li><span><i class="glyphicon glyphicon-calendar"></i> ${jQuery.timeago(topic.updated_at)} </span></li>
+               <li>|</li>
+               <i class="glyphicon glyphicon-comment"></i> ${topic.entries.length} entries
+               <li>|</li>
+               <li>
+                  ${topic.followers.length} follower
+               </li>
+             </ul>
+           </div>
+        </div>`);
+      topicrels.forEach(function(tag) {
+        $('#tags_list'+topic.id).append("<a href='./tag?id="+ tag.id +"'><span class='label label-info'>" + tag.title  + " </span></a>");
       });
-
-      return false;
     });
+  }
+});
+
+
+var popularPromise = $.getJSON('http://localhost:8000/topics/popular?format=json');
+$.when(popularPromise).then(function(topics) {
+  $.each(topics['results'],function(i, topic) {
+    $('#popTopics').append(`<li class="list-group-item"><a href="./topic.html?id=${topic.id}&title=${topic.title}">${topic.title}</a></li>`);
   });
 });
 
 
-$('#entryForm').submit(function(event) {
+$('form').submit(function(event) {
 
-  var entryObj = {};
-  var content = $(this).find("textarea[name='content']").val() ;
-  var userID = $(this).find("input[name='user']").val() ;
-  userID = parseInt(userID);
-  topicID = parseInt(topicID);
-  entryObj['topic'] = topicID;
-  entryObj['content'] = content ;
-  entryObj['user'] = userID;
+  if(userAuth){
+    var topicObj = {};
+    var title = $(this).find("input[name='title']").val() ;
+    userID = parseInt(userID);
+    topicObj['title'] = title ;
+    topicObj['user'] = userID;
 
+    var topicJSON = JSON.stringify(topicObj);
 
-  var entryJSON = JSON.stringify(entryObj);
-  console.log(entryJSON);
-  $.ajax({
-    type: "POST",
-    url: "http://localhost:8000/entries/create/",
-    data: entryJSON,
-    dataType: "json",
-    contentType: "application/json",
-    error: function(xhr, textStatus, error) {
-       $('#alert-add-entry').append(`<div class="alert alert-danger" role="alert">
-                    <strong>Oopss..</strong> Entry could not added due to ${error}.
-                </div>`);
-        console.log(xhr.statusText);
-          console.log(textStatus);
-          console.log(error);
-    },
-    success: function(data) {
-      $('#alert-add-entry').append(`<div class="alert alert-success" role="alert">
-                    <strong>Entry successfully added..</strong>
-                </div>`);
-      console.log(data);
-      setTimeout(function() { location.reload(true)}, 1500);
-    }
-  });
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:8000/topics/create/",
+      data: topicJSON,
+      dataType: "json",
+      contentType: "application/json",
+      error: function(xhr, textStatus, error) {
+          $('#alert').append(`<div class="alert alert-danger" role="alert">
+                      <strong>Oopss..</strong> Topic could not added due to ${error}.
+                  </div>`);
+          console.log(xhr.statusText);
+            console.log(textStatus);
+            console.log(error);
+      },
+      success: function(data) {
+        $('#alert').append(`<div class="alert alert-success" role="alert">
+                      <strong>Topic successfully added..</strong>
+                  </div>`);
+        console.log(data);
+        setTimeout(function() { location.reload(true)}, 1500);
+      }
+    });
 
-  return false;
+    
+  }else{
+    $('#alert').append(`<div class="alert alert-danger" role="alert">
+                      <strong>Login to create a topic...</strong>
+                  </div>`);
+  }
+  return false; 
 });
 
-$('#modal-addTopic-form').submit(function(event) {
-
-  var topicObj = {};
-  var title = $(this).find("input[name='title']").val() ;
-  var userID = $(this).find("input[name='user']").val() ;
-  userID = parseInt(userID);
-  topicObj['title'] = title ;
-  topicObj['user'] = userID;
-
-  var topicJSON = JSON.stringify(topicObj);
-
-  $.ajax({
-    type: "POST",
-    url: "http://localhost:8000/topics/create/",
-    data: topicJSON,
-    dataType: "json",
-    contentType: "application/json",
-    error: function(xhr, textStatus, error) {
-      $('#alert-add-topic').append(`<div class="alert alert-danger" role="alert">
-                    <strong>Oopss..</strong> Topic could not added due to ${error}.
-                </div>`);
-        console.log(xhr.statusText);
-          console.log(textStatus);
-          console.log(error);
-    },
-    success: function(data) {
-      $('#alert-add-topic').append(`<div class="alert alert-success" role="alert">
-                    <strong>Topic successfully added..</strong>
-                </div>`);
-      console.log(data);
-      setTimeout(function() { location.reload(true)}, 1500);
-    }
-  });
-
-  return false;
-});
-
-var predicatePromise = $.getJSON('http://localhost:8000/predicates');
-var tagPromise = $.getJSON('http://localhost:8000/tags');
-
-$.when(predicatePromise, tagPromise).then(function(predicates, tags) {
-  predicate = predicates[0]['results'];
-  tag = tags[0]['results'];
-
- $.each(predicate, function(i, pre) {
-   $('#modal-addTag-form').find('select[name="predicateSelect"]').append(`<option value='${pre.id}'> ${pre.predicateString} </option>`);
- });
- 
- $.each(tag, function(i, tag) {
-   $('#modal-addTag-form').find('select[name="tagSelect"]').append(`<option value='${tag.id}'> ${tag.tagString} </option>`);
- });
-
-});
-$('#modal-addTag-form').submit(function(event) {
-
-  var relObj = {};
-  var topic = parseInt(topicID);
-  var predicate = $(this).find('select[name="predicateSelect"]').val() ;
-  var tag = $(this).find('select[name="tagSelect"]').val() ;
- 
-  relObj['topic'] = topic ;
-  relObj['predicate'] = predicate ;
-  relObj['tag'] = tag ;
-
-  var relJSON = JSON.stringify(relObj);
-
-  $.ajax({
-    type: "POST",
-    url: "http://localhost:8000/topictagrelations/create/",
-    data: relJSON,
-    dataType: "json",
-    contentType: "application/json",
-    error: function(xhr, textStatus, error) {
-      $('#alert-add-tag').append(`<div class="alert alert-danger" role="alert">
-                    <strong>Oopss..</strong> Relation could not added due to ${error}.
-                </div>`);
-        console.log(xhr.statusText);
-          console.log(textStatus);
-          console.log(error);
-    },
-    success: function(data) {
-      $('#alert-add-tag').append(`<div class="alert alert-success" role="alert">
-                    <strong>Relation successfully added..</strong>
-                </div>`);
-      console.log(data);
-      setTimeout(function() { location.reload(true)}, 1500);
-    }
-  });
-
-  return false;
-});
+function logout() {
+  $.session.clear();
+  location.href = './index.html';
+}
 function getParameterByName(name, url) {
     if (!url) {
       url = window.location.href;

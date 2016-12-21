@@ -6,7 +6,7 @@ if (userID) {
 }
 
 if (userAuth) {
-	$('#navUserAuth').append(`<li><a href="/profile">
+	$('#navUserAuth').append(`<li><a href="./profile.html?user=${userID}">
             <span  class="glyphicon glyphicon-user bg-success pull-right" style="font-size:2.5em; margin-top: -5px"></span></a>
          </li> 
          <li>
@@ -95,21 +95,24 @@ $.when(userPromise,topicPromise,relationPromise,tagPromise,predPromise).then(fun
 		           <li>
 		              ${topic.followers.length} follower
 		           </li>
-		           <li>|</li>
-		           <li>
-		             <span><i class="fa fa-facebook-square"></i></span>
-		             <span><i class="fa fa-twitter-square"></i></span>
-		             <span><i class="fa fa-google-plus-square"></i></span>
-		           </li>
 		         </ul>
 		       </div>
 	   		</div>`);
 			topicrels.forEach(function(tag) {
-				$('#tags_list'+topic.id).append("<a href='./tag?id="+ tag.id +"'><span class='label label-info'>" + tag.title  + " </span></a>");
+				$('#tags_list'+topic.id).append("<a href='./tag.html?id="+ tag.id +"&title="+tag.title+"'><span class='label label-info'>" + tag.title  + " </span></a>");
 			});
 		});
 	}
 });
+
+
+var popularPromise = $.getJSON('http://localhost:8000/topics/popular?format=json');
+$.when(popularPromise).then(function(topics) {
+  $.each(topics['results'],function(i, topic) {
+    $('#popTopics').append(`<li class="list-group-item"><a href="./topic.html?id=${topic.id}&title=${topic.title}">${topic.title}</a></li>`);
+  });
+});
+
 
 $('form').submit(function(event) {
 

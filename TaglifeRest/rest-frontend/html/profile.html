@@ -92,11 +92,11 @@
                             </tr>
                             <tr>
                                 <td>First Name</td>
-                                <td id="userFirstName" for="firstname">{{user.firstname}}</td>
+                                <td id="userFirstName" for="firstname"></td>
                             </tr>
                             <tr>
                                 <td>Last Name</td>
-                                <td id="userLastName" for="lastname">{{user.lastname}}</td>
+                                <td id="userLastName" for="lastname"></td>
                             </tr>
                           </tr>
                           <tr>
@@ -108,7 +108,7 @@
                           <tr>
                            <tr>
                              <td>Date Joined</td>
-                             <td id="userjoined">{{user.date_joined}}</td>
+                             <td id="userjoined"></td>
                            </tr>
                           </tr>
                          </tbody>
@@ -116,15 +116,13 @@
                   </div>
                   <!-- user info shower finished-->
                   <div class="tab-pane" id="show-entries">
-                    <!--  show entries by user id-->
-                    <label for="user"> Entries </label>
+                      <ul id="entryList">
+                      </ul>
                   </div>
                   <div class="tab-pane" id="followed-topics">
-                    <!--  followed topic list-->
-                    <label for="user"> followed topics </label>
                     <div class="row" align="center">
-                      <ul class="list-group" id="userEntries">
-                        <li class="list-group-item">{{topic.title}}</li>
+                      <ul class="list-group" id="followList">
+                        
                       </ul>
                     </div>
                   </div>
@@ -134,8 +132,8 @@
             <div class="col-md-3 hidden-sm well pull-right" style="margin-top:1cm;" >
               <div class="row" align="center">
                 <h3>Popular Topics</h3>
-                <ul class="list-group">
-                   <li class="list-group-item">{{topic.title}}</li>
+                <ul class="list-group" id="popTopics">
+
                 </ul>
               </div>
             </div>

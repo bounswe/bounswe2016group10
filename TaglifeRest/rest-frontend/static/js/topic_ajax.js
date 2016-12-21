@@ -6,7 +6,7 @@ if (userID) {
 }
 
 if (userAuth) {
-  $('#navUserAuth').append(`<li><a href="/profile">
+  $('#navUserAuth').append(`<li><a href="./profile.html?user=${userID}">
             <span  class="glyphicon glyphicon-user bg-success pull-right" style="font-size:2.5em; margin-top: -5px"></span></a>
          </li> 
          <li>
@@ -175,17 +175,24 @@ $.when(userPromise, entryPromise, topicPromise, relationPromise, tagPromise, pre
             }
           });
 
-          return false;
+          
         }
         else{
           $('#commentForm-entry'+entry.id).find('#alert-add-comment').append(`<div class="alert alert-danger" role="alert">
                      <strong>Login to add comment!</strong>.
                  </div>`);
         }
+        return false;
     });
   });
 });
 
+var popularPromise = $.getJSON('http://localhost:8000/topics/popular?format=json');
+$.when(popularPromise).then(function(topics) {
+  $.each(topics['results'],function(i, topic) {
+    $('#popTopics').append(`<li class="list-group-item"><a href="./topic.html?id=${topic.id}&title=${topic.title}">${topic.title}</a></li>`);
+  });
+});
 
 $('#entryForm').submit(function(event) {
 
@@ -224,13 +231,14 @@ $('#entryForm').submit(function(event) {
       }
     });
 
-    return false;
+    
   }
   else{
     $('#alert-add-entry').append(`<div class="alert alert-danger" role="alert">
                       <strong>Login to add entry!</strong> 
                   </div>`);
   }
+  return false;
 });
 
 $('#modal-addTopic-form').submit(function(event) {
@@ -267,13 +275,14 @@ $('#modal-addTopic-form').submit(function(event) {
       }
     });
 
-    return false;
+    
   }
   else{
     $('#alert-add-topic').append(`<div class="alert alert-danger" role="alert">
                       <strong>Login to create a topic...</strong> 
                   </div>`);
   }
+  return false;
 });
 
 var predicatePromise = $.getJSON('http://localhost:8000/predicates');
@@ -329,13 +338,15 @@ $('#modal-addTag-form').submit(function(event) {
       }
     });
 
-    return false;
+    
   }
   else{
     $('#alert-add-tag').append(`<div class="alert alert-danger" role="alert">
                   <strong>Login to add relation!</strong>
               </div>`);
   }
+
+  return false;
 });
 function logout() {
   $.session.clear();

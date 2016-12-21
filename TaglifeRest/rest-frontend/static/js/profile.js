@@ -6,7 +6,7 @@ if (userID) {
 }
 
 if (userAuth) {
-  $('#navUserAuth').append(`<li><a href="/profile">
+  $('#navUserAuth').append(`<li><a href="./profile.html?user=${userID}">
             <span  class="glyphicon glyphicon-user bg-success pull-right" style="font-size:2.5em; margin-top: -5px"></span></a>
          </li> 
          <li>
@@ -34,9 +34,48 @@ $.when(userPromise, entryPromise, topicPromise).then(function(user, entries, top
 	$('#useremail').text(user.email);
 	$('#userjoined').text(jQuery.timeago(user.date_joined));
 
-	//<li class="list-group-item">{{topic.title}}</li>
+	$.each(user.entries, function(i,userEntryID) {
+	       
+      var entryObj = entryList.find(function(entry) {
+          return entry.id === userEntryID;
+      });
+      var topic = topicList.find(function(topic) {
+      	return topic.id === entryObj.topic;
+      }).title;
+      $('#entryList').append(` <li class="media">
+        <div class="media-body">
+          <div class="well well-lg">
+              
+              <p class="media-comment">
+                ${entryObj.content}
+              </p>
+              <ul style="display: inline-block;" >
+                  <li>Topic : <b>${topic}</li> </b>
+                 <li><em> ${jQuery.timeago(entryObj.updated_at)}</em></li> 
+              </ul>
+          </div>
+        </div>
+      </li>`);
+      
+	});
+	$.each(user.followings, function(i, follow) {
+		var followTopic = topicList.find(function(topic) {
+			return topic.id === follow
+		}).title;
+		$('#followList').append(`<li class="list-group-item"><b> ${followTopic} </b> </li>`);
+	});
+	//$('#followList').append(`<li class="list-group-item">{{topic.title}}</li>`)
 });
-
+var popularPromise = $.getJSON('http://localhost:8000/topics/popular?format=json');
+$.when(popularPromise).then(function(topics) {
+  $.each(topics['results'],function(i, topic) {
+    $('#popTopics').append(`<li class="list-group-item"><a href="./topic.html?id=${topic.id}&title=${topic.title}">${topic.title}</a></li>`);
+  });
+});
+function logout() {
+  $.session.clear();
+  location.href = './index.html';
+}
 function getParameterByName(name, url) {
     if (!url) {
       url = window.location.href;
