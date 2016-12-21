@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_profile"
+        android:title="@string/action_profile"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_add_topictagrelation"
+        android:title="Graph"
+        android:icon="@drawable/connect_icon"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/action_add_entry"
+        android:title="New Entry"
+        android:icon="@android:drawable/ic_input_add"
+        app:showAsAction="always"
+        />
+</menu>
