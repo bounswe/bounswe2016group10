@@ -22,26 +22,25 @@ public interface MyAPIEndPointInterface {
     @GET("/users/")
     Call<User> getAllUsers();
     //Get user by id
-    @GET("/users/{id}/")                                 //Tested, working
+    @GET("/users/{id}/")
     Call<User> getUserById(@Path("id") int id);
     //Create new user
-    @POST("/users/create/")                              //Tested wroking
+    @POST("/users/create/")
     Call<User> createUser(@Body User user);
     //Get all topics
     @GET("/topics/")
     Call<Result> getAllTopics();
     //Get topic by id
-    @GET("/topics/{id}/")                                //Tested, working
+    @GET("/topics/{id}/")
     Call<Topic> getTopicById(@Path("id") int id);
     //Create new topic
-    //@TODO this method takes internal server error reponse, fix it
-    @POST("/topics/create/")                             //Tested ...
+    @POST("/topics/create/")
     Call<Topic> createTopic(@Body Topic topic);
     //Get all entries
     @GET("/entries/")
     Call<Result> getAllEntries();
     //Get entry by id
-    @GET("/entries/{id}/")                               //Tested working
+    @GET("/entries/{id}/")
     Call<Entry> getEntryById(@Path("id") int id);
     //Get entries of topic
     @GET("/topics/{id}/entries/")
@@ -53,7 +52,7 @@ public interface MyAPIEndPointInterface {
     @GET("/comments/")
     Call<Comment> getAllComments();
     //Get comment by id
-    @GET("/comments/{id}/")                              //Tested working
+    @GET("/comments/{id}/")
     Call<Comment> getCommentById(@Path("id") int id);
     //Get comments of an entry
     @GET("/entries/{id}/comments/")
@@ -65,7 +64,7 @@ public interface MyAPIEndPointInterface {
     @GET("/tags/")
     Call<Result> getAllTags();
     //Get tag by id
-    @GET("/tags/{id}/")                                  //Tested working
+    @GET("/tags/{id}/")
     Call<Tag> getTagById(@Path("id") int id);
     //Create tag
     @POST("/tags/create/")
