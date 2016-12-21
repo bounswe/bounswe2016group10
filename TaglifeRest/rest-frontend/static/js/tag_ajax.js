@@ -19,72 +19,43 @@ else{
 }
 
 var tagID = getParameterByName('tag');
+tagID = parseInt(tagID);
 var tagTitle = getParameterByName('title');
-$('#tag_header').text('Topics includes ' + tagTitle);
+$('#tag_header').html('Topics tagged with <em><b>' + tagTitle +'</b></em>');
+
+var topicsIDs = [];
+
+var relationPromise = $.getJSON('http://localhost:8000/topictagrelations/');
+$.when(relationPromise).then(function(relation) {
+  $.each(relation['results'], function(i,rel) {
+    if (rel.tag == tagID) {
+      topicsIDs.push(rel.topic);
+    }
+  });
+});
 
 var userPromise = $.getJSON('http://localhost:8000/users/?format=json');
-// var entryPromise = $.getJSON('http://localhost:8000/topics/'+topicID+'/entries?format=json');
-// var topicPromise = $.getJSON('http://localhost:8000/topics/'+topicID+'?format=json');
-var relationPromise = $.getJSON('http://localhost:8000/topictagrelations/');
-// var tagPromise = $.getJSON('http://localhost:8000/tags/');
-// var predPromise = $.getJSON('http://localhost:8000/predicates/');
-
-$.when(userPromise,relationPromise).then(function (users, rels) {
+var topicPromise = $.getJSON('http://localhost:8000/topics/?format=json');
+$.when(userPromise,topicPromise).then(function (users, topics) {
   var userlist = users[0]['results'];
-  // var topiclist1 = topics[0]['results'];
-  var relList = rels[0]['results'];
-  // var tagList = tags[0]['results'];
-  // var predList = preds[0]['results'];
+  var topiclist = topics[0]['results'];
   
-  showTopics(topiclist1);
+  var username = "";
+  $.each(topicsIDs, function(i,tagTopicID){
+    var topic = topiclist.find(function(topic) {
+      return topic.id === tagTopicID;
+    });
 
-  checkNext(topics[0]);
-  
-  function checkNext(e) {
-    // console.log(e.next);
-    if (e.next) {
-      getNext(e.next);
-    }
-  }
-  
-  function getNext(promiseUrl) {
-    var nextTopic = $.getJSON(promiseUrl);
-    nextTopic.done( function(data) {
-        showTopics(data['results']);
-        addTopicNodeset(data['results']);
-      });
-
-  }
-  
-  function showTopics(topics) {
-    $.each(topics, function(i,topic){
-      var username = "";
-      
-      $.each(userlist, function(i,user) {
-        if (topic.user == user.id) 
-          username = user.username;
-      });
-
-      var topicrels =[];
-      $.each(topic.relations, function(i,topicRelID) {
-        $.each(relList,function(i,rel) {
-          if (rel.id == topicRelID) {
-            var topicTagTitle = tagList.find(function(tag) {
-                return tag.id === rel.tag;
-            }).tagString;
-            var tuple = { id : rel.tag, title : topicTagTitle};
-            topicrels.push(tuple); //tuple tagid
-          }
-        });
-      });
-      
-      $('#topics_list').append(`<div class="well">
-           <div class="media-body">
-             <a href="./topic.html?id=${topic.id}&title=${topic.title}"><h4 align="center" class="media-heading">${topic.title}</a> </h4> 
+    username = userlist.find(function(user) {
+      return user.id === topic.user;
+    }).username ;
+    
+    $('#topics_list').append(`<div class="well">
+           <div class="media-body" style="text-align: center; ">
+             <a href="./topic.html?id=${topic.id}&title=${topic.title}"><h4  class="media-heading">${topic.title}</a> </h4> 
      
-             <ul class="list-inline list-unstyled" >
-               <li id="tags_list${topic.id}">Tags:</li>
-               <li>|</li>
+             <ul class="list-inline list-unstyled" style="display: table;   margin-right: auto;   margin-left: auto;" >
+              
                <li>
                  <a href="./profile.html?user=${topic.user}"><i class="glyphicon glyphicon-user" ></i> ${username}</a> 
                </li>
@@ -99,11 +70,9 @@ $.when(userPromise,relationPromise).then(function (users, rels) {
              </ul>
            </div>
         </div>`);
-      topicrels.forEach(function(tag) {
-        $('#tags_list'+topic.id).append("<a href='./tag?id="+ tag.id +"'><span class='label label-info'>" + tag.title  + " </span></a>");
-      });
-    });
-  }
+
+  });
+  
 });
 
 

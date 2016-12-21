@@ -37,24 +37,6 @@ $.when(userPromise,topicPromise,relationPromise,tagPromise,predPromise).then(fun
 	addTopicNodeset(topiclist1);
 	addRelationEdge(relList,predList);
 
-	checkNext(topics[0]);
-	
-	function checkNext(e) {
-		// console.log(e.next);
-		if (e.next) {
-			getNext(e.next);
-		}
-	}
-	
-	function getNext(promiseUrl) {
-		var nextTopic = $.getJSON(promiseUrl);
-		nextTopic.done( function(data) {
-				showTopics(data['results']);
-				addTopicNodeset(data['results']);
-			});
-
-	}
-	
 	function showTopics(topics) {
 		$.each(topics, function(i,topic){
 			var username = "";
@@ -99,7 +81,7 @@ $.when(userPromise,topicPromise,relationPromise,tagPromise,predPromise).then(fun
 		       </div>
 	   		</div>`);
 			topicrels.forEach(function(tag) {
-				$('#tags_list'+topic.id).append("<a href='./tag.html?id="+ tag.id +"&title="+tag.title+"'><span class='label label-info'>" + tag.title  + " </span></a>");
+				$('#tags_list'+topic.id).append("#<a href='./tag.html?tag="+ tag.id +"&title="+tag.title+"'><span class='label label-info'>" + tag.title  + " </span></a> ");
 			});
 		});
 	}

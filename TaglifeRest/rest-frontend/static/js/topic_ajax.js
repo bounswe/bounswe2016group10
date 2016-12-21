@@ -21,7 +21,7 @@ var topicID = getParameterByName('id');
 var topictitle = getParameterByName('title');
 $('#addTagButton').text('Add Relation to ' + topictitle);
 $('#tagTopicModalLabel').html(`Create Tag - Topic Relation to <strong> ${topictitle} </strong>`);
-$('#topic_header').text(topictitle);
+$('#topic_header').html('<b> ' + topictitle + '</b>');
 
 var userPromise = $.getJSON('http://localhost:8000/users/?format=json');
 var entryPromise = $.getJSON('http://localhost:8000/topics/'+topicID+'/entries?format=json');
@@ -42,13 +42,14 @@ $.when(userPromise, entryPromise, topicPromise, relationPromise, tagPromise, pre
     $.each(relList,function(i,rel) {
       if (rel.id == topicRelID) {
          
-        var topicTagTitle = tagList.find(function(tag) {
+        var topicTag = tagList.find(function(tag) {
             return tag.id === rel.tag;
-        }).tagString;
+        });
         var topicPredTitle = predList.find(function(pred) {
             return pred.id === rel.predicate;
         }).predicateString;
-        $('#topicRels').append(`<li> <span class="label label-default">${topicPredTitle}</span> <span class="label label-primary">${topicTagTitle}</span> </li> `);
+        $('#topicRels').append(`<li> <span class="label label-default">${topicPredTitle}</span> 
+          <a href='./tag.html?tag=${topicTag.id}&title=${topicTag.tagString}' > <span class="label label-primary">${topicTag.tagString}</span> </a> </li> `);
       }
     });
   });
@@ -122,13 +123,15 @@ $.when(userPromise, entryPromise, topicPromise, relationPromise, tagPromise, pre
             <li class="media media-replied">
             <div class="media-body">
               <div class="well">
-                  <em> <h5 class="media-heading text-capitalize reviews">${comment_username} </h5> </em>
-                  <ul class="media-date text-capitalize reviews list-inline">
-                    <em> <li>${jQuery.timeago(comment.updated_at)} </li> </em>
-                  </ul>
                   <p class="media-comment">
                     ${comment.content}
                   </p>
+                  <ul class="media-date reviews list-inline" display="block">
+                     <li class="media-heading text-capitalize reviews">${comment_username}  | </li> 
+                     <li><em> ${jQuery.timeago(comment.updated_at)}</em></li> 
+                  </ul>
+                
+                  
               </div>              
             </div>
             </li>

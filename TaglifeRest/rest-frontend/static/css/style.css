@@ -16,7 +16,7 @@
 .reviews {
     color: #555;    
     font-weight: bold;
-    margin: 10px auto 20px;
+    margin: auto auto auto;
 }
 .notes {
     color: #999;

@@ -74,7 +74,7 @@ function createMap() {
             var tagTitle = nodes_set.find(function(node) {
                 return parseInt(node.id.substring(3)) === tagID;
             }).label;
-            location.href = './topic.html?id='+ topicID + '&title='+ topicTitle ;
+            location.href = './tag.html?tag='+ tagID + '&title='+ tagTitle ;
         }
     
     });
