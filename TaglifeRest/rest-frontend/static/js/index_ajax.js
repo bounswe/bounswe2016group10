@@ -43,7 +43,7 @@ $.when(userPromise,topicPromise,relationPromise,tagPromise,predPromise).then(fun
 			
 			var username = "";
 			
-			$('#topics').append(`<option value='${topic.title}' name='${topic.title}' id='${topic.id}'></option>`);
+			
 			
 			$.each(userlist, function(i,user) {
 				if (topic.user == user.id) 
@@ -86,6 +86,7 @@ $.when(userPromise,topicPromise,relationPromise,tagPromise,predPromise).then(fun
 	   		</div>`);
 			topicrels.forEach(function(tag) {
 				$('#tags_list'+topic.id).append("#<a href='./tag.html?tag="+ tag.id +"&title="+tag.title+"'><span class='label label-info'>" + tag.title  + " </span></a> ");
+				$('#topics').append(`<option value='${topic.title} #${tag.title}' name='${topic.title}' id='${topic.id}'></option>`);
 			});
 		});
 	}

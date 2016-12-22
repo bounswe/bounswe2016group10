@@ -454,3 +454,12 @@ function getParameterByName(name, url) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
+
+$('#redirectTopic').submit(function(event) {
+		event.preventDefault();
+		var topTitle = $(this).find("input[name='topList']").val()  ;
+		var topID = $(this).find("option[name='"+topTitle+"']").attr("id");
+		location.href = './topic.html?id='+ topID + '&title='+ topTitle ;
+		return false;
+		
+});
