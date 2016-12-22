@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_profile"
+        android:title="@string/action_profile"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/graph"
+        android:title="Graph"
+        android:icon="@drawable/graph_icon"
+        app:showAsAction="always"
+        />
+</menu>
