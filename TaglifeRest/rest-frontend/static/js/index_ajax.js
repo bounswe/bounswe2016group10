@@ -38,8 +38,11 @@ $.when(userPromise,topicPromise,relationPromise,tagPromise,predPromise).then(fun
 	addRelationEdge(relList,predList);
 
 	function showTopics(topics) {
+		var availableTopics = [];
 		$.each(topics, function(i,topic){
 			var username = "";
+			availableTopics.push(topic.title);
+			showT(availableTopics);
 			
 			$.each(userlist, function(i,user) {
 				if (topic.user == user.id) 
@@ -94,6 +97,8 @@ $.when(popularPromise).then(function(topics) {
     $('#popTopics').append(`<li class="list-group-item"><a href="./topic.html?id=${topic.id}&title=${topic.title}">${topic.title}</a></li>`);
   });
 });
+
+
 
 
 $('form').submit(function(event) {
@@ -152,4 +157,9 @@ function getParameterByName(name, url) {
     if (!results) return null;
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+function showT(availableTopics) {
+	$( "#input" ).autocomplete({
+		source: availableTopics
+	});
 }

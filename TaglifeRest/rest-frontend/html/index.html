@@ -21,6 +21,9 @@
         <link rel="stylesheet" type="text/css" href="../static/css/style.css">
         <script src="../static/js/jquery.timeago.js" type="text/javascript"></script>
         <script src="../static/js/jquery.session.js" type="text/javascript"></script>
+		
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     </head>
     <body>
@@ -46,26 +49,7 @@
 				   
 				   <!-- Search script -->
 				   
-				<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-				<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-				<script>
-				var topicPromise = $.getJSON('http://localhost:8000/topics/');
-				var availableTopics = [];
-				$.when(topicPromise,tagPromise).then(function (topics, tags) {
-					var topiclist1 = topics[0]['results'];
-					var tagList = tags[0]['results'];
-					$.each(topiclist1, function(i,topic){
-						availableTopics.push(topic.title);
-					}
-					showT(availableTopics);
-					function showT(availableTopics) {
-						$( "#input" ).autocomplete({
-						source: availableTopics
-						});
-					}
-				});	
-			
-				</script>
+				
 				   
                    <form method="post" class="navbar-form navbar-left" role="search" action=topic.html>
                      <div class="form-group" id="box">
