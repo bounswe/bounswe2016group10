@@ -19,8 +19,12 @@
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
         <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+        <script src="../static/js/jquery.timeago.js" type="text/javascript"></script>
+        <script src="../static/js/jquery.session.js" type="text/javascript"></script>
+
     </head>
     <body>
+        <!--navigation bar container-->
         <div class="container">
            <div class="row">
              <div class="col-md-12">
@@ -33,28 +37,29 @@
                      <span class="icon-bar"></span>
                      <span class="icon-bar"></span>
                    </button>
-                   <a class="navbar-brand" href="/">TagLife</a>
+                   <a class="navbar-brand" href="./index.html">TagLife</a>
                  </div>
                  <!-- Collect the nav links, forms, and other content for toggling -->
                  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                    <ul class="nav navbar-nav">
                      <li><a href="#">About Us</a></li>
                    </ul>
+                     <!-- Search bar starts here -->
                    <form class="navbar-form navbar-left" role="search">
                      <div class="form-group">
                        <input type="text" class="form-control" placeholder="Search">
                      </div>
                      <button type="submit" class="btn btn-default">Search</button>
                    </form>
-                   <ul class="nav navbar-nav navbar-right">
-                     <li><a href="/profile">
+                   <ul class="nav navbar-nav navbar-right" id="navUserAuth">
+                    <!--  <li><a href="/profile">
                         <span  class="glyphicon glyphicon-user bg-success pull-right" style="font-size:2.5em; margin-top: -5px"></span></a>
-                     </li> 
+                     </li>
                      <li>
                          <a href="/logout"> Logout</a>
-                     </li>  
-                     <li><a href="/register">Register</a></li>
-                     <li><a href="/login">Login </a></li>
+                     </li>
+                     <li><a href="./register.html">Register</a></li>
+                     <li><a href="./login.html">Login </a></li> -->
                    </ul>
                  </div>
                  <!-- /.navbar-collapse -->
@@ -62,66 +67,59 @@
              </div>
            </div>
          </div>
-      
-          <div class="container">
-            <div class="row">
-              <div class="col-md-8 well" style="margin:1cm">
-                <h1>Create Topic</h1>
+       <!-- Show Tag and Add Tag -->
+         <div class="container">
+          <div class="row">
+            <div class="col-md-9 ">
+            <div class="row" style="margin:0.5cm"><h2 align="center" id="tag_header"> </h2>
+            </div>
+                <ul style="list-style-type:none; padding-left: 0 " id="topics_list">
+                  <li>
+              
+                  </li>
+                </ul> 
+            </div>
+            <div class="col-md-3 hidden-sm well pull-right" style="margin-top:1cm;" >
+             
+              <div class="row" align="center" style="margin: 10px"> <a href="#add-topic-modal" class="btn btn-primary btn-block" data-toggle="modal" >Add New Topic</a></div>
+
+              <div class="row" align="center"> 
+                <h3>Popular Topics</h3>
+                <ul class="list-group" id="popTopics"> 
+                   
+                </ul> 
+              </div>
+  
+            </div>
+          </div>
+         </div> 
+         <div class="modal fade" id="add-topic-modal"  aria-labelledby="myModalLabel" aria-hidden="true"> <!-- tabindex="-1" role="dialog" -->
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> ADD A NEW TOPIC </button>
+                <h4 class="modal-title" id="myModalLabel">Create Topic</h4>
+              </div>
+              <div class="modal-body">
                 <form action="#" method="POST">
                     <div class="form-group ">
                         <label for="title">Topic name <span class="require">*</span> <small></small></label>
                         <input type="text" class="form-control" name="title" />
-                        <label for="user"> User ID </label>
-                        <input type="number" class="form-control" name="user" />
                     </div>
-                  <!--   <div class="form-group">
-                        <label for="content">Content</label>
-                        <textarea rows="5" class="form-control" name="description" ></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="uploadMedia">Upload media</label>
-                            <div class="input-group">
-                              <div class="input-group-addon">http://</div>
-                              <input type="text" class="form-control" name="uploadMedia" id="uploadMedia">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="addTag">Add Tag</label>
-                            <div class="input-group">
-                              <div class="input-group-addon">put # before every tag</div>
-                              <input type="text" class="form-control" name="addTag" id="addTag">
-                        </div>
-                    </div> -->
-
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">
                             Create
                         </button>
-                        <button class="btn btn-default">
-                            Cancel
-                        </button>
                     </div> 
                 </form>
+                <span id="alert"></span>
               </div>
-              <div class="col-md-3 hidden-sm well pull-right" style="margin-top: 1cm">
-             
-                <div class="row" align="center"> 
-                  <h3>Popular Topics</h3>
-                  <ul class="list-group"> 
-                     <li class="list-group-item">{{topic.title}}</li>
-                  </ul> 
-                </div>
-                <div class="row" align="center"> 
-                  <h3 align="center">Followed Topics  </h3>
-                  <ul class="list-group"> 
-                     <li class="list-group-item">{{topic.title}}</li>
-                  </ul> 
-                </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
               </div>
-            </div>
-          </div>
-
-         <script type="text/javascript" src="../static/js/create_topic.js"></script>
-         <!-- {% endblock %} -->
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+         </div><!-- /.modal -->
+         <script type="text/javascript" src="../static/js/tag_ajax.js"></script>
     </body>
 </html>
