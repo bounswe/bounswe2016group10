@@ -21,7 +21,8 @@ from django.contrib.auth.models import User
 from TagLifeApp.serializers import TopicSerializer,TopicGetSerializer,UserGetSerializer, UserSerializer, EntrySerializer,EntryGetSerializer, CommentSerializer,CommentGetSerializer, TagSerializer, TagGetSerializer, PredicateSerializer,PredicateGetSerializer, TopicTagRelationSerializer,TopicTagRelationGetSerializer, EntryTagRelationSerializer,EntryTagRelationGetSerializer, FollowTopicRelationSerializer, FollowTopicRelationGetSerializer
 from rest_framework.parsers import JSONParser
 from django.http import HttpResponse
-
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 # /index/
 def index(request):
@@ -72,7 +73,6 @@ class UserList(generics.ListAPIView):
     """
     queryset = User.objects.all()
     serializer_class = UserGetSerializer
-
 
 class UserCreate(generics.CreateAPIView):
     """
