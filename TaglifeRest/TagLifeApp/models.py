@@ -95,6 +95,9 @@ class TopicTagRelation(models.Model):
     def save(self, *args, **kwargs):
         return super(TopicTagRelation, self).save(*args, **kwargs)
 
+    class Meta:
+        unique_together = ('topic', 'tag')
+
     def __unicode__(self):
         return self.pk
 
