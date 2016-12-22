@@ -356,10 +356,13 @@ $('#modal-addTag-form').submit(function(event) {
 $('#modal-addNewPredicate-form').submit(function(event) {
 	if (userAuth) {
 	 var relObj = {};
-	 var predicateString=$(this).find('select[name="newPredicate"]');
+	 var predicateString=document.getElementById("NP").value;
+	 console.log(predicateString);
 	 relObj['predicateString'] = predicateString ;
-	 var relJSON = JSON.stringify(relObj);
 	 
+	 var relJSON = JSON.stringify(relObj);
+	 console.log(relJSON);
+
 	 $.ajax({
       type: "POST",
       url: "http://localhost:8000/predicates/create/",
@@ -398,10 +401,10 @@ $('#modal-addNewPredicate-form').submit(function(event) {
 $('#modal-addNewTag-form').submit(function(event) {
 	if (userAuth) {
 	 var relObj = {};
-	 var tagString=$(this).find('select[name="newTag"]');
+	 var tagString=document.getElementById("NT").value;
 	 relObj['tagString'] = tagString;
 	 var relJSON = JSON.stringify(relObj);
-	 
+console.log(relJSON);
 	 $.ajax({
       type: "POST",
       url: "http://localhost:8000/tags/create/",
