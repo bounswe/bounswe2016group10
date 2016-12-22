@@ -43,9 +43,31 @@
                    <ul class="nav navbar-nav">
                      <li><a href="#">About Us</a></li>
                    </ul>
-                   <form class="navbar-form navbar-left" role="search">
-                     <div class="form-group">
-                       <input type="text" class="form-control" placeholder="Search">
+				   
+				   <!-- Search script -->
+				   
+				<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+				<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+				<script>
+				var topicPromise = $.getJSON('http://localhost:8000/topics/');
+				var availableTopics = [];
+				$.when(topicPromise,tagPromise).then(function (topics, tags) {
+					var topiclist1 = topics[0]['results'];
+					var tagList = tags[0]['results'];
+					$.each(topiclist1, function(i,topic)){
+						availableTopics.push(topic.title);
+					}
+				});	
+				  $( function() {
+					$( "#input" ).autocomplete({
+					  source: availableTopics
+					});
+				  } );
+				</script>
+				   
+                   <form method="post" class="navbar-form navbar-left" role="search" action=topic.html>
+                     <div class="form-group" id="box">
+                       <input type="text" class="form-control" placeholder="Search" id="input">
                      </div>
                      <button type="submit" class="btn btn-default">Search</button>
                    </form>
