@@ -41,8 +41,8 @@ $.when(userPromise,topicPromise,relationPromise,tagPromise,predPromise).then(fun
 		var availableTopics = [];
 		$.each(topics, function(i,topic){
 			var username = "";
-			availableTopics.push(topic.title);
-			showT(availableTopics);
+			//availableTopics.push(topic.title);
+			//showT(availableTopics);
 			
 			$.each(userlist, function(i,user) {
 				if (topic.user == user.id) 
@@ -158,8 +158,8 @@ function getParameterByName(name, url) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
-function showT(availableTopics) {
-	$( "#input" ).autocomplete({
-		source: availableTopics
-	});
-}
+//function showT(availableTopics) {
+//	$( "#input" ).autocomplete({
+//		source: availableTopics
+//	});
+//}
