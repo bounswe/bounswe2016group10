@@ -22,7 +22,7 @@ var userPromise = $.getJSON('http://localhost:8000/users/');
 var relationPromise = $.getJSON('http://localhost:8000/topictagrelations/');
 var tagPromise = $.getJSON('http://localhost:8000/tags/');
 var predPromise = $.getJSON('http://localhost:8000/predicates/');
-
+var availableTopics = [];
 
 $.when(userPromise,topicPromise,relationPromise,tagPromise,predPromise).then(function (users, topics, rels, tags, preds) {
 	var userlist = users[0]['results'];
@@ -38,11 +38,12 @@ $.when(userPromise,topicPromise,relationPromise,tagPromise,predPromise).then(fun
 	addRelationEdge(relList,predList);
 
 	function showTopics(topics) {
-		var availableTopics = [];
+		
 		$.each(topics, function(i,topic){
+			
 			var username = "";
-			//availableTopics.push(topic.title);
-			//showT(availableTopics);
+			
+			$('#topics').append(`<option value='${topic.title}' name='${topic.title}' id='${topic.id}'></option>`);
 			
 			$.each(userlist, function(i,user) {
 				if (topic.user == user.id) 
@@ -88,6 +89,7 @@ $.when(userPromise,topicPromise,relationPromise,tagPromise,predPromise).then(fun
 			});
 		});
 	}
+	
 });
 
 
@@ -98,10 +100,7 @@ $.when(popularPromise).then(function(topics) {
   });
 });
 
-
-
-
-$('form').submit(function(event) {
+$('#addTopicForm').submit(function(event) {
 
 	if(userAuth){
 		var topicObj = {};
@@ -143,6 +142,16 @@ $('form').submit(function(event) {
 	}
 	return false;	
 });
+
+
+$('#redirectTopic').submit(function(event) {
+		event.preventDefault();
+		var topTitle = $(this).find("input[name='topList']").val()  ;
+		var topID = $(this).find("option[name='"+topTitle+"']").attr("id");
+		location.href = './topic.html?id='+ topID + '&title='+ topTitle ;
+		return false;
+		
+});
 function logout() {
 	$.session.clear();
 	location.href = './index.html';
@@ -158,8 +167,3 @@ function getParameterByName(name, url) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
-//function showT(availableTopics) {
-//	$( "#input" ).autocomplete({
-//		source: availableTopics
-//	});
-//}
