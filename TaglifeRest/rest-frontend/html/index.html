@@ -54,10 +54,10 @@
 				$.when(topicPromise,tagPromise).then(function (topics, tags) {
 					var topiclist1 = topics[0]['results'];
 					var tagList = tags[0]['results'];
-					$.each(topiclist1, function(i,topic)){
+					$.each(topiclist1, function(i,topic){
 						availableTopics.push(topic.title);
 					}
-					
+					showT(availableTopics);
 					function showT(availableTopics) {
 						$( "#input" ).autocomplete({
 						source: availableTopics
