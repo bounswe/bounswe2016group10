@@ -311,6 +311,7 @@ $('#modal-addTag-form').submit(function(event) {
     var topic = parseInt(topicID);
     var predicate = $(this).find('select[name="predicateSelect"]').val() ;
     var tag = $(this).find('select[name="tagSelect"]').val() ;
+	
     
     relObj['topic'] = topic ;
     relObj['predicate'] = predicate ;
@@ -351,6 +352,90 @@ $('#modal-addTag-form').submit(function(event) {
 
   return false;
 });
+
+$('#modal-addNewPredicate-form').submit(function(event) {
+	if (userAuth) {
+	 var relObj = {};
+	 var predicateString=$(this).find('select[name="newPredicate"]');
+	 relObj['predicateString'] = predicateString ;
+	 var relJSON = JSON.stringify(relObj);
+	 
+	 $.ajax({
+      type: "POST",
+      url: "http://localhost:8000/predicates/create/",
+      data: relJSON,
+      dataType: "json",
+      contentType: "application/json",
+      error: function(xhr, textStatus, error) {
+        $('#alert-add-tag').append(`<div class="alert alert-danger" role="alert">
+                      <strong>Oopss..</strong> Predicate could not added due to ${error}.
+                  </div>`);
+          console.log(xhr.statusText);
+            console.log(textStatus);
+            console.log(error);
+      },
+      success: function(data) {
+        $('#alert-add-tag').append(`<div class="alert alert-success" role="alert">
+                      <strong>Predicate successfully added..</strong>
+                  </div>`);
+        console.log(data);
+        setTimeout(function() { location.reload(true)}, 1500);
+      }
+    });
+
+    
+  }
+  else{
+    $('#alert-add-tag').append(`<div class="alert alert-danger" role="alert">
+                  <strong>Login to add predicate!</strong>
+              </div>`);
+  }
+
+  return false;
+});
+
+
+$('#modal-addNewTag-form').submit(function(event) {
+	if (userAuth) {
+	 var relObj = {};
+	 var tagString=$(this).find('select[name="newTag"]');
+	 relObj['tagString'] = tagString;
+	 var relJSON = JSON.stringify(relObj);
+	 
+	 $.ajax({
+      type: "POST",
+      url: "http://localhost:8000/tags/create/",
+      data: relJSON,
+      dataType: "json",
+      contentType: "application/json",
+      error: function(xhr, textStatus, error) {
+        $('#alert-add-tag').append(`<div class="alert alert-danger" role="alert">
+                      <strong>Oopss..</strong> Tag could not added due to ${error}.
+                  </div>`);
+          console.log(xhr.statusText);
+            console.log(textStatus);
+            console.log(error);
+      },
+      success: function(data) {
+        $('#alert-add-tag').append(`<div class="alert alert-success" role="alert">
+                      <strong>Tag successfully added..</strong>
+                  </div>`);
+        console.log(data);
+        setTimeout(function() { location.reload(true)}, 1500);
+      }
+    });
+
+    
+  }
+  else{
+    $('#alert-add-tag').append(`<div class="alert alert-danger" role="alert">
+                  <strong>Login to add tag!</strong>
+              </div>`);
+  }
+
+  return false;
+});
+
 function logout() {
   $.session.clear();
   location.href = './index.html';

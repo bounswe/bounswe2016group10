@@ -186,19 +186,38 @@
 
                         <label for="tagSelect"> Tag </label>
                         <select class="form-control" style="width:auto;" name="tagSelect"></select>
+						
                     </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">
-                            Create
-                        </button>
-                    </div> 
-					<br>
 					<div class="form-group">
                         <button type="submit" class="btn btn-primary">
                             Create
                         </button>
-                    </div> 
+                    </div>
+					
+					
+					
                 </form>
+				<form class="form-inline" action="#" method="POST" id="modal-addNewPredicate-form">
+					<div class="form-group " >
+						<br>
+						<label for="addPredicate">New Predicate </label>
+                        <input type="text" name="newPredicate">
+						<button type="submit" class="btn btn-primary">
+                            Add
+                        </button>
+					</div>
+				</form>
+				<form class="form-inline" action="#" method="POST" id="modal-addNewTag-form">
+					<div class="form-group " >
+						<br>
+						<label for="addTag">New Tag </label>
+                        <input type="text" name="newTag">
+						<button type="submit" class="btn btn-primary">
+                            Add
+                        </button>
+					</div>
+				</form>
+				
                 <span id="alert-add-tag"></span>
               </div>
               <div class="modal-footer">
