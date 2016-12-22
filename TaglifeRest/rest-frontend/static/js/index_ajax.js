@@ -148,7 +148,7 @@ $('#addTopicForm').submit(function(event) {
 $('#redirectTopic').submit(function(event) {
 		event.preventDefault();
 		var topTitle = $(this).find("input[name='topList']").val()  ;
-		var topID = $(this).find("option[name='"+topTitle+"']").attr("id");
+		var topID = $(this).find("option[value='"+topTitle+"']").attr("id");
 		location.href = './topic.html?id='+ topID + '&title='+ topTitle ;
 		return false;
 		
