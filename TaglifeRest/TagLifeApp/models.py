@@ -62,7 +62,7 @@ class Comment(models.Model):
         return str(self.id) + ' ' + self.content
 
 class Tag(models.Model):
-    tagString = models.CharField(max_length=128)
+    tagString = models.CharField(max_length=128, unique=True)
 
     created_at = models.DateTimeField(auto_now_add=True) #Add time when added
     updated_at = models.DateTimeField(auto_now=True) #Add time when changed
@@ -74,7 +74,7 @@ class Tag(models.Model):
         return self.tagString
 
 class Predicate(models.Model):
-    predicateString = models.CharField(max_length=64)
+    predicateString = models.CharField(max_length=64, unique=True)
     created_at = models.DateTimeField(auto_now_add=True) #Add time when added
     updated_at = models.DateTimeField(auto_now=True) #Add time when changed
 

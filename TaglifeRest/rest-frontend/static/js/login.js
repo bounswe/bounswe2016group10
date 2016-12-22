@@ -26,7 +26,9 @@ $('#login_form').submit(function(event) {
     },
     success: function(data) {
       if (data.length > 0) {
-        alert("USER SUCCESFULLY LOGGED IN");
+        parent._alert = new parent.Function("alert(arguments[0]);");
+
+        alert("YOU HAVE SUCCESSFULLY LOGGED IN");
         $.session.set('userID', data[0].id);
         setTimeout(function() { location.href = './index.html';}, 500);
       }
