@@ -99,6 +99,16 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'realtaglife',
+#         'USER': 'realtaglife',
+#         'PASSWORD': '1234qwer',
+#         'HOST': 'realtaglife.c5becxrdcr9a.us-west-2.rds.amazonaws.com',
+#         'PORT': '3306',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
